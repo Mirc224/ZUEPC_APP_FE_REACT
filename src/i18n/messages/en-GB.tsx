@@ -40,7 +40,9 @@ const lan =  {
 
             // Page headers
             user: "User",
-            userList: "User list"
+            userList: "User list",
+
+            roles: "Roles",
         }
     }
 }

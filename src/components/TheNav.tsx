@@ -45,7 +45,6 @@ const TheNav = () => {
 
     return (
         <AppBar position="static">
-            <p>{JSON.stringify(auth)}</p>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -80,9 +79,9 @@ const TheNav = () => {
                             {auth.roles?.includes(ROLES.Admin) && ifSignedAdminPages.map((page) => (
                                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                                     <Typography textAlign="center">
-                                        <NavLink style={{ textDecoration: "none", color: "black" }} to={getRoute(page)}>
+                                        <Link style={{ textDecoration: "none", color: "black" }} to={getRoute(page)}>
                                             {t(page)}
-                                        </NavLink>
+                                        </Link>
                                     </Typography>
                                 </MenuItem>
                             ))}
@@ -113,9 +112,9 @@ const TheNav = () => {
                                 onClick={handleCloseNavMenu}
                                 sx={{ my: 2, color: 'white', display: 'block' }}
                             >
-                                <NavLink style={{ textDecoration: "none", color: "white" }} to={getRoute(page)}>
+                                <Link style={{ textDecoration: "none", color: "white" }} to={getRoute(page)}>
                                     {t(page)}
-                                </NavLink>
+                                </Link>
                             </Button>
                         ))}
                         {auth.id && ifSignedPages.map((page) => (
@@ -124,9 +123,9 @@ const TheNav = () => {
                                 onClick={handleCloseNavMenu}
                                 sx={{ my: 2, color: 'white', display: 'block' }}
                             >
-                                <NavLink style={{ textDecoration: "none", color: "white" }} to={getRoute(page)}>
+                                <Link style={{ textDecoration: "none", color: "white" }} to={getRoute(page)}>
                                     {t(page)}
-                                </NavLink>
+                                </Link>
                             </Button>
                         ))}
                         {!auth.id && ifNotSignedPages.map((page) => (
@@ -135,12 +134,18 @@ const TheNav = () => {
                                 onClick={handleCloseNavMenu}
                                 sx={{ my: 2, color: 'white', display: 'block' }}
                             >
-                                <NavLink style={{ textDecoration: "none", color: "white" }} to={getRoute(page)}>
+                                <Link style={{ textDecoration: "none", color: "white" }} to={getRoute(page)}>
                                     {t(page)}
-                                </NavLink>
+                                </Link>
                             </Button>
                         ))}
                     </Box>
+                    {auth?.email ?  
+                    <Box sx={{ flexGrow: 0 }}>
+                        <span style={ {display: 'block'}}>{auth.email}</span>
+                        <span style={{ display: 'block' }}>[{auth.roles?.join(",")}]</span>
+                    </Box>
+                    : <></>}
                 </Toolbar>
             </Container>
         </AppBar>

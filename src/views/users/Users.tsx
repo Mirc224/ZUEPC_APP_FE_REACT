@@ -22,7 +22,7 @@ const Users = (props: Props) => {
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageArray[0]);
   const [totalRecords, setTotalRecords] = useState(0);
-  const {auth, setAuth} = useAuth();
+  const {setAuth} = useAuth();
   
   const navigate = useNavigate();
   const location = useLocation();

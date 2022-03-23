@@ -8,6 +8,7 @@ import { ApiUser } from '../../types/auth/types';
 import ClipLoader from "react-spinners/ClipLoader";
 import { Paper } from '@mui/material';
 import roles from '../../constatns/roles.constants';
+import { Box } from '@mui/system';
 
 type Props = {}
 
@@ -49,19 +50,34 @@ const UserDetail = (props: Props) => {
     }, [])
 
   return (
-      <article>
-          {isLoading
+      <Paper>
+        <article>
+          {isLoading || user === undefined
               ?
               <div className="spinner">
                   <ClipLoader loading={isLoading} size={100} />
               </div>
               :
-              <Paper>
-                <header>
-                    <h1>{t('user')} ({id})</h1>
-                </header>
-              </Paper>}
-      </article>
+                <Box sx={{p: 2, m: 2}}>
+                    <header>
+                        <h1 className='text-center'>{t('user')} ({id})</h1>
+                        <hr />
+
+                    </header>
+                    <main>
+                        <h2>{user.email}</h2>
+                        <h3>{`${user.firstName} ${user.lastName}`}</h3>
+                        <h4>{t('roles')}</h4>
+                        {user.userRoles?.length > 0 ?
+                        <ul>
+                            {user.userRoles.map((role: string) => <li key={role}>{role}</li>)}
+                        </ul> 
+                         : 
+                         <></>}
+                    </main>
+                </Box>}
+            </article>
+        </Paper>
   )
 }
 

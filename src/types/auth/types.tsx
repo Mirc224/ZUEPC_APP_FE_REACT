@@ -26,7 +26,7 @@ export interface ApiUser {
     firstName: string,
     lastName: string,
     email: string,
-    roles: string[]
+    userRoles: string[]
 }
 
 export interface ApiAuthResponse {

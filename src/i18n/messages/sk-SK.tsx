@@ -39,7 +39,9 @@ const lan = {
 
             // Page headers
             user: "Používateľ",
-            userList: "Zoznam používateľov"
+            userList: "Zoznam používateľov",
+
+            roles: "Role",
         }
     },
 }
