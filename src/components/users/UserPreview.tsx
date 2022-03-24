@@ -1,5 +1,5 @@
 import { Card, CardActionArea, CardHeader} from '@mui/material'
-import useAuth from '../../hooks/useAuth'
+import useAuth from '../../hooks/auth/useAuth'
 import roles from '../../constatns/roles.constants';
 import routes from '../../endpoints/routes.endpoints';
 import { useEffect, useState } from 'react';

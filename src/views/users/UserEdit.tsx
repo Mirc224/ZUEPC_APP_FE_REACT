@@ -4,13 +4,13 @@ import { useFormik } from 'formik';
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
-import useUserService from '../../hooks/useUserService';
+import useUserService from '../../hooks/users/useUserService';
 import ClipLoader from 'react-spinners/ClipLoader';
 import { UserRole } from '../../enums/role.enum';
 import { ApiUserDetail } from '../../types/api/auth/entities.types';
 import { permissionHelper } from '../../helpers/permission.helper';
 import roles from '../../constatns/roles.constants';
-import useAuth from '../../hooks/useAuth';
+import useAuth from '../../hooks/auth/useAuth';
 import routes from '../../endpoints/routes.endpoints';
 import { authHelper } from '../../helpers/auth.helper';
 

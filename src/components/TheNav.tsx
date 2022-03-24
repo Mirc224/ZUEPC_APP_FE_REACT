@@ -12,7 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { Link, NavLink } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import routes from '../endpoints/routes.endpoints';
-import useAuth from '../hooks/useAuth';
+import useAuth from '../hooks/auth/useAuth';
 import ROLES from '../constatns/roles.constants';
 
 const ifSignedPages = ['publications', 'persons', 'institutions', 'logout'];

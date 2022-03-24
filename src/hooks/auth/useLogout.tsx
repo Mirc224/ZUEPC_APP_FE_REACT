@@ -1,6 +1,6 @@
+import apiEndoints from "../../endpoints/api.endpoints";
+import useAxiosPrivate from "../useAxiosPrivate";
 import useAuth from "./useAuth";
-import apiEndoints from "../endpoints/api.endpoints";
-import useAxiosPrivate from "./useAxiosPrivate";
 
 const useLogout = () => {
     const {auth} = useAuth();

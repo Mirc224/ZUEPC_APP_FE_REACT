@@ -42,6 +42,7 @@ const lan = {
             logoutMessage: "Boli ste odhlasený",
             missingMessage: "Stránka neexistuje",
             unauthorized: "Neoprávnený",
+            noObjectsToDisplay: "Nenašli sa {{what}} na zobrazenie",
 
             // Controls
             rowsPerPage: "Záznamov na stránku",

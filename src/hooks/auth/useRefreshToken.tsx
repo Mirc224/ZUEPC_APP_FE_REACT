@@ -1,8 +1,8 @@
-import { axiosClient } from '../utils/axios-utils';
+import { axiosClient } from '../../utils/axios-utils';
+import apiEndpoints from '../../endpoints/api.endpoints';
+import { UserAuthContent } from '../../contexts/AuthContext';
+import { authHelper } from '../../helpers/auth.helper';
 import useAuth from './useAuth';
-import apiEndpoints from '../endpoints/api.endpoints';
-import { UserAuthContent } from '../contexts/AuthContext';
-import { authHelper } from '../helpers/auth.helper';
 
 
 const useRefreshToken = () => {

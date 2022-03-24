@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { Navigate } from 'react-router';
 import { AuthContext } from '../contexts/AuthContext';
 import routes from '../endpoints/routes.endpoints';
-import useAuth from '../hooks/useAuth';
-import useLogout from '../hooks/useLogout';
+import useAuth from '../hooks/auth/useAuth';
+import useLogout from '../hooks/auth/useLogout';
 
 type Props = {}
 

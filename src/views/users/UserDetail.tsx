@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate, useParams } from 'react-router';
 import routes from '../../endpoints/routes.endpoints';
-import useAuth from '../../hooks/useAuth';
-import useUserService from '../../hooks/useUserService';
+import useAuth from '../../hooks/auth/useAuth';
+import useUserService from '../../hooks/users/useUserService';
 import ClipLoader from "react-spinners/ClipLoader";
 import { Container, Paper } from '@mui/material';
 import roles from '../../constatns/roles.constants';

@@ -10,7 +10,7 @@ const apiEndoints = {
     'userRoleEdit': '/user/:id/role',
 
     'personCreate': '/person',
-    'persons': '/person/detail',
+    'persons': '/person/preview',
     'personDetail': '/person/:id/detail',
     'personEdit': '/person/:id',
     'personDelete': '/person/:id',

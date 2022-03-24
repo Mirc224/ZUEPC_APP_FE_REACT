@@ -44,6 +44,7 @@ const lan =  {
             logoutMessage: "You have been logged out",
             missingMessage: "Page does not exist",
             unauthorized: "Unauthorized",
+            noObjectsToDisplay: "No {{what}} to display",
 
             // Controls
             rowsPerPage: "Rows per page",

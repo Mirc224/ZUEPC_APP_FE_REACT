@@ -6,7 +6,7 @@ import { LoginUserCommand } from '../types/api/auth/commands.types';
 import { axiosClient } from '../utils/axios-utils';
 import apiEndpoints from '../endpoints/api.endpoints';
 import routes from '../endpoints/routes.endpoints';
-import useAuth from "../hooks/useAuth";
+import useAuth from "../hooks/auth/useAuth";
 import { Navigate, useLocation, useNavigate} from 'react-router-dom';
 import {authHelper} from '../helpers/auth.helper';
 

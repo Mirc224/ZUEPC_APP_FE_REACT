@@ -1,12 +1,12 @@
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, ReactElement } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import routes from '../../endpoints/routes.endpoints';
-import useAuth from '../../hooks/useAuth';
+import useAuth from '../../hooks/auth/useAuth';
 import ClipLoader from "react-spinners/ClipLoader";
-import useUserService from '../../hooks/useUserService';
+import useUserService from '../../hooks/users/useUserService';
 import UserPreview from '../../components/users/UserPreview';
-import { Box, Button, Grid, TablePagination, TextField } from '@mui/material';
+import { Button, Grid, TablePagination, TextField } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { ApiUserDetail } from '../../types/api/auth/entities.types';
 
@@ -88,8 +88,24 @@ const Users = (props: Props) => {
     setPage(1);
   }
 
+  function SearchFields(): ReactElement {
+    return (
+      <Grid item xs={3}>
+        <TextField
+          fullWidth
+          value={searchEmail}
+          onChange={(e) => setSearchEmail(e.target.value)}
+          name="email"
+          label={t("email")}
+          type="text"
+        />
+      </Grid>
+    )
+  }
+
   return (
     <article>
+      <p>{searchEmail}</p>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <h1>{t('userList')}</h1>
@@ -106,16 +122,7 @@ const Users = (props: Props) => {
                   type="text"
                 />
               </Grid>
-              <Grid item xs={3}>
-                <TextField
-                  fullWidth
-                  value={searchEmail}
-                  onChange={(e) => setSearchEmail(e.target.value)}
-                  name="email"
-                  label={t("email")}
-                  type="text"
-                />
-              </Grid>
+              {SearchFields()}
               <Grid item display="flex" justifyContent="flex-end">
                 <Button onClick={handleSearchSubmit} variant="text">{t('search')}</Button>
               </Grid>
@@ -138,7 +145,7 @@ const Users = (props: Props) => {
                     <UserPreview user={user} />
                   </Grid>)}
               </Grid>
-              : <p>No users to display</p>}
+              : <p>{t('noObjectsToDisplay', {what: t('users').toLowerCase()})}</p>}
           </Grid>}
         <Grid item xs={12}>
           <TablePagination
