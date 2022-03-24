@@ -1,7 +1,8 @@
 import jwt_decode from "jwt-decode";
 import { UserAuthContent } from "../contexts/AuthContext";
-import { ApiAuthResponse, ApiJwtToken } from "../types/auth/types";
 import authStorageNames  from '../constatns/auth.constants'
+import { ApiAuthResponse } from "../types/api/auth/entities.types";
+import { ApiJwtToken } from "../types/entities/auth/entities.types";
 
 export const authHelper = {
     getUserAuthToken,

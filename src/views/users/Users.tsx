@@ -1,41 +1,50 @@
 
-import {useState, useEffect} from 'react';
-import { ApiUser } from '../../types/auth/types';
+import { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import routes from '../../endpoints/routes.endpoints';
 import useAuth from '../../hooks/useAuth';
 import ClipLoader from "react-spinners/ClipLoader";
 import useUserService from '../../hooks/useUserService';
 import UserPreview from '../../components/users/UserPreview';
-import { Grid, TablePagination } from '@mui/material';
+import { Box, Button, Grid, TablePagination, TextField } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import roles from '../../constatns/roles.constants';
+import { ApiUserDetail } from '../../types/api/auth/entities.types';
 
 const rowsPerPageArray = [5, 10, 15];
 type Props = {}
 
 const Users = (props: Props) => {
-  const {t} = useTranslation();
+  const [searchName, setSearchName] = useState('');
+  const [searchEmail, setSearchEmail] = useState('');
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
-  const {getUsers} = useUserService();
-  const [users, setUsers] = useState<ApiUser[]>();
+  const { getUsers } = useUserService();
+  const [users, setUsers] = useState<ApiUserDetail[]>();
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageArray[0]);
   const [totalRecords, setTotalRecords] = useState(0);
-  const {setAuth} = useAuth();
-  
+  const { setAuth } = useAuth();
+  const [searchQuery, setSearchQuery] = useState({
+    name: '',
+    email: ''
+  })
+
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
-    let isMounted = true;
     setIsLoading(true);
+    let isMounted = true;
     const controller = new AbortController();
+    const params = Object.assign({
+      pageNumber: page,
+      pageSize: rowsPerPage
+    }, 
+      searchQuery.name && { name: searchQuery.name},
+      searchQuery.email && { email: searchQuery.email }
+    )
     getUsers({
-      params: {
-        pageNumber: page,
-        pageSize: rowsPerPage
-      },
+      params: params,
       signal: controller.signal
     })
       .then((response) => {
@@ -54,8 +63,9 @@ const Users = (props: Props) => {
       isMounted = false;
       controller.abort();
     }
-  }, [page, rowsPerPage])
-  
+  }, [page, rowsPerPage, searchQuery])
+
+
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
@@ -70,25 +80,67 @@ const Users = (props: Props) => {
     setPage(1);
   };
 
+  const handleSearchSubmit = () => {
+    setSearchQuery({
+      name: searchName,
+      email: searchEmail
+    })
+    setPage(1);
+  }
+
   return (
     <article>
-      {isLoading 
-      ?
-        <div className='spinner'>
-          <ClipLoader loading={isLoading} size={100} />
-        </div>
-      :
-          <>
-            <h1>{t('userList')}</h1>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <h1>{t('userList')}</h1>
+        </Grid>
+        <Grid item xs={12}>
+          <form>
+            <Grid container spacing={2}>
+              <Grid item xs={3}>
+                <TextField
+                  fullWidth
+                  value={searchName}
+                  onChange={(e) => setSearchName(e.target.value)}
+                  label={t("nameAndSurnameSearch")}
+                  type="text"
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <TextField
+                  fullWidth
+                  value={searchEmail}
+                  onChange={(e) => setSearchEmail(e.target.value)}
+                  name="email"
+                  label={t("email")}
+                  type="text"
+                />
+              </Grid>
+              <Grid item display="flex" justifyContent="flex-end">
+                <Button onClick={handleSearchSubmit} variant="text">{t('search')}</Button>
+              </Grid>
+            </Grid>
+          </form>
+        </Grid>
+        {isLoading
+          ?
+          <Grid item xl={12}>
+            <div className='spinner'>
+              <ClipLoader loading={isLoading} size={100} />
+            </div>
+          </Grid>
+          :
+          <Grid item xl={12}>
             {users?.length
-          ? <Grid container spacing={2}>
-              {users.map((user) => 
-              <Grid item key={user.id} xs={12}>
-                <UserPreview user={user}/>
-              </Grid>)}
-            </Grid>  
-          : <p>No users to display</p>}
-          </>}
+              ? <Grid container spacing={2}>
+                {users.map((user) =>
+                  <Grid item key={user.id} xs={12}>
+                    <UserPreview user={user} />
+                  </Grid>)}
+              </Grid>
+              : <p>No users to display</p>}
+          </Grid>}
+        <Grid item xs={12}>
           <TablePagination
             showFirstButton
             showLastButton
@@ -101,6 +153,8 @@ const Users = (props: Props) => {
             onRowsPerPageChange={handleChangeRowsPerPage}
             labelRowsPerPage={t('rowsPerPage')}
           />
+        </Grid>
+      </Grid>
     </article>
   )
 }

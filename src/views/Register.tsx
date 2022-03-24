@@ -2,8 +2,7 @@ import { Button, Container, Grid, TextField } from '@mui/material';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useTranslation } from "react-i18next";
-import { NewUser } from '../types/auth/types';
-import { AxiosError} from 'axios';
+import { RegisterUserCommand } from '../types/api/auth/commands.types';
 import { axiosClient } from '../utils/axios-utils';
 import apiEndpoints from '../endpoints/api.endpoints';
 
@@ -41,10 +40,10 @@ const Register = (props: Props) => {
         },
         validationSchema: validationSchema,
         onSubmit: onSubmitRegister
-});
+    });
 
 
-async function onSubmitRegister(values: NewUser) {
+async function onSubmitRegister(values: RegisterUserCommand) {
     try {
         await axiosClient.post(apiEndpoints.register, values, {
             headers: { 'Content-type': 'application/json' }

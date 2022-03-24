@@ -19,8 +19,8 @@ import Missing from './views/Missing';
 function App() {
   return (
     <Routes>
-      <Route path='/' element={<Layout/>}>
-        <Route element={<PersistLogin />}>
+      <Route element={<PersistLogin />}>
+        <Route path='/' element={<Layout/>}>
           <Route path={routes.login} element={<Login />} />
           <Route path={routes.register} element={<Register />} />
           <Route path={routes.logout} element={<Logout />} />

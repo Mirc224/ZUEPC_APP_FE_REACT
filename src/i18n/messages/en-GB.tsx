@@ -11,6 +11,7 @@ const lan =  {
             password: "Password",
             passwordConfirmation: "Password Confirmation",
             submit: "Submit",
+            search: "Search",
             
             // Validation
             isRequiredIt: "{{what}} is required",
@@ -21,6 +22,10 @@ const lan =  {
             invalidEmailOrPassword: "The email or password is incorrect",
             emailAlreadyUsed: "Email already used",
 
+            // Search field
+            nameAndSurnameSearch: "Name and surname",
+
+
             // Endpoints
             users: "Users",
             publications: "Publications",
@@ -29,6 +34,11 @@ const lan =  {
             login: "Log In",
             register: "Register",
             logout: "Log Out",
+
+            // Roles
+            user: 'User',
+            editor: 'Editor',
+            admin: 'Admin',
 
             // Messages
             logoutMessage: "You have been logged out",
@@ -39,10 +49,12 @@ const lan =  {
             rowsPerPage: "Rows per page",
 
             // Page headers
-            user: "User",
+            editPage: "Edit",
+            userPage: "User",
             userList: "User list",
 
             roles: "Roles",
+
         }
     }
 }

@@ -1,6 +1,7 @@
 import { Outlet, Route, Routes } from "react-router"
 import routes from "../../endpoints/routes.endpoints"
 import UserDetail from "./UserDetail"
+import UserEdit from "./UserEdit"
 import Users from "./Users"
 
 type Props = {}
@@ -15,6 +16,7 @@ const UserRoutes = (props: Props) => {
       <Routes>
         <Route path={getPath(routes.users)} element={<Users/>} />
         <Route path={getPath(routes.userDetails)} element={<UserDetail/>} />
+        <Route path={getPath(routes.userEdit)} element={<UserEdit/>} />
       </Routes>
   )
 }

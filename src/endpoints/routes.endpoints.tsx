@@ -6,8 +6,14 @@ const routes = {
     'userDetails': '/user/:id/detail',
     'userEdit': '/user/:id/edit',
 
-    'publications': '/publication',
+    'personRoutes': '/person/*',
     'persons': '/person',
+    'personDetail': '/person/:id/detail',
+    'personEdit': '/person/:id/edit',
+    'personDelete': '/person/:id/delete',
+
+
+    'publications': '/publication',
     'institutions': '/institution',
     'register': '/register',
     'login': '/login',

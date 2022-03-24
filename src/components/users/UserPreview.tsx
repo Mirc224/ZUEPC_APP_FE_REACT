@@ -1,13 +1,13 @@
 import { Card, CardActionArea, CardHeader} from '@mui/material'
 import useAuth from '../../hooks/useAuth'
-import { ApiUser } from '../../types/auth/types'
 import roles from '../../constatns/roles.constants';
 import routes from '../../endpoints/routes.endpoints';
 import { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
+import { ApiUserDetail } from '../../types/api/auth/entities.types';
 
 type Props = {
-    user: ApiUser
+    user: ApiUserDetail
 }
 
 const UserPreview = (props: Props) => {

@@ -10,6 +10,10 @@ const lan = {
             passwordConfirmation: "Potvrdenie hesla",
             password: "Heslo",
             submit: "Odoslať",
+            search: "Hľadať",
+
+            // Search field
+            nameAndSurnameSearch: "Meno a priezvisko",
 
             // Validation
             isRequiredIt: "{{what}} je povinné",
@@ -29,6 +33,11 @@ const lan = {
             register: "Registrovať",
             logout: "Odhlásiť sa",
 
+            // Roles
+            user: 'Používateľ',
+            editor: 'Editor',
+            admin: 'Admin',
+
             // Messages
             logoutMessage: "Boli ste odhlasený",
             missingMessage: "Stránka neexistuje",
@@ -38,7 +47,8 @@ const lan = {
             rowsPerPage: "Záznamov na stránku",
 
             // Page headers
-            user: "Používateľ",
+            editPage: "Editácia",
+            userPage: "Používateľ",
             userList: "Zoznam používateľov",
 
             roles: "Role",

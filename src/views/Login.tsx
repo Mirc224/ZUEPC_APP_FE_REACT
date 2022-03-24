@@ -2,7 +2,7 @@ import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import { Button, Container, Grid, TextField } from '@mui/material';
-import { LoginData } from '../types/auth/types';
+import { LoginUserCommand } from '../types/api/auth/commands.types';
 import { axiosClient } from '../utils/axios-utils';
 import apiEndpoints from '../endpoints/api.endpoints';
 import routes from '../endpoints/routes.endpoints';
@@ -43,7 +43,7 @@ const Login = (props: Props) => {
     onSubmit: onSubmitLogin
   });
 
- async function onSubmitLogin(values:LoginData) {
+ async function onSubmitLogin(values:LoginUserCommand) {
    try {
      const response = await axiosClient.post(apiEndpoints.login, values, {
        headers: { 'Content-type': 'application/json' }

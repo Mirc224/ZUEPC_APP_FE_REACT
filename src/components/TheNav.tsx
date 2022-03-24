@@ -8,7 +8,6 @@ import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { Link, NavLink } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
@@ -46,6 +45,7 @@ const TheNav = () => {
     return (
         <AppBar position="static">
             <Container maxWidth="xl">
+                <p>{JSON.stringify(auth)}</p>
                 <Toolbar disableGutters>
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                         <IconButton
@@ -143,7 +143,7 @@ const TheNav = () => {
                     {auth?.email ?  
                     <Box sx={{ flexGrow: 0 }}>
                         <span style={ {display: 'block'}}>{auth.email}</span>
-                        <span style={{ display: 'block' }}>[{auth.roles?.join(",")}]</span>
+                        <span style={{ display: 'block' }}>[{auth.roles?.map(x => t(x.toLowerCase())).join(",")}]</span>
                     </Box>
                     : <></>}
                 </Toolbar>
