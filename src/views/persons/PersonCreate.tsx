@@ -12,6 +12,13 @@ type Props = {}
 //   externDatabaseIds?: PersonExternDatabaseIdCreateDto[],
 // }
 
+interface FormikFieldSchema {
+  name: string,
+  validationSchema: any,
+  type: string,
+  initValue: any
+}
+
 const PersonCreate = (props: Props) => {
   const { t } = useTranslation();
   const validationSchema = yup.object({
@@ -25,11 +32,32 @@ const PersonCreate = (props: Props) => {
       .nullable(true),
   });
 
-  const formik = useFormik({
-    initialValues: {
-      birthYear: '',
-      deathYear: ''
+
+  const schema: FormikFieldSchema[] = [
+    {
+      name: "birthYear",
+      validationSchema: (yup
+        .number()
+        .typeError('mustBeNumber')
+        .nullable(true)),
+      type: "text",
+      initValue: "toto je ono"
     },
+    {
+      name: "deathYear",
+      validationSchema: (yup
+        .number()
+        .typeError('mustBeNumber')
+        .nullable(true)),
+      type: "text",
+      initValue: "hehe"
+    },
+  ]
+
+  const initValues = schema.reduce(((r, c) => Object.assign(r, { [c.name]: c.initValue })), {})
+
+  const formik = useFormik({
+    initialValues: initValues,
     validationSchema: validationSchema,
     onSubmit: onSubmitRegister
   });
@@ -54,7 +82,27 @@ const PersonCreate = (props: Props) => {
               <Grid item xs={12}>
                 <Container maxWidth="md">
                   <Grid container spacing={2}>
-                    <Grid item xs={12}>
+                    {schema.map((x, i) =>
+                      <Grid key={i} item xs={12}>
+                        <TextField
+                          fullWidth
+                          name={x.name}
+                          label={t(x.name)}
+                          value={(formik.values as any)[x.name]}
+                          onChange={formik.handleChange}
+                          error={(formik.touched as any)[x.name] && Boolean((formik.errors as any)[x.name])}
+                          helperText={
+                            (formik.touched as any)[x.name] &&
+                              (formik.errors as any)[x.name] ?
+                              t((formik.errors as any)[x.name], { what: t(x.name) }) : null}
+                        />
+                      </Grid>
+                    )}
+                    <Button color="primary" variant="contained" fullWidth type="submit" onClick={() => formik.handleSubmit()}>
+                      {t("submit")}
+                    </Button>
+                    <p>{JSON.stringify(formik.values)}</p>
+                    {/* <Grid item xs={12}>
                       <TextField
                         fullWidth
                         id="birthYear"
@@ -68,8 +116,8 @@ const PersonCreate = (props: Props) => {
                             formik.errors.birthYear ?
                             t(formik.errors.birthYear, { what: t('birthYear') }) : null}
                       />
-                    </Grid>
-                    <Grid item xs={12}>
+                    </Grid> */}
+                    {/* <Grid item xs={12}>
                       <TextField
                         fullWidth
                         id="deathYear"
@@ -83,7 +131,7 @@ const PersonCreate = (props: Props) => {
                             formik.errors.deathYear ?
                             t(formik.errors.deathYear, { what: t('deathYear') }) : null}
                       />
-                    </Grid>
+                    </Grid> */}
                   </Grid>
                 </Container>
               </Grid>
@@ -91,29 +139,28 @@ const PersonCreate = (props: Props) => {
             <h2>{t("name")}</h2>
             <Grid container justifyContent="center" spacing={2}>
               <Grid item xs={12}>
-                  <Grid container spacing={2}>
-                    
-                  </Grid>
+                <Grid container spacing={2}>
+
+                </Grid>
               </Grid>
             </Grid>
             <h2>{t("externDatabaseIds")}</h2>
             <Grid container justifyContent="center" spacing={2}>
               <Grid item xs={12}>
                 <Grid container spacing={2}>
-
                 </Grid>
               </Grid>
             </Grid>
           </main>
         </Grid>
         <Grid item xs={2}>
-        <footer>
-          <Button color="primary" variant="contained" fullWidth type="submit">
-            {t("submit")}
-          </Button>
-        </footer>
+          <footer>
+            {/* <Button color="primary" variant="contained" fullWidth type="submit">
+              {t("submit")}
+            </Button> */}
+          </footer>
+        </Grid>
       </Grid>
-    </Grid>
     </Container >
   )
 }

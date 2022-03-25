@@ -1,11 +1,10 @@
 import { useState, useEffect, ReactElement } from 'react';
 import { useLocation, useNavigate } from 'react-router';
-import { Button, Grid, stepClasses, TablePagination, TextField } from '@mui/material';
+import { Button, Grid} from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { ApiPersonPreview } from '../../types/api/persons/entities.types';
 import usePersonService from '../../hooks/persons/usePersonService';
 import PersonPreview from '../../components/persons/PersonPreview';
-import LoadingScreen from '../../components/LoadingScreen';
 import AddIcon from '@mui/icons-material/Add';
 import roles from '../../constatns/roles.constants';
 import { permissionHelper } from '../../helpers/permission.helper';
@@ -31,10 +30,7 @@ const Users = (props: Props) => {
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageArray[0]);
   const [totalRecords, setTotalRecords] = useState(0);
-  const [searchQuery, setSearchQuery] = useState({
-    name: '',
-    externIdentifierValue: ''
-  })
+  const [searchQuery, setSearchQuery] = useState({})
   const navigate = useNavigate();
 
   const searchFields: PaginationSearchBarField[] = [
@@ -60,8 +56,7 @@ const Users = (props: Props) => {
       pageNumber: page,
       pageSize: rowsPerPage
     },
-      searchQuery.name && { name: searchQuery.name },
-      searchQuery.externIdentifierValue && { externIdentifierValue: searchQuery.externIdentifierValue }
+      { ...searchQuery }
     )
     getPersons({
       params: params,
@@ -113,10 +108,7 @@ const Users = (props: Props) => {
   }
 
   const handleSearchReset = () => {
-    setSearchQuery({
-      name: '',
-      externIdentifierValue: ''
-    })
+    setSearchQuery({})
     setPage(1);
   }
 

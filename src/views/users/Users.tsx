@@ -22,10 +22,7 @@ const Users = (props: Props) => {
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageArray[0]);
   const [totalRecords, setTotalRecords] = useState(0);
-  const [searchQuery, setSearchQuery] = useState({
-    name: '',
-    email: ''
-  })
+  const [searchQuery, setSearchQuery] = useState({})
 
   const searchFields: PaginationSearchBarField[] = [
     {
@@ -50,8 +47,7 @@ const Users = (props: Props) => {
       pageNumber: page,
       pageSize: rowsPerPage
     },
-      searchQuery.name && { name: searchQuery.name },
-      searchQuery.email && { email: searchQuery.email }
+      {...searchQuery}
     )
     getUsers({
       params: params,
@@ -95,10 +91,7 @@ const Users = (props: Props) => {
   }
 
   const handleSearchReset = () => {
-    setSearchQuery({
-      name: '',
-      email: ''
-    })
+    setSearchQuery({})
     setPage(1);
   }
 

@@ -65,6 +65,7 @@ const Login = (props: Props) => {
    }
  }
 
+
   return (
     <>
       {auth?.id ? <Navigate to={from} replace /> :
