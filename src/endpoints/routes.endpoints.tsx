@@ -8,6 +8,7 @@ const routes = {
 
     'personRoutes': '/person/*',
     'persons': '/person',
+    'personCreate': '/person/create',
     'personDetails': '/person/:id/detail',
     'personEdit': '/person/:id/edit',
     'personDelete': '/person/:id/delete',

@@ -23,6 +23,7 @@ const lan = {
             passwordMatch: "Heslá sa musia zhodovať",
             invalidEmailOrPassword: "Nesprávny email alebo heslo",
             emailAlreadyUsed: "Email sa už používa",
+            mustBeNumber: "{{what}} musí byť číslo",
 
             // Endpoints
             users: "Používatelia",
@@ -49,10 +50,35 @@ const lan = {
 
             // Page headers
             editPage: "Editácia",
+
+            // Actons
+            edit: "Editovať",
+            delete: "Zmazať",
+            add: "Pridať",
+            new: "Nový",
+            newShe: "Nová",
+            
+            // Users
+            roles: "Role",
             userPage: "Používateľ",
             userList: "Zoznam používateľov",
+            
+            // Persons
+            person: "Osoba",
+            personList: "Zoznam osôb",
+            birthYear: "Rok narodenia",
+            deathYear: "Rok úmrtia",
+            
+            // Common
+            unknown: "Neznáme",
+            alternativeObject: "Alternatívne",
+            name: "Meno",
+            externDatabaseIds: "ID v externej databáze",
+            externId: "Externý identifikátor",
+            reset: "Reset",
 
-            roles: "Role",
+            basic: "Základné",
+            informations: "Informácie",
         }
     },
 }

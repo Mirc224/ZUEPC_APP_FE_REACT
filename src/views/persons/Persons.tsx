@@ -1,20 +1,29 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ReactElement } from 'react';
 import { useLocation, useNavigate } from 'react-router';
-import routes from '../../endpoints/routes.endpoints';
-import useAuth from '../../hooks/auth/useAuth';
-import ClipLoader from "react-spinners/ClipLoader";
-import { Button, Grid, TablePagination, TextField } from '@mui/material';
+import { Button, Grid, stepClasses, TablePagination, TextField } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { ApiPersonPreview } from '../../types/api/persons/entities.types';
 import usePersonService from '../../hooks/persons/usePersonService';
 import PersonPreview from '../../components/persons/PersonPreview';
+import LoadingScreen from '../../components/LoadingScreen';
+import AddIcon from '@mui/icons-material/Add';
+import roles from '../../constatns/roles.constants';
+import { permissionHelper } from '../../helpers/permission.helper';
+import useAuth from '../../hooks/auth/useAuth';
+import routes from '../../endpoints/routes.endpoints';
+import PaginationPageFooter from '../../components/PaginationPageFooter';
+import PaginationPageHeader from '../../components/PaginationPageHeader';
+import PaginationPageSearchBar from '../../components/PaginationPageSearchBar';
+import { PaginationSearchBarField } from '../../types/entities/component.typs';
+import PaginationPageMain from '../../components/PaginationPageMain';
 
 const rowsPerPageArray = [5, 10, 15];
 type Props = {}
 
 const Users = (props: Props) => {
-  const [searchName, setSearchName] = useState('');
-  const [searchEmail, setSearchEmail] = useState('');
+  const canEditRoles = [roles.Editor, roles.Admin];
+  const { auth } = useAuth();
+  const [canEdit, setCanEdit] = useState(permissionHelper.hasRole(auth.roles, canEditRoles));
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const { getPersons } = usePersonService();
@@ -22,14 +31,26 @@ const Users = (props: Props) => {
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageArray[0]);
   const [totalRecords, setTotalRecords] = useState(0);
-  const { setAuth } = useAuth();
   const [searchQuery, setSearchQuery] = useState({
     name: '',
-    email: ''
+    externIdentifierValue: ''
   })
-
   const navigate = useNavigate();
-  const location = useLocation();
+
+  const searchFields: PaginationSearchBarField[] = [
+    {
+      value: '',
+      labelTranslationKey: 'nameAndSurnameSearch',
+      type: "text",
+      name: "name"
+    },
+    {
+      value: '',
+      labelTranslationKey: 'externId',
+      type: "text",
+      name: "externId"
+    }
+  ]
 
   useEffect(() => {
     setIsLoading(true);
@@ -38,7 +59,10 @@ const Users = (props: Props) => {
     const params = Object.assign({
       pageNumber: page,
       pageSize: rowsPerPage
-    })
+    },
+      searchQuery.name && { name: searchQuery.name },
+      searchQuery.externIdentifierValue && { externIdentifierValue: searchQuery.externIdentifierValue }
+    )
     getPersons({
       params: params,
       signal: controller.signal
@@ -51,8 +75,7 @@ const Users = (props: Props) => {
         setIsLoading(false);
       })
       .catch((err) => {
-        setAuth({});
-        navigate(routes.login, { state: { from: location }, replace: true });
+        console.log(err);
       })
 
     return () => {
@@ -60,6 +83,10 @@ const Users = (props: Props) => {
       controller.abort();
     }
   }, [page, rowsPerPage, searchQuery])
+
+  useEffect(() => {
+    setCanEdit(permissionHelper.hasRole(auth.roles, canEditRoles));
+  }, [auth])
 
 
   const handleChangePage = (
@@ -76,82 +103,73 @@ const Users = (props: Props) => {
     setPage(1);
   };
 
-  const handleSearchSubmit = () => {
+  const handleAddClick = () => {
+    navigate(routes.personCreate);
+  }
+
+  const handleSearchSubmit = (values: any) => {
+    setSearchQuery({ ...values })
+    setPage(1);
+  }
+
+  const handleSearchReset = () => {
     setSearchQuery({
-      name: searchName,
-      email: searchEmail
+      name: '',
+      externIdentifierValue: ''
     })
     setPage(1);
   }
 
+  const ShowObjects = () => {
+    return (
+      persons?.length ?
+        <Grid container spacing={2}>
+          {
+            persons.map((person) =>
+              <Grid item key={person.id} xs={12}>
+                <PersonPreview person={person} />
+              </Grid>)
+          }
+        </Grid >
+        : false
+    )
+  }
+
   return (
-    <article>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <h1>{t('userList')}</h1>
-        </Grid>
-        <Grid item xs={12}>
-          <form>
-            <Grid container spacing={2}>
-              <Grid item xs={3}>
-                <TextField
-                  fullWidth
-                  value={searchName}
-                  onChange={(e) => setSearchName(e.target.value)}
-                  label={t("nameAndSurnameSearch")}
-                  type="text"
-                />
-              </Grid>
-              <Grid item xs={3}>
-                <TextField
-                  fullWidth
-                  value={searchEmail}
-                  onChange={(e) => setSearchEmail(e.target.value)}
-                  name="email"
-                  label={t("email")}
-                  type="text"
-                />
-              </Grid>
-              <Grid item display="flex" justifyContent="flex-end">
-                <Button onClick={handleSearchSubmit} variant="text">{t('search')}</Button>
-              </Grid>
-            </Grid>
-          </form>
-        </Grid>
-        {isLoading
-          ?
-          <Grid item xl={12}>
-            <div className='spinner'>
-              <ClipLoader loading={isLoading} size={100} />
-            </div>
+    <Grid container direction='column' spacing={2}>
+      <Grid item xs={12}>
+        <PaginationPageHeader title={t('personList')}>
+          {canEdit &&
+            <Grid item alignContent='center' xs={12}>
+              <Button variant="contained" color='success' onClick={handleAddClick} startIcon={<AddIcon />}>{t('add')}</Button>
+            </Grid>}
+          <Grid item xs={12}>
+            <PaginationPageSearchBar
+              itemSize={3}
+              onSearchSubmit={handleSearchSubmit}
+              onSearchReset={handleSearchReset}
+              searchFields={searchFields}
+            />
           </Grid>
-          :
-          <Grid item xl={12}>
-            {persons?.length
-              ? <Grid container spacing={2}>
-                {persons.map((person) =>
-                  <Grid item key={person.id} xs={12}>
-                    <PersonPreview person={person} />
-                  </Grid>)}
-              </Grid>
-              : <p>{t('noObjectsToDisplay', { what: t('users').toLowerCase() })}</p>}
-          </Grid>}
-        <Grid item xs={12}>
-          <TablePagination
-            showFirstButton
-            showLastButton
-            component='div'
-            count={totalRecords}
-            page={page - 1}
-            rowsPerPageOptions={rowsPerPageArray}
-            onPageChange={handleChangePage}
-            rowsPerPage={rowsPerPage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-            labelRowsPerPage={t('rowsPerPage')}
-          />
-        </Grid>
+        </PaginationPageHeader>
       </Grid>
-    </article>
+      <Grid item xs={12}>
+        <PaginationPageMain
+          isLoading={isLoading}
+          noResultsMessage={t('noObjectsToDisplay', { what: t('persons').toLowerCase() })}>
+          {ShowObjects()}
+        </PaginationPageMain>
+      </Grid>
+      <Grid item xs={12}>
+        <PaginationPageFooter
+          page={page}
+          rowsPerPage={rowsPerPage}
+          totalRecords={totalRecords}
+          rowsPerPageArray={rowsPerPageArray}
+          onChangePage={handleChangePage}
+          onChangeRowsPerPage={handleChangeRowsPerPage} />
+      </Grid>
+    </Grid>
   )
 }
 

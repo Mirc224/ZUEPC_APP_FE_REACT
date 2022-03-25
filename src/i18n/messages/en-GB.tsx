@@ -21,6 +21,7 @@ const lan =  {
             passwordMatch: "Passwords must match",
             invalidEmailOrPassword: "The email or password is incorrect",
             emailAlreadyUsed: "Email already used",
+            mustBeNumber: "{{what}} must be number",
 
             // Search field
             nameAndSurnameSearch: "Name and surname",
@@ -51,11 +52,35 @@ const lan =  {
 
             // Page headers
             editPage: "Edit",
+
+            // Actions
+            edit: "Edit",
+            delete: "Delete",
+            add: "Add",
+            new: "New",
+            newShe: "New",
+            
+            // Users
             userPage: "User",
             userList: "User list",
-
             roles: "Roles",
 
+            // Persons
+            person: "Person",
+            personList: "Person list",
+            birthYear: "Year of birth",
+            deathYear: "Year of death",
+            
+            // Common
+            unknown: "Unknown",
+            alternativeObject: "Alternative",
+            name: "Name",
+            externDatabaseIds: "Extern database ID",
+            externId: "Extern identifier",
+            reset: "Reset",
+
+            basic: "Basic",
+            informations: "Informations",
         }
     }
 }

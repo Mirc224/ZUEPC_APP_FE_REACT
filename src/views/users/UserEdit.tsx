@@ -13,6 +13,7 @@ import roles from '../../constatns/roles.constants';
 import useAuth from '../../hooks/auth/useAuth';
 import routes from '../../endpoints/routes.endpoints';
 import { authHelper } from '../../helpers/auth.helper';
+import LoadingScreen from '../../components/LoadingScreen';
 
 
 type Props = {}
@@ -152,97 +153,89 @@ const UserEdit = (props: Props) => {
         return userRoles.indexOf(foundObj);
     }
 
-    return (
-        <>
-            {isLoading
-                ?
-                <div className="spinner">
-                    <ClipLoader loading={isLoading} size={100} />
-                </div>
-                :
-                <Container maxWidth="sm">
-                    <header>
-                        <h1>{t('editPage')}: {t('user')}</h1>
-                    </header>
-                    <form onSubmit={formik.handleSubmit}>
-                        <Grid container justifyContent="center" spacing={2}>
-                            <Grid item xs={12}>
-                                <TextField
-                                    fullWidth
-                                    disabled
-                                    id="id"
-                                    name="id"
-                                    label="Id"
-                                    value={formik.values.id}
-                                    onChange={formik.handleChange}
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    fullWidth
-                                    disabled
-                                    id="email"
-                                    name="email"
-                                    label={t("email")}
-                                    value={formik.values.email}
-                                    onChange={formik.handleChange}
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    fullWidth
-                                    id="firstName"
-                                    name="firstName"
-                                    label={t("firstName")}
-                                    value={formik.values.firstName}
-                                    onChange={formik.handleChange}
-                                    error={formik.touched.firstName && Boolean(formik.errors.firstName)}
-                                    helperText={
-                                        formik.touched.firstName &&
-                                            formik.errors.firstName ?
-                                            t(formik.errors.firstName, { what: t('firstName') }) : null}
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    fullWidth
-                                    id="lastName"
-                                    name="lastName"
-                                    label={t("lastName")}
-                                    value={formik.values.lastName}
-                                    onChange={formik.handleChange}
-                                    error={formik.touched.lastName && Boolean(formik.errors.lastName)}
-                                    helperText={
-                                        formik.touched.lastName &&
-                                            formik.errors.lastName ?
-                                            t(formik.errors.lastName, { what: t('lastName') }) : null}
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <FormControl component="fieldset" style={{ display: "flex" }}>
-                                    <FormLabel component="legend">{t('roles')}</FormLabel>
-                                    <FormGroup>
-                                        {userRoles.map((roleObj) =>
-                                            <FormControlLabel key={roleObj.role} control={
-                                                <Checkbox
-                                                    {...roleObj?.props}
-                                                    checked={roleObj.checked ? true : false}
-                                                    onChange={(ev, value) => { handleCheckboxChange(roleObj, value) }} />}
-                                                label={t<string>(UserRole[roleObj.role])} />
-                                        )}
-                                    </FormGroup>
-                                </FormControl>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Button color="primary" variant="contained" fullWidth type="submit">
-                                    {t("submit")}
-                                </Button>
-                            </Grid>
-                        </Grid>
-                    </form>
-                </Container>}
-        </>
-    )
+return (isLoading ? <LoadingScreen isLoading={isLoading} />
+        :
+        <Container maxWidth="sm">
+            <header>
+                <h1>{t('editPage')}: {t('user')}</h1>
+            </header>
+            <form onSubmit={formik.handleSubmit}>
+                <Grid container justifyContent="center" spacing={2}>
+                    <Grid item xs={12}>
+                        <TextField
+                            fullWidth
+                            disabled
+                            id="id"
+                            name="id"
+                            label="Id"
+                            value={formik.values.id}
+                            onChange={formik.handleChange}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                            fullWidth
+                            disabled
+                            id="email"
+                            name="email"
+                            label={t("email")}
+                            value={formik.values.email}
+                            onChange={formik.handleChange}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                            fullWidth
+                            id="firstName"
+                            name="firstName"
+                            label={t("firstName")}
+                            value={formik.values.firstName}
+                            onChange={formik.handleChange}
+                            error={formik.touched.firstName && Boolean(formik.errors.firstName)}
+                            helperText={
+                                formik.touched.firstName &&
+                                    formik.errors.firstName ?
+                                    t(formik.errors.firstName, { what: t('firstName') }) : null}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                            fullWidth
+                            id="lastName"
+                            name="lastName"
+                            label={t("lastName")}
+                            value={formik.values.lastName}
+                            onChange={formik.handleChange}
+                            error={formik.touched.lastName && Boolean(formik.errors.lastName)}
+                            helperText={
+                                formik.touched.lastName &&
+                                    formik.errors.lastName ?
+                                    t(formik.errors.lastName, { what: t('lastName') }) : null}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <FormControl component="fieldset" style={{ display: "flex" }}>
+                            <FormLabel component="legend">{t('roles')}</FormLabel>
+                            <FormGroup>
+                                {userRoles.map((roleObj) =>
+                                    <FormControlLabel key={roleObj.role} control={
+                                        <Checkbox
+                                            {...roleObj?.props}
+                                            checked={roleObj.checked ? true : false}
+                                            onChange={(ev, value) => { handleCheckboxChange(roleObj, value) }} />}
+                                        label={t<string>(UserRole[roleObj.role])} />
+                                )}
+                            </FormGroup>
+                        </FormControl>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Button color="primary" variant="contained" fullWidth type="submit">
+                            {t("submit")}
+                        </Button>
+                    </Grid>
+                </Grid>
+            </form>
+        </Container>)
 }
 
 export default UserEdit

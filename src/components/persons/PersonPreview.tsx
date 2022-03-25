@@ -1,47 +1,69 @@
-import { Card, CardActionArea, CardHeader } from '@mui/material'
+import { Card, CardActionArea, CardContent, CardHeader } from '@mui/material'
 import useAuth from '../../hooks/auth/useAuth'
 import roles from '../../constatns/roles.constants';
 import routes from '../../endpoints/routes.endpoints';
-import { useEffect, useState } from 'react';
+import { ReactElement } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { ApiUserDetail } from '../../types/api/auth/entities.types';
 import { ApiPersonPreview } from '../../types/api/persons/entities.types';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
     person: ApiPersonPreview
 }
 
 const UserPreview = (props: Props) => {
+    const { t } = useTranslation();
     const { person } = props;
-    const { auth } = useAuth();
     const navigate = useNavigate();
-    const [canEdit, setCanEdit] = useState(
-        auth.roles?.includes(roles.Editor) ||
-        auth.roles?.includes(roles.Admin));
-
-    useEffect(() => {
-        setCanEdit(() => {
-            return auth.roles?.includes(roles.Editor) ||
-                auth.roles?.includes(roles.Admin)
-        })
-    }, [auth])
 
     const handleCardClick = () => {
         navigate(routes.personDetails.replace(":id", person.id.toString()));
     }
 
-    const getUserTitle = (): string => {
-        return "hehe";
+    const PersonTitle = (): string => {
+        let title = person.id.toString() + "|";
+        let namePart = person.names && person.names.length > 0 ?
+            (person.names[0].firstName ? person.names[0].firstName : "") +
+            (person.names[0].lastName ? " " + person.names[0].lastName : "")
+            : t('unknown');
+        title += " " + namePart;
+
+        return title;
+    }
+
+    const PersonYears = (): string => {
+        let birthPart = person.birthYear ? (person.birthYear.toString() + "-" + (person.deathYear ? person.deathYear.toString() : "")) : "";
+        birthPart = birthPart ? ` (${birthPart})` : "";
+        return birthPart;
+    }
+
+    const PersonNameAlternatives = (): ReactElement => {
+        const names = person.names;
+        let nameAlternatives = names && names.length > 1
+            ? names.slice(1).map(x => (x.firstName ? x.firstName : "") +
+                (x.lastName ? " " + x.lastName : "")).join(', ') : "";
+        return nameAlternatives ? 
+            <p><strong>{t('alternativeObject')} {t('name').toLowerCase() }:</strong> {nameAlternatives}</p> : <></> ;
+    }
+
+    const PersonExternDatabaseIds = (): ReactElement => {
+        const externDatabaseIds = person.externDatabaseIds;
+        let externDbIdsString = externDatabaseIds && externDatabaseIds.length > 0 ? externDatabaseIds.map(x => x.externIdentifierValue).join(', ') : "";
+        return externDbIdsString ?
+            <p><strong>{t('externDatabaseIds')}:</strong> {externDbIdsString}</p> : <></>;
     }
 
     return (
         <Card >
             <CardActionArea onClick={handleCardClick}>
                 <CardHeader
-                    title={getUserTitle()}
-                    //subheader={`Id:${user.id} ${user.firstName} ${user.lastName}`}
+                    title={PersonTitle()}
+                    subheader={PersonYears()}
                 />
-                <p>{JSON.stringify(person)}</p>
+                <CardContent>
+                    {PersonNameAlternatives()}
+                    {PersonExternDatabaseIds()}
+                </CardContent>
             </CardActionArea>
         </Card>
     )

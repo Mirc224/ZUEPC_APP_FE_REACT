@@ -3,7 +3,7 @@ import { useState, useEffect} from 'react';
 import useRefreshToken from '../hooks/auth/useRefreshToken';
 import useAuth from '../hooks/auth/useAuth';
 import { authHelper } from '../helpers/auth.helper';
-import ClipLoader from "react-spinners/ClipLoader";
+import LoadingScreen from './LoadingScreen';
 
 const PersistLogin = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -37,9 +37,7 @@ const PersistLogin = () => {
     
     return (<>
         {isLoading 
-            ? <div className='spinner'>
-                <ClipLoader loading={isLoading} size={100} />
-              </div>
+            ? <LoadingScreen isLoading={isLoading}/>
             : <Outlet/>}
     </>)
 }
