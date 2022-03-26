@@ -1,68 +1,47 @@
-import { Button, TextField } from '@mui/material'
+import { Button, IconButton, useMediaQuery, useTheme } from '@mui/material'
 import Grid from '@mui/material/Grid'
-import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { PaginationSearchBarField } from '../types/entities/component.typs'
+import { FormikFieldSchema } from '../types/entities/component.typs'
+import SubmitResetForm from './SubmitResetForm'
+import SearchIcon from '@mui/icons-material/Search';
 
 type Props = {
-    searchFields: PaginationSearchBarField[],
-    itemSize: number,
+    searchFields: FormikFieldSchema[],
     onSearchSubmit: (values: any) => void,
     onSearchReset: () => void,
 }
 
 const PaginationPageSearchBar = (props: Props) => {
     const { t } = useTranslation();
-    const { searchFields, itemSize, onSearchSubmit, onSearchReset } = props;
-    const [searchValues, setSearchValue] = useState<PaginationSearchBarField[]>([...searchFields]);
+    const { searchFields, onSearchSubmit, onSearchReset } = props;
+    const theme = useTheme();
+    const largeScreen = useMediaQuery(theme.breakpoints.up('md'));
 
-    const handleValueChange = (key: number, value: string): void => {
-        let currSearchValues = [...searchValues];
-        currSearchValues[key] = { ...currSearchValues[key], value: value };
-        setSearchValue(currSearchValues);
-    }
-
-    const handleSearchSubmit = () => {
-        let values = {}
-        searchValues.forEach(element => {
-            values = Object.assign(values,
-                element.value && { [element.name]: element.value }
-            );
-        });
-        onSearchSubmit(values);
+    const handleSearchSubmit = (searchValues: any, dirty: boolean) => {
+        if(dirty){
+            const values = Object
+                .keys(searchValues)
+                .reduce(((r, key) => Object.assign(r, (searchValues[key] && { [key]: searchValues[key] }))), {})
+            onSearchSubmit(values);
+        }
     }
 
     const handleSearchReset = () => {
-        let values: PaginationSearchBarField[] = []
-        searchValues.forEach(element => {
-            values.push({ ...element, value: '' });
-        });
-        setSearchValue(values);
         onSearchReset();
     }
 
     return (
-        <form>
-            <Grid container spacing={2}>
-                {searchValues.map((x, i) =>
-                    <Grid item key={i} xs={itemSize}>
-                        <TextField
-                            fullWidth
-                            value={x.value}
-                            onChange={(e) => handleValueChange(i, e.target.value)}
-                            label={t(x.labelTranslationKey)}
-                            type={x.type}
-                        />
-                    </Grid>
-                )}
-                <Grid item display="flex" justifyContent="flex-end">
-                    <Button onClick={handleSearchSubmit} variant="text">{t('search')}</Button>
-                </Grid>
-                <Grid item display="flex" justifyContent="flex-end">
-                    <Button onClick={handleSearchReset} variant="text">{t('reset')}</Button>
-                </Grid>
+        <Grid container direction={largeScreen ? "row" : "column"} spacing={2} alignItems="center">
+            <Grid item xs>
+                <SubmitResetForm onSubmit={handleSearchSubmit} onReset={handleSearchReset} fields={searchFields} formId="search-form" direction="row"/>
             </Grid>
-        </form>
+            <Grid item xs={1} alignItems="center" >
+                <IconButton color="primary" form="search-form" type="submit">
+                    <SearchIcon />
+                </IconButton>
+                <Button form="search-form" type="reset" variant="text">{t('reset')}</Button>
+            </Grid>
+        </Grid>
     )
 }
 

@@ -56,6 +56,7 @@ const lan =  {
             // Actions
             edit: "Edit",
             delete: "Delete",
+            update: "Update",
             add: "Add",
             new: "New",
             newShe: "New",
@@ -70,6 +71,7 @@ const lan =  {
             personList: "Person list",
             birthYear: "Year of birth",
             deathYear: "Year of death",
+            nameType: "Name type",
             
             // Common
             unknown: "Unknown",

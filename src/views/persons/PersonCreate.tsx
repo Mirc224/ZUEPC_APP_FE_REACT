@@ -1,69 +1,87 @@
-import { Button, Container, Grid, TextField } from '@mui/material';
-import { useFormik } from 'formik';
+import { Button, Container, Grid, IconButton } from '@mui/material';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
+import SubmitResetForm from '../../components/SubmitResetForm';
+import UpdateDeleteItem from '../../components/UpdateDeleteItem';
+import { FormikFieldSchema, PersonName } from '../../types/entities/component.typs';
+import AddIcon from '@mui/icons-material/Add';
 
 type Props = {}
 
-// export interface CreatePersonWithDetailsCommand {
-//   birthYear?: number,
-//   deathYear?: number,
-//   names?: PersonNameCreateDto[],
-//   externDatabaseIds?: PersonExternDatabaseIdCreateDto[],
-// }
-
-interface FormikFieldSchema {
-  name: string,
-  validationSchema: any,
-  type: string,
-  initValue: any
-}
 
 const PersonCreate = (props: Props) => {
   const { t } = useTranslation();
-  const validationSchema = yup.object({
-    birthYear: yup
-      .number()
-      .typeError('mustBeNumber')
-      .nullable(true),
-    deathYear: yup
-      .number()
-      .typeError('mustBeNumber')
-      .nullable(true),
-  });
+  const [personNames, setPersonNames] = useState<PersonName[]>([])
+  const { v4: uuidv4 } = require('uuid');
 
-
-  const schema: FormikFieldSchema[] = [
+  const basicInfoSchema: FormikFieldSchema[] = [
     {
       name: "birthYear",
+      labelTranslationKey: "birthYear",
       validationSchema: (yup
         .number()
         .typeError('mustBeNumber')
         .nullable(true)),
       type: "text",
-      initValue: "toto je ono"
+      initValue: "",
     },
     {
       name: "deathYear",
+      labelTranslationKey: "deathYear",
       validationSchema: (yup
         .number()
         .typeError('mustBeNumber')
         .nullable(true)),
       type: "text",
-      initValue: "hehe"
+      initValue: ""
     },
   ]
 
-  const initValues = schema.reduce(((r, c) => Object.assign(r, { [c.name]: c.initValue })), {})
+  const nameSchema: FormikFieldSchema[] = [
+    {
+      name: "firstName",
+      type: "text",
+      initValue: ""
+    },
+    {
+      name: "lastName",
+      type: "text",
+      initValue: ""
+    },
+    {
+      name: "nameType",
+      type: "text",
+      initValue: ""
+    },
+  ]
 
-  const formik = useFormik({
-    initialValues: initValues,
-    validationSchema: validationSchema,
-    onSubmit: onSubmitRegister
-  });
+  const handleSubmitForm = (values: any) => {
+    let objectToCreate = Object
+      .keys(values)
+      .reduce(((r, key) => Object.assign(r, (values[key] && { [key]: values[key] }))), {})
+    objectToCreate = Object.assign(objectToCreate, {names: personNames})
+    console.log(objectToCreate)
+  }
 
-  async function onSubmitRegister(values: any) {
-    console.log("tu")
+  const handleNewName = (values: any) => {
+    setPersonNames((prev) => [...prev, values]);
+  }
+
+  const handleNameDelete = (key: number) => {
+    setPersonNames((prev) => {
+      let origArray = prev.slice();
+      origArray.splice(key,1);
+      return [...origArray];
+    })
+  }
+
+  const handleNamesUpdate = (key: number, values:any) => {
+    setPersonNames((prev) => {
+      let current = prev.slice();
+      current.splice(key,1);
+      return [...current, values];
+    })
   }
 
   return (
@@ -81,66 +99,42 @@ const PersonCreate = (props: Props) => {
             <Grid container justifyContent="center" spacing={2}>
               <Grid item xs={12}>
                 <Container maxWidth="md">
-                  <Grid container spacing={2}>
-                    {schema.map((x, i) =>
-                      <Grid key={i} item xs={12}>
-                        <TextField
-                          fullWidth
-                          name={x.name}
-                          label={t(x.name)}
-                          value={(formik.values as any)[x.name]}
-                          onChange={formik.handleChange}
-                          error={(formik.touched as any)[x.name] && Boolean((formik.errors as any)[x.name])}
-                          helperText={
-                            (formik.touched as any)[x.name] &&
-                              (formik.errors as any)[x.name] ?
-                              t((formik.errors as any)[x.name], { what: t(x.name) }) : null}
-                        />
-                      </Grid>
-                    )}
-                    <Button color="primary" variant="contained" fullWidth type="submit" onClick={() => formik.handleSubmit()}>
-                      {t("submit")}
-                    </Button>
-                    <p>{JSON.stringify(formik.values)}</p>
-                    {/* <Grid item xs={12}>
-                      <TextField
-                        fullWidth
-                        id="birthYear"
-                        name="birthYear"
-                        label={t("birthYear")}
-                        value={formik.values.birthYear}
-                        onChange={formik.handleChange}
-                        error={formik.touched.birthYear && Boolean(formik.errors.birthYear)}
-                        helperText={
-                          formik.touched.birthYear &&
-                            formik.errors.birthYear ?
-                            t(formik.errors.birthYear, { what: t('birthYear') }) : null}
-                      />
-                    </Grid> */}
-                    {/* <Grid item xs={12}>
-                      <TextField
-                        fullWidth
-                        id="deathYear"
-                        name="deathYear"
-                        label={t("deathYear")}
-                        value={formik.values.deathYear}
-                        onChange={formik.handleChange}
-                        error={formik.touched.deathYear && Boolean(formik.errors.deathYear)}
-                        helperText={
-                          formik.touched.deathYear &&
-                            formik.errors.deathYear ?
-                            t(formik.errors.deathYear, { what: t('deathYear') }) : null}
-                      />
-                    </Grid> */}
-                  </Grid>
+                  <SubmitResetForm direction="row" onSubmit={handleSubmitForm} fields={basicInfoSchema} formId="whole-form"/>
                 </Container>
               </Grid>
             </Grid>
             <h2>{t("name")}</h2>
-            <Grid container justifyContent="center" spacing={2}>
+            <p>{JSON.stringify(personNames)}</p>
+            <Grid container spacing={2} justifyContent="center">
               <Grid item xs={12}>
-                <Grid container spacing={2}>
-
+                <Grid container spacing={2} alignItems="center">
+                  <Grid item xs>
+                    <SubmitResetForm direction={"row"} formId="new-name" onSubmit={handleNewName} fields={nameSchema} resetAfterSubmit={true} />
+                  </Grid>
+                  <Grid item xs={1}>
+                    <IconButton form="new-name" color="success" type="submit">
+                      <AddIcon />
+                    </IconButton>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item xs={12}>
+                <Grid container spacing={2} direction="row">
+                  {personNames.map((x, i) => {
+                    const uid = uuidv4()
+                    return (
+                    <Grid item key={uid} xs={12}>
+                      <p>{JSON.stringify(x)}</p>
+                      <UpdateDeleteItem
+                        formKey={i}
+                        formName={uid}
+                        defaultFieldSchema={nameSchema}
+                        onDelete={handleNameDelete}
+                        onUpdate={handleNamesUpdate}
+                        values={x} />
+                    </Grid>)
+                  }
+                  )}
                 </Grid>
               </Grid>
             </Grid>
@@ -152,12 +146,13 @@ const PersonCreate = (props: Props) => {
               </Grid>
             </Grid>
           </main>
+          <hr/>
         </Grid>
         <Grid item xs={2}>
           <footer>
-            {/* <Button color="primary" variant="contained" fullWidth type="submit">
+            <Button form="whole-form" color="primary" variant="contained" fullWidth type="submit">
               {t("submit")}
-            </Button> */}
+            </Button>
           </footer>
         </Grid>
       </Grid>

@@ -13,7 +13,7 @@ import routes from '../../endpoints/routes.endpoints';
 import PaginationPageFooter from '../../components/PaginationPageFooter';
 import PaginationPageHeader from '../../components/PaginationPageHeader';
 import PaginationPageSearchBar from '../../components/PaginationPageSearchBar';
-import { PaginationSearchBarField } from '../../types/entities/component.typs';
+import { FormikFieldSchema } from '../../types/entities/component.typs';
 import PaginationPageMain from '../../components/PaginationPageMain';
 
 const rowsPerPageArray = [5, 10, 15];
@@ -33,19 +33,19 @@ const Users = (props: Props) => {
   const [searchQuery, setSearchQuery] = useState({})
   const navigate = useNavigate();
 
-  const searchFields: PaginationSearchBarField[] = [
+  const schema: FormikFieldSchema[] = [
     {
-      value: '',
+      name: "name",
       labelTranslationKey: 'nameAndSurnameSearch',
       type: "text",
-      name: "name"
+      initValue: ""
     },
     {
-      value: '',
+      name: "externId",
       labelTranslationKey: 'externId',
       type: "text",
-      name: "externId"
-    }
+      initValue: ""
+    },
   ]
 
   useEffect(() => {
@@ -137,10 +137,9 @@ const Users = (props: Props) => {
             </Grid>}
           <Grid item xs={12}>
             <PaginationPageSearchBar
-              itemSize={3}
               onSearchSubmit={handleSearchSubmit}
               onSearchReset={handleSearchReset}
-              searchFields={searchFields}
+              searchFields={schema}
             />
           </Grid>
         </PaginationPageHeader>

@@ -7,9 +7,10 @@ import { useTranslation } from 'react-i18next';
 import { ApiUserDetail } from '../../types/api/auth/entities.types';
 import PaginationPageHeader from '../../components/PaginationPageHeader';
 import PaginationPageFooter from '../../components/PaginationPageFooter';
-import { PaginationSearchBarField } from '../../types/entities/component.typs';
+import { FormikFieldSchema, PaginationSearchBarField } from '../../types/entities/component.typs';
 import PaginationPageSearchBar from '../../components/PaginationPageSearchBar';
 import PaginationPageMain from '../../components/PaginationPageMain';
+import SubmitResetForm from '../../components/SubmitResetForm';
 
 const rowsPerPageArray = [5, 10, 15];
 type Props = {}
@@ -38,6 +39,22 @@ const Users = (props: Props) => {
       name: "email"
     }
   ]
+  
+  const schema: FormikFieldSchema[] = [
+    {
+      name: "name",
+      labelTranslationKey: 'nameAndSurnameSearch',
+      initValue: "",
+      type: "text",
+    },
+    {
+      initValue: '',
+      labelTranslationKey: 'email',
+      type: "text",
+      name: "email"
+    },
+  ]
+
 
   useEffect(() => {
     setIsLoading(true);
@@ -112,14 +129,16 @@ const Users = (props: Props) => {
     <Grid container direction='column' spacing={2}>
       <Grid item xs={12}>
         <PaginationPageHeader title={t('userList')}>
-          <Grid item xs={12}>
+          <Grid item xs>
             <PaginationPageSearchBar
-              itemSize={3}
               onSearchSubmit={handleSearchSubmit}
               onSearchReset={handleSearchReset}
-              searchFields={searchFields}
+              searchFields={schema}
             />
           </Grid>
+          {/* <Grid item xs>
+            <SubmitResetForm onSubmit={handleSearchSubmit} onReset={handleSearchReset} fields={schema} formId="search-form" direction="row" />
+          </Grid> */}
         </PaginationPageHeader>
       </Grid>
       <Grid item xs={12}>

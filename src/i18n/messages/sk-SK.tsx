@@ -54,6 +54,7 @@ const lan = {
             // Actons
             edit: "Editovať",
             delete: "Zmazať",
+            update: "Upraviť",
             add: "Pridať",
             new: "Nový",
             newShe: "Nová",
@@ -68,6 +69,7 @@ const lan = {
             personList: "Zoznam osôb",
             birthYear: "Rok narodenia",
             deathYear: "Rok úmrtia",
+            nameType: "Typ mena",
             
             // Common
             unknown: "Neznáme",

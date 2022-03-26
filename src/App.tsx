@@ -15,17 +15,21 @@ import UserRoutes from './views/users/UserRouter';
 import PersistLogin from './components/PersistLogin';
 import Missing from './views/Missing';
 import PersonRoutes from './views/persons/PersonRouter';
+import { ThemeProvider } from '@emotion/react';
+import { createTheme } from '@mui/material';
 
 function App() {
+  const theme = createTheme();
   return (
-    <Routes>
-      <Route element={<PersistLogin />}>
-        <Route path='/' element={<Layout/>}>
-          <Route path={routes.login} element={<Login />} />
-          <Route path={routes.register} element={<Register />} />
-          <Route path={routes.logout} element={<Logout />} />
-          <Route path={routes.unauthorized} element={<Unauthorized />} />
-            <Route element={<RequireAuth allowedRoles={[ROLES.User, ROLES.Admin, ROLES.Editor]}/>}>
+    <ThemeProvider theme={theme}>
+      <Routes>
+        <Route element={<PersistLogin />}>
+          <Route path='/' element={<Layout />}>
+            <Route path={routes.login} element={<Login />} />
+            <Route path={routes.register} element={<Register />} />
+            <Route path={routes.logout} element={<Logout />} />
+            <Route path={routes.unauthorized} element={<Unauthorized />} />
+            <Route element={<RequireAuth allowedRoles={[ROLES.User, ROLES.Admin, ROLES.Editor]} />}>
               <Route path={routes.publications} element={<Publications />} />
               <Route path={'/person/*'} element={<PersonRoutes />} />
               <Route path={routes.institutions} element={<Institutions />} />
@@ -33,10 +37,11 @@ function App() {
                 <Route path='/user/*' element={<UserRoutes />} />
               </Route>
             </Route>
-          <Route path='*' element={<Missing/>}/>
+            <Route path='*' element={<Missing />} />
+          </Route>
         </Route>
-      </Route>
-    </Routes>
+      </Routes>
+    </ThemeProvider>
   );
 }
 export default App;
