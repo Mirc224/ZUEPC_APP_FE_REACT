@@ -1,19 +1,23 @@
-import { Button, Container, Grid, IconButton } from '@mui/material';
+import { Box, Button, Card, Container, Grid, IconButton } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 import SubmitResetForm from '../../components/SubmitResetForm';
 import UpdateDeleteItem from '../../components/UpdateDeleteItem';
-import { FormikFieldSchema, PersonName } from '../../types/entities/component.typs';
+import { FormikFieldSchema, PersonExternDatabaseId, PersonName } from '../../types/entities/component.typs';
 import AddIcon from '@mui/icons-material/Add';
+import NewItemWithExistingUpdateDeletePreview from '../../components/NewItemWithExistingUpdateDeletePreview';
+import { CreatePersonWithDetailsCommand } from '../../types/api/persons/commands.types';
+import usePersonService from '../../hooks/persons/usePersonService';
 
 type Props = {}
 
 
 const PersonCreate = (props: Props) => {
   const { t } = useTranslation();
-  const [personNames, setPersonNames] = useState<PersonName[]>([])
-  const { v4: uuidv4 } = require('uuid');
+  const {createPerson} = usePersonService();
+  const [personNames, setPersonNames] = useState<PersonName[]>([]);
+  const [personExternDbIds, setPersonExternDbIds] = useState<PersonExternDatabaseId[]>([]);
 
   const basicInfoSchema: FormikFieldSchema[] = [
     {
@@ -38,7 +42,7 @@ const PersonCreate = (props: Props) => {
     },
   ]
 
-  const nameSchema: FormikFieldSchema[] = [
+  const newNameSchema: FormikFieldSchema[] = [
     {
       name: "firstName",
       type: "text",
@@ -52,35 +56,90 @@ const PersonCreate = (props: Props) => {
     {
       name: "nameType",
       type: "text",
-      initValue: ""
+      initValue: "",
     },
   ]
 
-  const handleSubmitForm = (values: any) => {
-    let objectToCreate = Object
-      .keys(values)
-      .reduce(((r, key) => Object.assign(r, (values[key] && { [key]: values[key] }))), {})
-    objectToCreate = Object.assign(objectToCreate, {names: personNames})
-    console.log(objectToCreate)
+  const newExternIdentifier: FormikFieldSchema[] = [
+    {
+      name: 'externIdentifierValue',
+      type: "text",
+      initValue: ""
+    }
+  ]
+
+  const clearObject = (obj: object): object => {
+    return Object
+      .keys(obj)
+      .reduce(((r, key) => Object.assign(r, (obj[key as keyof object] && { [key]: obj[key as keyof object] }))), {})
   }
 
-  const handleNewName = (values: any) => {
-    setPersonNames((prev) => [...prev, values]);
+  const clearValues = (values: any): object[] => {
+    return [...values.map((x: any) => {
+      return clearObject(x);
+    })]
+  }
+
+  const handleSubmitForm = (values: any) => {
+    const clearedNames = clearValues(personNames).filter(x => Object.keys(x).length);
+    const clearedExtIds = clearValues(personExternDbIds).filter(x => Object.keys(x).length);
+    let objectToCreate : CreatePersonWithDetailsCommand = {
+      names: clearedNames,
+      externDatabaseIds: clearedExtIds
+    };
+    objectToCreate = Object.assign(objectToCreate, clearObject(values))
+    console.log(objectToCreate);
+  }
+
+  const handleNewName = (values: any, dirty: boolean) => {
+    if (dirty) {
+      setPersonNames((prev) => [...prev, values]);
+    }
   }
 
   const handleNameDelete = (key: number) => {
     setPersonNames((prev) => {
       let origArray = prev.slice();
-      origArray.splice(key,1);
+      origArray.splice(key, 1);
       return [...origArray];
     })
   }
 
-  const handleNamesUpdate = (key: number, values:any) => {
+  const handleNamesUpdate = (key: number, values: any) => {
+    if(!Object.keys(clearObject(values)).length) {
+      handleNameDelete(key);
+      return;
+    }
     setPersonNames((prev) => {
       let current = prev.slice();
-      current.splice(key,1);
-      return [...current, values];
+      current[key] = values;
+      return [...current];
+    })
+  }
+
+  const handleNewExternId = (values: any, dirty: boolean) => {
+    if (dirty) {
+      setPersonExternDbIds((prev) => [...prev, values]);
+    }
+  }
+
+  const handleExternIdDelete = (key: number) => {
+    setPersonExternDbIds((prev) => {
+      let origArray = prev.slice();
+      origArray.splice(key, 1);
+      return [...origArray];
+    })
+  }
+
+  const handleExternIdUpdate = (key: number, values: any) => {
+    if (!Object.keys(clearObject(values)).length) {
+      handleExternIdDelete(key);
+      return;
+    }
+    setPersonExternDbIds((prev) => {
+      let current = prev.slice();
+      current[key] = values;
+      return [...current];
     })
   }
 
@@ -99,54 +158,32 @@ const PersonCreate = (props: Props) => {
             <Grid container justifyContent="center" spacing={2}>
               <Grid item xs={12}>
                 <Container maxWidth="md">
-                  <SubmitResetForm direction="row" onSubmit={handleSubmitForm} fields={basicInfoSchema} formId="whole-form"/>
+                  <SubmitResetForm direction="row" onSubmit={handleSubmitForm} fields={basicInfoSchema} formId="whole-form" />
                 </Container>
               </Grid>
             </Grid>
             <h2>{t("name")}</h2>
-            <p>{JSON.stringify(personNames)}</p>
-            <Grid container spacing={2} justifyContent="center">
-              <Grid item xs={12}>
-                <Grid container spacing={2} alignItems="center">
-                  <Grid item xs>
-                    <SubmitResetForm direction={"row"} formId="new-name" onSubmit={handleNewName} fields={nameSchema} resetAfterSubmit={true} />
-                  </Grid>
-                  <Grid item xs={1}>
-                    <IconButton form="new-name" color="success" type="submit">
-                      <AddIcon />
-                    </IconButton>
-                  </Grid>
-                </Grid>
-              </Grid>
-              <Grid item xs={12}>
-                <Grid container spacing={2} direction="row">
-                  {personNames.map((x, i) => {
-                    const uid = uuidv4()
-                    return (
-                    <Grid item key={uid} xs={12}>
-                      <p>{JSON.stringify(x)}</p>
-                      <UpdateDeleteItem
-                        formKey={i}
-                        formName={uid}
-                        defaultFieldSchema={nameSchema}
-                        onDelete={handleNameDelete}
-                        onUpdate={handleNamesUpdate}
-                        values={x} />
-                    </Grid>)
-                  }
-                  )}
-                </Grid>
-              </Grid>
-            </Grid>
+            <NewItemWithExistingUpdateDeletePreview 
+            formName="new-name"
+            newItemFormSchema={newNameSchema}
+            existItemFormSchema={newNameSchema}
+            items={personNames}
+            onNewItemSubmit={handleNewName}
+            onItemDelete={handleNameDelete}
+            onEixstItemUpdate={handleNamesUpdate}
+            />
             <h2>{t("externDatabaseIds")}</h2>
-            <Grid container justifyContent="center" spacing={2}>
-              <Grid item xs={12}>
-                <Grid container spacing={2}>
-                </Grid>
-              </Grid>
-            </Grid>
+            <NewItemWithExistingUpdateDeletePreview
+              formName="new-extern-id"
+              newItemFormSchema={newExternIdentifier}
+              existItemFormSchema={newExternIdentifier}
+              items={personExternDbIds}
+              onNewItemSubmit={handleNewExternId}
+              onItemDelete={handleExternIdDelete}
+              onEixstItemUpdate={handleExternIdUpdate}
+            />
           </main>
-          <hr/>
+          <hr />
         </Grid>
         <Grid item xs={2}>
           <footer>

@@ -18,7 +18,7 @@ const PaginationPageSearchBar = (props: Props) => {
     const largeScreen = useMediaQuery(theme.breakpoints.up('md'));
 
     const handleSearchSubmit = (searchValues: any, dirty: boolean) => {
-        if(dirty){
+        if (dirty) {
             const values = Object
                 .keys(searchValues)
                 .reduce(((r, key) => Object.assign(r, (searchValues[key] && { [key]: searchValues[key] }))), {})
@@ -33,7 +33,7 @@ const PaginationPageSearchBar = (props: Props) => {
     return (
         <Grid container direction={largeScreen ? "row" : "column"} spacing={2} alignItems="center">
             <Grid item xs>
-                <SubmitResetForm onSubmit={handleSearchSubmit} onReset={handleSearchReset} fields={searchFields} formId="search-form" direction="row"/>
+                <SubmitResetForm onSubmit={handleSearchSubmit} onReset={handleSearchReset} fields={searchFields} formId="search-form" direction="row" />
             </Grid>
             <Grid item xs={1} alignItems="center" >
                 <IconButton color="primary" form="search-form" type="submit">

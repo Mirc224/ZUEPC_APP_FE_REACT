@@ -17,9 +17,15 @@ export interface FormikFieldSchema {
 }
 
 export interface PersonName {
-    id? : number,
+    id?: number,
     personId?: number,
     firstName?: string,
     lastName?: string,
     nameType?: string
+}
+
+export interface PersonExternDatabaseId {
+    id?: number,
+    personId?: number,
+    externIdentifierValue?: string
 }

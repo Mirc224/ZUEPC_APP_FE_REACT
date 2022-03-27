@@ -16,12 +16,12 @@ const usePersonService = () => {
         });
     }
 
-    const updatePerson = async (id: string, updateUserCommand: UpdatePersonWithDetailsCommand, params: any) => {
-        return axiosPrivateClient.put(apiEndpoints.personEdit.replace(":id", id), { ...updateUserCommand }, { ...params });
-    }
-
     const createPerson = async (createUserCommand: CreatePersonWithDetailsCommand, params: any) => {
         return axiosPrivateClient.post(apiEndpoints.personCreate, { ...createUserCommand }, { ...params });
+    }
+
+    const updatePerson = async (id: string, updateUserCommand: UpdatePersonWithDetailsCommand, params: any) => {
+        return axiosPrivateClient.put(apiEndpoints.personEdit.replace(":id", id), { ...updateUserCommand }, { ...params });
     }
 
     const deletePerson = async (id: string, params: any) => {
@@ -30,7 +30,7 @@ const usePersonService = () => {
         });
     }
 
-    return { getPersons, getPerson };
+    return { getPersons, getPerson, createPerson, updatePerson, deletePerson };
 }
 
 export default usePersonService;

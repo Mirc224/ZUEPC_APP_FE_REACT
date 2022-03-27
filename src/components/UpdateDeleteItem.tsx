@@ -11,7 +11,7 @@ type Props = {
     defaultFieldSchema: FormikFieldSchema[],
     values: any,
     direction?: any,
-    onDelete: (key: number) => void
+    onDelete?: (key: number) => void
     onUpdate?: (key: number, values: any) => void
 }
 
@@ -34,11 +34,8 @@ const UpdateDeleteItem = (props: Props) => {
     });
 
     useEffect(() => {
-        console.log(`Nasadeny ${formName}`)
-
         return () => {
             _isMounted.current = false;
-            console.log(`Odstaveny ${formName}`)
         }
     }, [])
 
@@ -46,7 +43,7 @@ const UpdateDeleteItem = (props: Props) => {
     const formId = formName + formKey;
 
     const handleFormChange = (values: any, dirty: boolean) => {
-        //setEdited(dirty);
+        setEdited(dirty);
     }
 
     return (
@@ -65,12 +62,14 @@ const UpdateDeleteItem = (props: Props) => {
                         resetAfterSubmit={true} />
                 </Grid>
                 <Grid item xs={1}>
+                    { onUpdate &&
                     <IconButton form={formId} color="primary" disabled={!edited} type="submit">
                         <CheckIcon />
-                    </IconButton>
+                    </IconButton> }
+                    { onDelete &&
                     <IconButton color="error" onClick={() => onDelete(formKey)}>
                         <ClearIcon />
-                    </IconButton>
+                    </IconButton>}
                 </Grid>
             </Grid>}
         </>

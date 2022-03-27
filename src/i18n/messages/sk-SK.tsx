@@ -72,6 +72,7 @@ const lan = {
             nameType: "Typ mena",
             
             // Common
+            externIdentifierValue: "Hodnota ID v externej databáze",
             unknown: "Neznáme",
             alternativeObject: "Alternatívne",
             name: "Meno",

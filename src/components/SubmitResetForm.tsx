@@ -1,5 +1,5 @@
 import { Grid, TextField, useMediaQuery, useTheme } from '@mui/material'
-import { useFormik } from 'formik'
+import { FormikErrors, FormikTouched, useFormik } from 'formik'
 import React, { useEffect, useRef } from 'react'
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next'
@@ -22,24 +22,19 @@ const SubmitResetForm = (props: Props) => {
     const initValues = fields.reduce(((r, c) => Object.assign(r, { [c.name]: c.initValue })), {})
     const theme = useTheme();
     const largeScreen = useMediaQuery(theme.breakpoints.up('md'));
-    // const validationSchema = yup.object(
-    //     fields.reduce(((r, c) => Object.assign(r, { [c.name]: c.validationSchema })), {})
-    // )
+    const validationSchema = yup.object(
+        fields.reduce(((r, c) => Object.assign(r, { [c.name]: c.validationSchema })), {})
+    )
 
-    const validationSchema = yup.object({})
     useEffect(() => {
 
         return () => {
             _isMounted.current = false;
-            console.log("Odstavujem form " + formId)
         }
     }, [])
     const handleSubmit = (values: any) => {
-        if (!_isMounted.current) {
-            return;
-        }
         onSubmit(values, formik.dirty);
-        if (resetAfterSubmit) {
+        if (resetAfterSubmit && _isMounted.current) {
             formik.handleReset(null);
         }
     }
@@ -52,34 +47,30 @@ const SubmitResetForm = (props: Props) => {
     });
 
     useEffect(() => {
-        if (!_isMounted.current) {
-            return;
-        }
         // let isMounted = true;
-        // onValueChange && isMounted && onValueChange(formik.values, formik.dirty);
-        // return () => {
-        //     isMounted = false;
-        // }
+        onValueChange && onValueChange(formik.values, formik.dirty);
     }, [formik.values])
 
     return (
-        <form id={formId} onSubmit={(e) => _isMounted.current && formik.handleSubmit(e)} onReset={(e) => _isMounted.current && formik.handleReset(e)}>
-            <p>{JSON.stringify(_isMounted.current)}</p>
+            
+        <form id={formId} onSubmit={(e) => formik.handleSubmit(e)} onReset={(e) => formik.handleReset(e)}>
             <Grid container direction={direction && largeScreen ? direction : "column"} spacing={2} justifyContent="center">
-                {_isMounted.current && fields.map((x) =>
+                {fields.map((x) =>
                     <Grid key={x.name} item xs>
                         <TextField
                             fullWidth
                             {...x.fieldProps}
                             name={x.name}
                             label={t(x.name)}
-                            value={_isMounted.current && (formik.values as any)[x.name]}
-                            onChange={(e) => { _isMounted.current && formik.handleChange(e) }}
-                            error={_isMounted.current && (formik.touched as any)[x.name] && Boolean((formik.errors as any)[x.name])}
-                            helperText={_isMounted.current &&
-                                (formik.touched as any)[x.name] &&
-                                    (formik.errors as any)[x.name] ?
-                                    t((formik.errors as any)[x.name],
+                            value={formik.values[x.name as keyof {}]}
+                            onChange={(e) => { formik.handleChange(e) }}
+                            error={
+                                formik.touched[x.name as keyof FormikTouched<{}>] && 
+                                Boolean(formik.errors[x.name as keyof FormikErrors<{}>])}
+                            helperText={
+                                formik.touched[x.name as keyof FormikTouched<{}>] &&
+                                formik.errors[x.name as keyof FormikErrors<{}>] ?
+                                    t(formik.errors[x.name as keyof FormikErrors<{}>],
                                         { what: t(x.labelTranslationKey ? x.labelTranslationKey : x.name) })
                                     : null}
                         />

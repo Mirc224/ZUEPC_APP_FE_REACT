@@ -74,6 +74,7 @@ const lan =  {
             nameType: "Name type",
             
             // Common
+            externIdentifierValue: "Extern database ID value",
             unknown: "Unknown",
             alternativeObject: "Alternative",
             name: "Name",
