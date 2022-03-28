@@ -1,6 +1,6 @@
 import { Button, Grid, IconButton } from '@mui/material'
-import { FormikFieldSchema } from '../types/common/component.types'
-import SubmitResetForm from './SubmitResetForm'
+import { FormikFieldSchema } from '../../types/common/component.types'
+import SubmitResetForm from '../SubmitResetForm'
 import ClearIcon from '@mui/icons-material/Clear';
 import { useEffect, useRef, useState } from 'react';
 import CheckIcon from '@mui/icons-material/Check';

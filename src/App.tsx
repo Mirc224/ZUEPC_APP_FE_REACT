@@ -16,51 +16,13 @@ import PersistLogin from './components/PersistLogin';
 import Missing from './views/Missing';
 import PersonRoutes from './views/persons/PersonRouter';
 import { ThemeProvider } from '@emotion/react';
-import { Container, createTheme, Grid, TextField } from '@mui/material';
-import {Formik, Form, yupToFormErrors} from 'formik';
-import * as yup from 'yup';
-import TextFieldWrapper from './components/TextFieldWrapper';
+import { createTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
 function App() {
-  const {t} = useTranslation();
-  // const INITIAL_FORM_STATE = {
-  //     firstName: 'asss',
-  //     lastName: 'ddd'
-  // };
-  // const FORM_VALIDATION = yup.object().shape({
-  //   firstName: yup.string().required('isRequiredHe'),
-  //   lastName: yup.string().required(t('isRequiredHe', {what: t('firstName')})),
-  // });
-
-
+  
   const theme = createTheme();
   return (
-    // <Grid container>
-    //   <Grid item xs={12}>
-    //     <Grid item xs={12}>
-    //       <Container maxWidth="md">
-    //         <Formik
-    //         initialValues={{...INITIAL_FORM_STATE}}
-    //         validationSchema={FORM_VALIDATION}
-    //         onSubmit={values => console.log(values)}
-    //         >
-    //           <Form>
-    //             <Grid item xs={6}>
-    //               <TextFieldWrapper
-    //               label={t("firstName")}
-    //               name="firstName"/>
-    //               <TextFieldWrapper
-    //               label={t("firstName")}
-    //               name="lastName"
-    //               />
-    //             </Grid>
-    //           </Form>
-    //         </Formik>
-    //       </Container>
-    //     </Grid>
-    //   </Grid>
-    // </Grid>
     <ThemeProvider theme={theme}>
       <Routes>
         <Route element={<PersistLogin />}>

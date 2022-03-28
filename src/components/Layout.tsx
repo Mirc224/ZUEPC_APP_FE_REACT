@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import { useTranslation } from 'react-i18next';
 import { Outlet } from 'react-router'
 import { LOCALES } from '../i18n/locales';
-import TheNav from './TheNav'
+import TheNav from './common/TheNav'
 
 type Props = {}
 

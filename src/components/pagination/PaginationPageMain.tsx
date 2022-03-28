@@ -1,6 +1,5 @@
 import { Grid } from '@mui/material'
-import React from 'react'
-import LoadingScreen from './LoadingScreen'
+import LoadingScreen from '../common/LoadingScreen';
 
 type Props = {
     children: any,

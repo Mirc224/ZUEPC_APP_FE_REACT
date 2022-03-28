@@ -3,11 +3,11 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 type Props = {
-    fullScreen: boolean,
-    open: boolean,
-    dialogTitle: string,
-    onClose: () => void,
-    onConfirmation: () => void,
+    fullScreen?: boolean,
+    open?: boolean,
+    dialogTitle?: string,
+    onClose?: () => void,
+    onConfirmation?: () => void,
 }
 
 const DeleteDialog = (props: Props) => {
@@ -16,7 +16,7 @@ const DeleteDialog = (props: Props) => {
   return (
       <Dialog
           fullScreen={fullScreen}
-          open={open}
+          open={open || false}
           onClose={onClose}
           aria-labelledby="responsive-dialog-title"
       >

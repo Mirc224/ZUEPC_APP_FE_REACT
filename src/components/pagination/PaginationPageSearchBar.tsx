@@ -1,9 +1,9 @@
 import { Button, IconButton, useMediaQuery, useTheme } from '@mui/material'
 import Grid from '@mui/material/Grid'
 import { useTranslation } from 'react-i18next'
-import { FormikFieldSchema } from '../types/common/component.types'
-import SubmitResetForm from './SubmitResetForm'
 import SearchIcon from '@mui/icons-material/Search';
+import SubmitResetForm from '../SubmitResetForm';
+import { FormikFieldSchema } from '../../types/common/component.types';
 
 type Props = {
     searchFields: FormikFieldSchema[],

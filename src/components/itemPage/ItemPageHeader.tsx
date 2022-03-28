@@ -1,8 +1,8 @@
 import { Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import roles from '../constatns/roles.constants'
-import { permissionHelper } from '../helpers/permission.helper'
-import useAuth from '../hooks/auth/useAuth'
+import roles from '../../constatns/roles.constants'
+import { permissionHelper } from '../../helpers/permission.helper'
+import useAuth from '../../hooks/auth/useAuth'
 import EditPanel from './EditPanel'
 
 type Props = {

@@ -1,7 +1,7 @@
 import { Box, Card, Grid, IconButton } from '@mui/material'
-import SubmitResetForm from './SubmitResetForm'
+import SubmitResetForm from '../SubmitResetForm'
 import AddIcon from '@mui/icons-material/Add';
-import { FormikFieldSchema } from '../types/common/component.types';
+import { FormikFieldSchema } from '../../types/common/component.types';
 import UpdateDeleteItem from './UpdateDeleteItem';
 
 type Props<T> = {
@@ -62,8 +62,7 @@ const NewItemWithExistingUpdateDeletePreview = <T extends object>(props: Props<T
                                     </Box>
                                 </Card>
                             </Grid>)
-                    }
-                    )}
+                    })}
                 </Grid>
             </Grid>
         </Grid>

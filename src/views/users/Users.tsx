@@ -1,15 +1,16 @@
 
-import { useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import useUserService from '../../hooks/users/useUserService';
 import UserPreview from '../../components/users/UserPreview';
 import { Grid } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { UserDetailEntity } from '../../types/auth/entities.types';
-import PaginationPageHeader from '../../components/PaginationPageHeader';
-import PaginationPageFooter from '../../components/PaginationPageFooter';
 import { FormikFieldSchema, PaginationSearchBarField } from '../../types/common/component.types';
-import PaginationPageSearchBar from '../../components/PaginationPageSearchBar';
-import PaginationPageMain from '../../components/PaginationPageMain';
+import PaginationPageSearchBar from '../../components/pagination/PaginationPageSearchBar';
+import PaginationPageHeader from '../../components/pagination/PaginationPageHeader';
+import PaginationPageMain from '../../components/pagination/PaginationPageMain';
+import PaginationPageFooter from '../../components/pagination/PaginationPageFooter';
+import PaginationPageBase from '../../components/pagination/PaginationPageBase';
 
 const rowsPerPageArray = [5, 10, 15];
 type Props = {}
@@ -19,26 +20,9 @@ const Users = (props: Props) => {
   const [isLoading, setIsLoading] = useState(false);
   const { getUsers } = useUserService();
   const [users, setUsers] = useState<UserDetailEntity[]>();
-  const [page, setPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageArray[0]);
   const [totalRecords, setTotalRecords] = useState(0);
-  const [searchQuery, setSearchQuery] = useState({})
+  const [queryParams, setQueryParams] = useState({})
 
-  const searchFields: PaginationSearchBarField[] = [
-    {
-      value: '',
-      labelTranslationKey: 'nameAndSurnameSearch',
-      type: "text",
-      name: "name"
-    },
-    {
-      value: '',
-      labelTranslationKey: 'email',
-      type: "text",
-      name: "email"
-    }
-  ]
-  
   const schema: FormikFieldSchema[] = [
     {
       name: "name",
@@ -59,21 +43,13 @@ const Users = (props: Props) => {
     setIsLoading(true);
     let isMounted = true;
     const controller = new AbortController();
-    const params = Object.assign({
-      pageNumber: page,
-      pageSize: rowsPerPage
-    },
-      {...searchQuery}
-    )
     getUsers({
-      params: params,
+      params: queryParams,
       signal: controller.signal
     })
       .then((response) => {
         isMounted && setUsers(response.data.data);
         setTotalRecords(response.data.totalRecords);
-        setPage(response.data.pageNumber);
-        setRowsPerPage(response.data.pageSize);
         setIsLoading(false);
       })
       .catch((err) => {
@@ -84,32 +60,7 @@ const Users = (props: Props) => {
       isMounted = false;
       controller.abort();
     }
-  }, [page, rowsPerPage, searchQuery])
-
-
-  const handleChangePage = (
-    event: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number
-  ) => {
-    setPage(newPage + 1);
-  };
-
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(1);
-  };
-
-  const handleSearchSubmit = (values: any) => {
-    setSearchQuery({ ...values })
-    setPage(1);
-  }
-
-  const handleSearchReset = () => {
-    setSearchQuery({})
-    setPage(1);
-  }
+  }, [queryParams])
 
   const ShowObjects = () => {
     return (
@@ -119,44 +70,32 @@ const Users = (props: Props) => {
             <Grid item key={user.id} xs={12}>
               <UserPreview user={user} />
             </Grid>)}
-        </Grid> 
+        </Grid>
         : false
     )
   }
 
+  const handleQueryParamsChange = (queryParams: any) => {
+    setQueryParams(queryParams);
+  }
+
   return (
-    <Grid container direction='column' spacing={2}>
-      <Grid item xs={12}>
-        <PaginationPageHeader title={t('userList')}>
-          <Grid item xs>
-            <PaginationPageSearchBar
-              onSearchSubmit={handleSearchSubmit}
-              onSearchReset={handleSearchReset}
-              searchFields={schema}
-            />
-          </Grid>
-          {/* <Grid item xs>
-            <SubmitResetForm onSubmit={handleSearchSubmit} onReset={handleSearchReset} fields={schema} formId="search-form" direction="row" />
-          </Grid> */}
-        </PaginationPageHeader>
-      </Grid>
-      <Grid item xs={12}>
+      <PaginationPageBase
+        title={t('userList')}
+        canEditRoles={[]}
+        rowsPerPageList={rowsPerPageArray}
+        searchBarFormSchema={schema}
+        totalRecords={totalRecords}
+        onQueryParameterChange={handleQueryParamsChange}
+        onSearchSubmit={handleQueryParamsChange}
+        onSearchReset={handleQueryParamsChange}
+      >
         <PaginationPageMain
           isLoading={isLoading}
           noResultsMessage={t('noObjectsToDisplay', { what: t('users').toLowerCase() })}>
           {ShowObjects()}
         </PaginationPageMain>
-      </Grid>
-      <Grid item xs={12}>
-        <PaginationPageFooter
-          page={page}
-          rowsPerPage={rowsPerPage}
-          totalRecords={totalRecords}
-          rowsPerPageArray={rowsPerPageArray}
-          onChangePage={handleChangePage}
-          onChangeRowsPerPage={handleChangeRowsPerPage} />
-      </Grid>
-    </Grid>
+      </PaginationPageBase>
   )
 }
 

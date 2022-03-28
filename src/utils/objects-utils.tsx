@@ -1,3 +1,4 @@
+import { ChangeableItem } from "../types/common/component.types";
 
 export const clearObject = <T extends object>(obj: any): T => {
     return Object
@@ -9,4 +10,11 @@ export const clearValues = <T extends object>(values: T[]): T[] => {
     return [...values.map((x: T) => {
         return clearObject<T>(x);
     })]
+}
+
+export const clearChangeableItemValues = 
+<T extends object>(values: ChangeableItem<T>[]): ChangeableItem<T>[] => {
+    return [...values.map((x): ChangeableItem<T> => {
+        return { item: clearObject<T>(x.item), changed: x.changed }
+    }).filter(x => Object.keys(x.item).length)];
 }

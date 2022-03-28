@@ -3,7 +3,7 @@ import { useState, useEffect} from 'react';
 import useRefreshToken from '../hooks/auth/useRefreshToken';
 import useAuth from '../hooks/auth/useAuth';
 import { authHelper } from '../helpers/auth.helper';
-import LoadingScreen from './LoadingScreen';
+import LoadingScreen from './common/LoadingScreen';
 
 const PersistLogin = () => {
     const [isLoading, setIsLoading] = useState(true);

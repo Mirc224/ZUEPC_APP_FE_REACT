@@ -3,9 +3,9 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 import DeleteDialog from '../../components/dialog/DeleteDialog';
-import ItemDataSection from '../../components/ItemDataSection';
-import ItemPageHeader from '../../components/ItemPageHeader';
-import LoadingScreen from '../../components/LoadingScreen';
+import ItemDataSection from '../../components/itemPage/ItemDataSection';
+import ItemPageHeader from '../../components/itemPage/ItemPageHeader';
+import LoadingScreen from '../../components/common/LoadingScreen';
 import routes from '../../endpoints/routes.endpoints';
 import usePersonService from '../../hooks/persons/usePersonService';
 import { PersonDetailsEntity, PersonNameEntity } from '../../types/persons/entities.types';
@@ -93,11 +93,11 @@ const PersonDetail = (props: Props) => {
                     />
                     <main>
                         <ItemDataSection title={`${t("basic")} ${t('informations').toLowerCase()}`} >
-                            {person.birthYear &&
+                            {(person.birthYear || person.birthYear === 0) &&
                                 <Typography component="p" variant="body2">
                                     <strong>{t('birthYear')}:</strong> {person.birthYear}
                                 </Typography>}
-                            {person.deathYear &&
+                            {(person.deathYear || person.deathYear === 0) &&
                                 <Typography component="p" variant="body2">
                                     <strong>{t('deathYear')}:</strong> {person.deathYear}
                                 </Typography>}

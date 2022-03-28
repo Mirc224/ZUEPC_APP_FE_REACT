@@ -5,8 +5,8 @@ import routes from '../../endpoints/routes.endpoints';
 import useAuth from '../../hooks/auth/useAuth';
 import useUserService from '../../hooks/users/useUserService';
 import { Container } from '@mui/material';
-import LoadingScreen from '../../components/LoadingScreen';
-import ItemPageHeader from '../../components/ItemPageHeader';
+import LoadingScreen from '../../components/common/LoadingScreen';
+import ItemPageHeader from '../../components/itemPage/ItemPageHeader';
 import { UserRole } from '../../enums/role.enum';
 import { UserDetailEntity } from '../../types/auth/entities.types';
 
