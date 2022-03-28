@@ -1,10 +1,8 @@
-import { useState, useEffect, ReactElement } from 'react';
-import { useLocation, useNavigate } from 'react-router';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router';
 import { Button, Grid} from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { ApiPersonPreview } from '../../types/api/persons/entities.types';
 import usePersonService from '../../hooks/persons/usePersonService';
-import PersonPreview from '../../components/persons/PersonPreview';
 import AddIcon from '@mui/icons-material/Add';
 import roles from '../../constatns/roles.constants';
 import { permissionHelper } from '../../helpers/permission.helper';
@@ -13,8 +11,10 @@ import routes from '../../endpoints/routes.endpoints';
 import PaginationPageFooter from '../../components/PaginationPageFooter';
 import PaginationPageHeader from '../../components/PaginationPageHeader';
 import PaginationPageSearchBar from '../../components/PaginationPageSearchBar';
-import { FormikFieldSchema } from '../../types/entities/component.typs';
+import { FormikFieldSchema } from '../../types/common/component.types';
 import PaginationPageMain from '../../components/PaginationPageMain';
+import { PersonPreviewEntity } from '../../types/persons/entities.types';
+import PersonPreview from '../../components/persons/PersonPreview';
 
 const rowsPerPageArray = [5, 10, 15];
 type Props = {}
@@ -26,7 +26,7 @@ const Users = (props: Props) => {
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const { getPersons } = usePersonService();
-  const [persons, setPersons] = useState<ApiPersonPreview[]>();
+  const [persons, setPersons] = useState<PersonPreviewEntity[]>();
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageArray[0]);
   const [totalRecords, setTotalRecords] = useState(0);

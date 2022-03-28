@@ -2,7 +2,7 @@ import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import { Button, Container, Grid, TextField } from '@mui/material';
-import { LoginUserCommand } from '../types/api/auth/commands.types';
+import { LoginUserCommand } from '../types/auth/commands.types';
 import { axiosClient } from '../utils/axios-utils';
 import apiEndpoints from '../endpoints/api.endpoints';
 import routes from '../endpoints/routes.endpoints';

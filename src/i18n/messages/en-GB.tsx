@@ -46,6 +46,7 @@ const lan =  {
             missingMessage: "Page does not exist",
             unauthorized: "Unauthorized",
             noObjectsToDisplay: "No {{what}} to display",
+            permanentAction: "This action is permanent",
 
             // Controls
             rowsPerPage: "Rows per page",
@@ -60,6 +61,7 @@ const lan =  {
             add: "Add",
             new: "New",
             newShe: "New",
+            close: "Close",
             
             // Users
             userPage: "User",

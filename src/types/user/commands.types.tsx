@@ -1,4 +1,4 @@
-import { UserRole } from "../../../enums/role.enum"
+import { UserRole } from "../../enums/role.enum"
 
 export interface UpdateUserCommand {
     firstName: string,

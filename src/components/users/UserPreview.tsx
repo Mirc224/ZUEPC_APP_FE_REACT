@@ -3,11 +3,11 @@ import useAuth from '../../hooks/auth/useAuth'
 import roles from '../../constatns/roles.constants';
 import routes from '../../endpoints/routes.endpoints';
 import { useEffect, useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { ApiUserDetail } from '../../types/api/auth/entities.types';
+import {  useNavigate } from 'react-router-dom';
+import { UserDetailEntity } from '../../types/auth/entities.types';
 
 type Props = {
-    user: ApiUserDetail
+    user: UserDetailEntity
 }
 
 const UserPreview = (props: Props) => {

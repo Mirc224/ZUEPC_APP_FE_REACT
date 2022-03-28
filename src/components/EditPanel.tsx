@@ -1,17 +1,25 @@
 import { IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 type Props = {
-    onClick: () => void;
+  onEditClick?: () => void,
+  onDeleteClick?: () => void;
 }
 
 const EditPanel = (props: Props) => {
-    const {onClick} = props;
+  const { onEditClick, onDeleteClick} = props;
   return (
     <div>
-        <IconButton onClick={()=> onClick()} aria-label="edit">
-            <EditIcon/>
-        </IconButton>
+      { onEditClick &&
+      <IconButton onClick={() => onEditClick()} aria-label="edit" color="primary">
+        <EditIcon />
+      </IconButton>}
+      {onDeleteClick &&
+        <IconButton onClick={() => onDeleteClick()} aria-label="delete" color="error">
+        <DeleteForeverIcon />
+      </IconButton>
+      }
     </div>
   )
 }

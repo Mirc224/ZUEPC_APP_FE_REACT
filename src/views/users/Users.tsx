@@ -4,13 +4,12 @@ import useUserService from '../../hooks/users/useUserService';
 import UserPreview from '../../components/users/UserPreview';
 import { Grid } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { ApiUserDetail } from '../../types/api/auth/entities.types';
+import { UserDetailEntity } from '../../types/auth/entities.types';
 import PaginationPageHeader from '../../components/PaginationPageHeader';
 import PaginationPageFooter from '../../components/PaginationPageFooter';
-import { FormikFieldSchema, PaginationSearchBarField } from '../../types/entities/component.typs';
+import { FormikFieldSchema, PaginationSearchBarField } from '../../types/common/component.types';
 import PaginationPageSearchBar from '../../components/PaginationPageSearchBar';
 import PaginationPageMain from '../../components/PaginationPageMain';
-import SubmitResetForm from '../../components/SubmitResetForm';
 
 const rowsPerPageArray = [5, 10, 15];
 type Props = {}
@@ -19,7 +18,7 @@ const Users = (props: Props) => {
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const { getUsers } = useUserService();
-  const [users, setUsers] = useState<ApiUserDetail[]>();
+  const [users, setUsers] = useState<UserDetailEntity[]>();
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageArray[0]);
   const [totalRecords, setTotalRecords] = useState(0);

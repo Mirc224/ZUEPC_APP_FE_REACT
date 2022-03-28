@@ -1,5 +1,3 @@
-import { Dispatch, SetStateAction } from "react";
-
 export interface PaginationSearchBarField {
     value: string,
     labelTranslationKey: string,
@@ -16,16 +14,12 @@ export interface FormikFieldSchema {
     fieldProps?: any
 }
 
-export interface PersonName {
-    id?: number,
-    personId?: number,
-    firstName?: string,
-    lastName?: string,
-    nameType?: string
+
+export interface ZUEPCEntityBase {
+    id?: number
 }
 
-export interface PersonExternDatabaseId {
-    id?: number,
-    personId?: number,
-    externIdentifierValue?: string
+export interface ChangeableItem<T> {
+    changed: boolean,
+    item: T
 }

@@ -1,14 +1,12 @@
 import { Card, CardActionArea, CardContent, CardHeader } from '@mui/material'
-import useAuth from '../../hooks/auth/useAuth'
-import roles from '../../constatns/roles.constants';
 import routes from '../../endpoints/routes.endpoints';
 import { ReactElement } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { ApiPersonPreview } from '../../types/api/persons/entities.types';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { PersonPreviewEntity } from '../../types/persons/entities.types';
 
 type Props = {
-    person: ApiPersonPreview
+    person: PersonPreviewEntity
 }
 
 const UserPreview = (props: Props) => {

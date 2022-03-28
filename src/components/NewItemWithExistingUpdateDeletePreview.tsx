@@ -1,7 +1,7 @@
 import { Box, Card, Grid, IconButton } from '@mui/material'
 import SubmitResetForm from './SubmitResetForm'
 import AddIcon from '@mui/icons-material/Add';
-import { FormikFieldSchema } from '../types/entities/component.typs';
+import { FormikFieldSchema } from '../types/common/component.types';
 import UpdateDeleteItem from './UpdateDeleteItem';
 
 type Props<T> = {
@@ -9,9 +9,9 @@ type Props<T> = {
     newItemFormSchema: FormikFieldSchema[],
     existItemFormSchema: FormikFieldSchema[],
     items: T[],
-    onNewItemSubmit: (values: any, dirty: boolean) => void,
+    onNewItemSubmit: (values: T, dirty: boolean) => void,
     onItemDelete?: (key: number) => void,
-    onEixstItemUpdate?: (values: any, dirty: boolean) => void,
+    onEixstItemUpdate?: (key: number, values: T) => void,
 }
 
 const NewItemWithExistingUpdateDeletePreview = <T extends object>(props: Props<T>) => {

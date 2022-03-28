@@ -1,6 +1,6 @@
 import useAxiosPrivate from "../useAxiosPrivate";
 import apiEndpoints from "../../endpoints/api.endpoints";
-import { UpdateUserCommand, UpdateUserRolesCommand } from "../../types/api/user/commands.types";
+import { UpdateUserCommand, UpdateUserRolesCommand } from "../../types/user/commands.types";
 
 const useUserService = () => {
     const axiosPrivateClient = useAxiosPrivate();

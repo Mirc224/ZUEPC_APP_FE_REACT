@@ -1,21 +1,21 @@
 import { Button, Grid, IconButton } from '@mui/material'
-import { FormikFieldSchema } from '../types/entities/component.typs'
+import { FormikFieldSchema } from '../types/common/component.types'
 import SubmitResetForm from './SubmitResetForm'
 import ClearIcon from '@mui/icons-material/Clear';
 import { useEffect, useRef, useState } from 'react';
 import CheckIcon from '@mui/icons-material/Check';
 
-type Props = {
+type Props<T> = {
     formKey: number,
     formName: string,
     defaultFieldSchema: FormikFieldSchema[],
-    values: any,
+    values: T,
     direction?: any,
     onDelete?: (key: number) => void
-    onUpdate?: (key: number, values: any) => void
+    onUpdate?: (key: number, values: T) => void
 }
 
-const UpdateDeleteItem = (props: Props) => {
+const UpdateDeleteItem = <T extends object>(props: Props<T>) => {
     const {
         formKey,
         formName,
@@ -27,8 +27,8 @@ const UpdateDeleteItem = (props: Props) => {
     const _isMounted = useRef(true);
     const [edited, setEdited] = useState(true);
     const newSchema = defaultFieldSchema.map((x) => {
-        if (values[x.name] || values[x.name] === "") {
-            return { ...x, initValue: values[x.name] }
+        if (values[x.name as keyof object] || values[x.name as keyof object] === "") {
+            return { ...x, initValue: values[x.name as keyof object] }
         }
         return x;
     });

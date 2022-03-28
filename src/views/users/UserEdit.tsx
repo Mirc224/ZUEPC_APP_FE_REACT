@@ -1,18 +1,17 @@
 import * as yup from 'yup';
-import { Box, Button, Checkbox, Container, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, Paper, TextField } from '@mui/material';
+import { Button, Checkbox, Container, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, TextField } from '@mui/material';
 import { useFormik } from 'formik';
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 import useUserService from '../../hooks/users/useUserService';
-import ClipLoader from 'react-spinners/ClipLoader';
-import { UserRole } from '../../enums/role.enum';
-import { ApiUserDetail } from '../../types/api/auth/entities.types';
+import { UserDetailEntity } from '../../types/auth/entities.types';
 import { permissionHelper } from '../../helpers/permission.helper';
 import roles from '../../constatns/roles.constants';
 import useAuth from '../../hooks/auth/useAuth';
 import routes from '../../endpoints/routes.endpoints';
 import { authHelper } from '../../helpers/auth.helper';
+import { UserRole } from '../../enums/role.enum';
 import LoadingScreen from '../../components/LoadingScreen';
 
 
@@ -40,7 +39,7 @@ const UserEdit = (props: Props) => {
         }
     ]);
     const { auth } = useAuth();
-    const [user, setUser] = useState<ApiUserDetail>(undefined!);
+    const [user, setUser] = useState<UserDetailEntity>(undefined!);
     const { id } = useParams();
     const { t } = useTranslation();
     const { getUser, updateUser, updateUserRoles } = useUserService();
@@ -75,7 +74,7 @@ const UserEdit = (props: Props) => {
                 signal: controller.signal
             })
                 .then((response) => {
-                    const editedUser = response.data as ApiUserDetail;
+                    const editedUser = response.data as UserDetailEntity;
                     setUser(editedUser);
                     if (isMounted) {
                         formik.setValues({ ...response.data });

@@ -44,6 +44,7 @@ const lan = {
             missingMessage: "Stránka neexistuje",
             unauthorized: "Neoprávnený",
             noObjectsToDisplay: "Nenašli sa {{what}} na zobrazenie",
+            permanentAction: "Táto akcia je permanentná",
 
             // Controls
             rowsPerPage: "Záznamov na stránku",
@@ -58,6 +59,7 @@ const lan = {
             add: "Pridať",
             new: "Nový",
             newShe: "Nová",
+            close: "Zatvoriť",
             
             // Users
             roles: "Role",

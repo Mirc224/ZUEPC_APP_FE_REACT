@@ -3,7 +3,7 @@ import { FormikErrors, FormikTouched, useFormik } from 'formik'
 import React, { useEffect, useRef } from 'react'
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next'
-import { FormikFieldSchema } from '../types/entities/component.typs'
+import { FormikFieldSchema } from '../types/common/component.types'
 
 type Props = {
     fields: FormikFieldSchema[],

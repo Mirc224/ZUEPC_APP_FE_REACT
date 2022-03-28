@@ -1,8 +1,7 @@
 import jwt_decode from "jwt-decode";
 import { UserAuthContent } from "../contexts/AuthContext";
 import authStorageNames  from '../constatns/auth.constants'
-import { ApiAuthResponse } from "../types/api/auth/entities.types";
-import { ApiJwtToken } from "../types/entities/auth/entities.types";
+import { AuthResponseEntity, JwtTokenEntity } from "../types/auth/entities.types";
 
 export const authHelper = {
     getUserAuthToken,
@@ -12,8 +11,8 @@ export const authHelper = {
     getAccessToken
 };
 
-function getUserAuthToken(authResponse: ApiAuthResponse): UserAuthContent {
-    const decodedToken = jwt_decode(authResponse.token) as ApiJwtToken;
+function getUserAuthToken(authResponse: AuthResponseEntity): UserAuthContent {
+    const decodedToken = jwt_decode(authResponse.token) as JwtTokenEntity;
     const roles = ([] as string[]).concat(decodedToken.role);
     return {
         id: decodedToken.user_id,
