@@ -8,6 +8,7 @@ import { UserDetailEntity } from '../../types/auth/entities.types';
 import { FormikFieldSchema } from '../../types/common/component.types';
 import PaginationPageBase from '../../components/pagination/PaginationPageBase';
 import PaginationPageMain from '../../components/pagination/PaginationPageMain';
+import { userSearchSchema } from '../../form-schemas/user.schema';
 
 type Props = {}
 
@@ -17,28 +18,18 @@ const Users = (props: Props) => {
   const { getUsers } = useUserService();
   const [users, setUsers] = useState<UserDetailEntity[]>();
   const [totalRecords, setTotalRecords] = useState(0);
-  const [queryParams, setQueryParams] = useState({})
+  const [queryParams, setQueryParams] = useState({
+    pageNumber: 1,
+    pageSize: 5
+  })
 
-  const schema: FormikFieldSchema[] = [
-    {
-      name: "name",
-      labelTranslationKey: 'nameAndSurnameSearch',
-      initValue: "",
-      type: "text",
-    },
-    {
-      initValue: '',
-      labelTranslationKey: 'email',
-      type: "text",
-      name: "email"
-    },
-  ]
-
+  const schema: FormikFieldSchema[] = userSearchSchema;
 
   useEffect(() => {
-    setIsLoading(true);
     let isMounted = true;
     const controller = new AbortController();
+    setIsLoading(true);
+    console.log(queryParams)
     getUsers({
       params: queryParams,
       signal: controller.signal
@@ -51,7 +42,6 @@ const Users = (props: Props) => {
       .catch((err) => {
         console.error(err);
       })
-
     return () => {
       isMounted = false;
       controller.abort();
@@ -76,21 +66,21 @@ const Users = (props: Props) => {
   }
 
   return (
-      <PaginationPageBase
-        title={t('userList')}
-        canEditRoles={[]}
-        searchBarFormSchema={schema}
-        totalRecords={totalRecords}
-        onQueryParameterChange={handleQueryParamsChange}
-        onSearchSubmit={handleQueryParamsChange}
-        onSearchReset={handleQueryParamsChange}
-      >
-        <PaginationPageMain
-          isLoading={isLoading}
-          noResultsMessage={t('noObjectsToDisplay', { what: t('users').toLowerCase() })}>
-          {ShowObjects()}
-        </PaginationPageMain>
-      </PaginationPageBase>
+    <PaginationPageBase
+      title={t('userList')}
+      canEditRoles={[]}
+      searchBarFormSchema={schema}
+      totalRecords={totalRecords}
+      onQueryParameterChange={handleQueryParamsChange}
+      onSearchSubmit={handleQueryParamsChange}
+      onSearchReset={handleQueryParamsChange}
+    >
+      <PaginationPageMain
+        isLoading={isLoading}
+        noResultsMessage={t('noObjectsToDisplay', { what: t('users').toLowerCase() })}>
+        {ShowObjects()}
+      </PaginationPageMain>
+    </PaginationPageBase>
   )
 }
 

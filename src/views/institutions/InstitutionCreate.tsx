@@ -13,7 +13,7 @@ import ItemDataSection from '../../components/itemPage/ItemDataSection';
 import { Grid } from '@mui/material';
 import SubmitResetForm from '../../components/SubmitResetForm';
 import NewItemWithExistingUpdateDeletePreview from '../../components/itemPage/NewItemWithExistingUpdateDeletePreview';
-import { institutionBasicInfoSchema, institutionExternIdentifierSchema, institutionNameSchema } from '../../validation-schemas/institution.schema';
+import { institutionBasicInfoSchema, institutionExternIdentifierSchema, institutionNameSchema } from '../../form-schemas/institution.schema';
 
 type Props = {}
 

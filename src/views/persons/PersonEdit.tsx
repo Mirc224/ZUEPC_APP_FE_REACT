@@ -13,7 +13,7 @@ import { PersonDetailsEntity, PersonExternDatabaseIdEntity, PersonNameEntity } f
 import { UpdatePersonWithDetailsCommand } from '../../types/persons/commands.types';
 import routes from '../../endpoints/routes.endpoints';
 import CRUDItemPageBase from '../../components/itemPage/CRUDItemPageBase';
-import { personBasicInfoSchema, personExternIdentifierSchema, personNameSchema } from '../../validation-schemas/person.schema';
+import { personBasicInfoSchema, personExternIdentifierSchema, personNameSchema } from '../../form-schemas/person.schema';
 
 type Props = {}
 

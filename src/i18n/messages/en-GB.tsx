@@ -5,11 +5,11 @@ const lan =  {
         translation: {
             // Registration fields
             registration: "Registration",
-            firstName: "First Name",
-            lastName: "Last Name",
+            firstName: "Firstname",
+            lastName: "Lastname",
             email: "Email",
             password: "Password",
-            passwordConfirmation: "Password Confirmation",
+            passwordConfirmation: "Password confirmation",
             submit: "Submit",
             search: "Search",
             
@@ -75,16 +75,28 @@ const lan =  {
             deathYear: "Year of death",
             nameType: "Name type",
 
-            // Institution
+            // Institutions
             institution: "Institution",
             institutionList: "Institution list",
             institutionLevel: "Institution level",
             institutionType: "Institution type",
+
+            // Publications
+            publication: "Publication",
+            publicationList: "Publication list",
+            publicationType: "Institution type",
+            publicationIdentifier: "Publication Identifier",
+            publicationAuthor: "Publication author",
+            relatedPublication: "Related publication",
+            publicationActivity: "Publication activity",
+            publishYear: "Publish year",
+            documentType: "Document type",
             
             // Common
             externIdentifierValue: "Extern database ID value",
             unknown: "Unknown",
-            alternativeObject: "Alternative",
+            alternativeHe: "Alternative",
+            alternativeIt: "Alternative",
             name: "Name",
             externDatabaseIds: "Extern database ID",
             externId: "Extern identifier",

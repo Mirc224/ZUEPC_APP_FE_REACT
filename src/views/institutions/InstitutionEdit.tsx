@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 import useInstitutionService from '../../hooks/institutions/useInstitutionService';
@@ -14,8 +13,7 @@ import ItemDataSection from '../../components/itemPage/ItemDataSection';
 import { Grid } from '@mui/material';
 import SubmitResetForm from '../../components/SubmitResetForm';
 import NewItemWithExistingUpdateDeletePreview from '../../components/itemPage/NewItemWithExistingUpdateDeletePreview';
-import { personBasicInfoSchema } from '../../validation-schemas/person.schema';
-import { institutionBasicInfoSchema, institutionExternIdentifierSchema, institutionNameSchema } from '../../validation-schemas/institution.schema';
+import { institutionBasicInfoSchema, institutionExternIdentifierSchema, institutionNameSchema } from '../../form-schemas/institution.schema';
 
 type Props = {}
 

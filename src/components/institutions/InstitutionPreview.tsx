@@ -45,7 +45,7 @@ const InstitutionPreview = (props: Props) => {
         let nameAlternatives = names && names.length > 1
             ? names.slice(1).map(x => (x.name ? x.name + "/" +x.nameType : "")).join(', ') : "";
         return nameAlternatives ?
-            <p><strong>{t('alternativeObject')} {t('name').toLowerCase()}:</strong> {nameAlternatives}</p> 
+            <p><strong>{t('alternativeHe')} {t('name').toLowerCase()}:</strong> {nameAlternatives}</p> 
             : <></>;
     }
 

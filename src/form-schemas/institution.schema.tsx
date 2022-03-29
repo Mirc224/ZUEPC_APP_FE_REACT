@@ -39,3 +39,17 @@ export const institutionExternIdentifierSchema: FormikFieldSchema[] = [
         initValue: ""
     }
 ]
+
+export const institutionSearchSchema: FormikFieldSchema[] = [
+    {
+        name: "name",
+        type: "text",
+        initValue: ""
+    },
+    {
+        name: "externIdentifierValue",
+        labelTranslationKey: 'externId',
+        type: "text",
+        initValue: ""
+    },
+]

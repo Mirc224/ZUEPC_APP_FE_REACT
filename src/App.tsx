@@ -18,21 +18,24 @@ import PersonRouter from './views/persons/PersonRouter';
 import { ThemeProvider } from '@emotion/react';
 import { createTheme } from '@mui/material';
 import InstitutionRouter from './views/institutions/InstitutionRouter';
+import PublicationRouter from './views/publications/PublicationRouter';
+import DefaultPageRedirection from './components/DefaultPageRedirection';
 
 function App() {
-  
   const theme = createTheme();
+
   return (
     <ThemeProvider theme={theme}>
       <Routes>
         <Route element={<PersistLogin />}>
           <Route path='/' element={<Layout />}>
+            <Route path='' element={<DefaultPageRedirection/>}/>
             <Route path={routes.login} element={<Login />} />
             <Route path={routes.register} element={<Register />} />
             <Route path={routes.logout} element={<Logout />} />
             <Route path={routes.unauthorized} element={<Unauthorized />} />
             <Route element={<RequireAuth allowedRoles={[ROLES.User, ROLES.Admin, ROLES.Editor]} />}>
-              <Route path={routes.publications} element={<Publications />} />
+              <Route path={routes.publicationRoutes} element={<PublicationRouter />} />
               <Route path={routes.personRoutes} element={<PersonRouter />} />
               <Route path={routes.institutionRoutes} element={<InstitutionRouter />} />
               <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>

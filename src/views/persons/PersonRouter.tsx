@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router";
-import routes from "../../endpoints/routes.endpoints";
-import Persons from "./Persons";
+import ROUTES from "../../endpoints/routes.endpoints";
 import ROLES from '../../constatns/roles.constants';
+import Persons from "./Persons";
 import RequireAuth from "../../components/RequireAuth";
 import PersonCreate from "./PersonCreate";
 import PersonDetail from "./PersonDetail";
@@ -17,11 +17,11 @@ const PersonRouter = (props: Props) => {
     }
     return (
         <Routes>
-            <Route path={getPath(routes.persons)} element={<Persons />} />
-            <Route path={getPath(routes.personDetails)} element={<PersonDetail />} />
+            <Route path={getPath(ROUTES.persons)} element={<Persons />} />
+            <Route path={getPath(ROUTES.personDetails)} element={<PersonDetail />} />
             <Route element={<RequireAuth allowedRoles={[ROLES.Admin, ROLES.Editor]} />}>
-                <Route path={getPath(routes.personCreate)} element={<PersonCreate />} />
-                <Route path={getPath(routes.personEdit)} element={<PersonEdit />} />
+                <Route path={getPath(ROUTES.personCreate)} element={<PersonCreate />} />
+                <Route path={getPath(ROUTES.personEdit)} element={<PersonEdit />} />
             </Route>
         </Routes>
     )

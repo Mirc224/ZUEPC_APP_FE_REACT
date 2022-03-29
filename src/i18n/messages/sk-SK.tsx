@@ -73,16 +73,28 @@ const lan = {
             deathYear: "Rok úmrtia",
             nameType: "Typ mena",
 
-            // Institution
+            // Institutions
             institution: "Inštitúcia",
             institutionList: "Zoznam inštitúcií",
             institutionLevel: "Úroveň inštitúcie",
             institutionType: "Typ inštitúcie",
+
+            // Publications
+            publication: "Publikácia",
+            publicationList: "Zoznam publikácii",
+            publicationType: "Typ inštitúcie",
+            publicationIdentifier: "Identifikátor publikácie",
+            publicationAuthor: "Autor publikáce",
+            relatedPublication: "Súvisiaca publikácia",
+            publicationActivity: "Publikačná činnosť",
+            publishYear: "Rok publikácie",
+            documentType: "Typ dokumentu",
             
             // Common
             externIdentifierValue: "Hodnota ID v externej databáze",
             unknown: "Neznáme",
-            alternativeObject: "Alternatívne",
+            alternativeHe: "Alternatívny",
+            alternativeIt: "Alternatívne",
             name: "Názov",
             externDatabaseIds: "ID v externej databáze",
             externId: "Externý identifikátor",

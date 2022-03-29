@@ -14,7 +14,7 @@ import { CreatePersonWithDetailsCommand } from '../../types/persons/commands.typ
 import { PersonExternDatabaseIdEntity, PersonNameEntity } from '../../types/persons/entities.types';
 import { handleDeleteItem, handleEntityItemUpdate, handleEntityNewItem } from '../../utils/zuepc-item-utils';
 import CRUDItemPageBase from '../../components/itemPage/CRUDItemPageBase';
-import { personBasicInfoSchema, personExternIdentifierSchema, personNameSchema } from '../../validation-schemas/person.schema';
+import { personBasicInfoSchema, personExternIdentifierSchema, personNameSchema } from '../../form-schemas/person.schema';
 
 type Props = {}
 

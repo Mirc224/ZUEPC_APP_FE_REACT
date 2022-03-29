@@ -18,8 +18,12 @@ const routes = {
     'institutionDetails': '/institution/:id/detail',
     'institutionEdit': '/institution/:id/edit',
     
-
+    'publicationRoutes': '/publication/*',
     'publications': '/publication',
+    'publicationCreate': '/publication/create',
+    'publicationDetails': '/publication/:id/detail',
+    'publicationEdit': '/publication/:id/edit',
+
     'register': '/register',
     'login': '/login',
     'logout': '/logout',

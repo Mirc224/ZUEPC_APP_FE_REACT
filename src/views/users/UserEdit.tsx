@@ -1,6 +1,4 @@
-import * as yup from 'yup';
-import { Button, Checkbox, Container, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, TextField } from '@mui/material';
-import { useFormik } from 'formik';
+import { Checkbox,FormControl, FormControlLabel, FormGroup, Grid} from '@mui/material';
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
@@ -10,11 +8,12 @@ import { permissionHelper } from '../../helpers/permission.helper';
 import roles from '../../constatns/roles.constants';
 import useAuth from '../../hooks/auth/useAuth';
 import routes from '../../endpoints/routes.endpoints';
-import { authHelper } from '../../helpers/auth.helper';
 import { UserRole } from '../../enums/role.enum';
-import LoadingScreen from '../../components/common/LoadingScreen';
-import ItemPageHeader from '../../components/itemPage/ItemPageHeader';
-
+import SubmitResetForm from '../../components/SubmitResetForm';
+import { FormikFieldSchema } from '../../types/common/component.types';
+import { userBasicInfoSchema } from '../../form-schemas/user.schema';
+import ItemDataSection from '../../components/itemPage/ItemDataSection';
+import CRUDItemPageBase from '../../components/itemPage/CRUDItemPageBase';
 
 type Props = {}
 type RoleObject = {
@@ -45,26 +44,10 @@ const UserEdit = (props: Props) => {
     const { t } = useTranslation();
     const { getUser, updateUser, updateUserRoles } = useUserService();
     const [isLoading, setIsLoading] = useState(false);
+    const [basicInfoSchema, setBasicInfoSchema] = useState<FormikFieldSchema[]>([])
     const navigate = useNavigate();
+    const formName = 'whole-form';
 
-    const validationSchema = yup.object({
-        firstName: yup
-            .string()
-            .required('isRequiredIt'),
-        lastName: yup
-            .string()
-            .required('isRequiredIt'),
-    });
-    const formik = useFormik({
-        initialValues: {
-            id: '',
-            firstName: '',
-            lastName: '',
-            email: ''
-        },
-        validationSchema: validationSchema,
-        onSubmit: onSubmitEdit
-    });
 
     useEffect(() => {
         let isMounted = true;
@@ -76,9 +59,14 @@ const UserEdit = (props: Props) => {
             })
                 .then((response) => {
                     const editedUser = response.data as UserDetailEntity;
-                    setUser(editedUser);
+                    const resBasicInfoSchema = userBasicInfoSchema;
                     if (isMounted) {
-                        formik.setValues({ ...response.data });
+                        setUser(editedUser);
+                        isMounted && setBasicInfoSchema([
+                            ...resBasicInfoSchema.map(x => {
+                                return { ...x, initValue: editedUser[x.name as keyof UserDetailEntity] }
+                            })
+                        ])
                         let currentRoles = [...userRoles];
                         editedUser.userRoles.forEach((role) => {
                             const index = getUserRoleCheckboxIndex(role);
@@ -99,7 +87,7 @@ const UserEdit = (props: Props) => {
         }
     }, [])
 
-    async function onSubmitEdit(values: any) {
+    async function onSubmitEdit(values: any, dirty: boolean) {
         if (id !== undefined) {
             setIsLoading(true);
             try {
@@ -153,69 +141,26 @@ const UserEdit = (props: Props) => {
         return userRoles.indexOf(foundObj);
     }
 
-return (isLoading ? <LoadingScreen isLoading={isLoading} />
-        :
-        <Container maxWidth="sm">
-            <header>
-                <h1>{t('editPage')}: {t('user')}</h1>
-            </header>
-            <form onSubmit={formik.handleSubmit}>
-                <Grid container justifyContent="center" spacing={2}>
-                    <Grid item xs={12}>
-                        <TextField
-                            fullWidth
-                            disabled
-                            id="id"
-                            name="id"
-                            label="Id"
-                            value={formik.values.id}
-                            onChange={formik.handleChange}
+    return (
+        <CRUDItemPageBase
+            title={`${t('editPage')}: ${t('user')}(${id})`}
+            wholeFormId={formName}
+            isLoading={isLoading}
+        >
+            <Grid container justifyContent="center" spacing={2}>
+                <Grid item xs={12}>
+                    <ItemDataSection title={`${t("basic")} ${t('informations').toLowerCase()}`} >
+                        <SubmitResetForm
+                            direction="column"
+                            formId={formName}
+                            onSubmit={onSubmitEdit}
+                            fields={basicInfoSchema}
                         />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <TextField
-                            fullWidth
-                            disabled
-                            id="email"
-                            name="email"
-                            label={t("email")}
-                            value={formik.values.email}
-                            onChange={formik.handleChange}
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <TextField
-                            fullWidth
-                            id="firstName"
-                            name="firstName"
-                            label={t("firstName")}
-                            value={formik.values.firstName}
-                            onChange={formik.handleChange}
-                            error={formik.touched.firstName && Boolean(formik.errors.firstName)}
-                            helperText={
-                                formik.touched.firstName &&
-                                    formik.errors.firstName ?
-                                    t(formik.errors.firstName, { what: t('firstName') }) : null}
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <TextField
-                            fullWidth
-                            id="lastName"
-                            name="lastName"
-                            label={t("lastName")}
-                            value={formik.values.lastName}
-                            onChange={formik.handleChange}
-                            error={formik.touched.lastName && Boolean(formik.errors.lastName)}
-                            helperText={
-                                formik.touched.lastName &&
-                                    formik.errors.lastName ?
-                                    t(formik.errors.lastName, { what: t('lastName') }) : null}
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
+                    </ItemDataSection>
+                </Grid>
+                <Grid item xs={12}>
+                    <ItemDataSection title={t("roles")} >
                         <FormControl component="fieldset" style={{ display: "flex" }}>
-                            <FormLabel component="legend">{t('roles')}</FormLabel>
                             <FormGroup>
                                 {userRoles.map((roleObj) =>
                                     <FormControlLabel key={roleObj.role} control={
@@ -227,15 +172,10 @@ return (isLoading ? <LoadingScreen isLoading={isLoading} />
                                 )}
                             </FormGroup>
                         </FormControl>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Button color="primary" variant="contained" fullWidth type="submit">
-                            {t("submit")}
-                        </Button>
-                    </Grid>
+                    </ItemDataSection>
                 </Grid>
-            </form>
-        </Container>)
+            </Grid>
+        </CRUDItemPageBase>)
 }
 
 export default UserEdit

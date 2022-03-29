@@ -43,7 +43,7 @@ const TheNav = () => {
     }
 
     return (
-        <AppBar position="static">
+        <AppBar position="sticky">
             <Container maxWidth="xl">
                 <p>{JSON.stringify(auth)}</p>
                 <Toolbar disableGutters>

@@ -7,7 +7,6 @@ import routes from '../../endpoints/routes.endpoints';
 import usePersonService from '../../hooks/persons/usePersonService';
 import { PersonDetailsEntity, PersonNameEntity } from '../../types/persons/entities.types';
 import ItemDetailPageBase from '../../components/itemPage/ItemDetailPageBase';
-
 type Props = {}
 
 const PersonDetail = (props: Props) => {

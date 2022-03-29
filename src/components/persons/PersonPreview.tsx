@@ -9,7 +9,7 @@ type Props = {
     person: PersonPreviewEntity
 }
 
-const UserPreview = (props: Props) => {
+const PersonPreview = (props: Props) => {
     const { t } = useTranslation();
     const { person } = props;
     const navigate = useNavigate();
@@ -42,7 +42,7 @@ const UserPreview = (props: Props) => {
                 (x.lastName ? " " + x.lastName : "")).join(', ') : "";
         return nameAlternatives ?
             <p>
-                <strong>{t('alternativeObject')} {t('firstName').toLowerCase() + "/" + t('lastName').toLowerCase()}:</strong> {nameAlternatives}
+                <strong>{t('alternativeIt')} {t('firstName').toLowerCase() + "/" + t('lastName').toLowerCase()}:</strong> {nameAlternatives}
             </p>
             : <></>;
     }
@@ -70,4 +70,4 @@ const UserPreview = (props: Props) => {
     )
 }
 
-export default UserPreview
+export default PersonPreview

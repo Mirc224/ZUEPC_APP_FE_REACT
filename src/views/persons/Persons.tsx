@@ -1,15 +1,16 @@
+import ROUTES from '../../endpoints/routes.endpoints';
+import ROLES from '../../constatns/roles.constants';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { Grid } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import usePersonService from '../../hooks/persons/usePersonService';
-import routes from '../../endpoints/routes.endpoints';
 import { FormikFieldSchema } from '../../types/common/component.types';
 import { PersonPreviewEntity } from '../../types/persons/entities.types';
 import PersonPreview from '../../components/persons/PersonPreview';
-import ROLES from '../../constatns/roles.constants';
 import PaginationPageBase from '../../components/pagination/PaginationPageBase';
 import PaginationPageMain from '../../components/pagination/PaginationPageMain';
+import { personSearchSchema } from '../../form-schemas/person.schema';
 ;
 
 type Props = {}
@@ -21,23 +22,13 @@ const Users = (props: Props) => {
   const { getPersonsPreviews } = usePersonService();
   const [persons, setPersons] = useState<PersonPreviewEntity[]>();
   const [totalRecords, setTotalRecords] = useState(0);
-  const [queryParams, setQueryParams] = useState({})
+  const [queryParams, setQueryParams] = useState({
+    pageNumber: 1,
+    pageSize: 5
+  })
   const navigate = useNavigate();
 
-  const schema: FormikFieldSchema[] = [
-    {
-      name: "name",
-      labelTranslationKey: 'nameAndSurnameSearch',
-      type: "text",
-      initValue: ""
-    },
-    {
-      name: "externIdentifierValue",
-      labelTranslationKey: 'externId',
-      type: "text",
-      initValue: ""
-    },
-  ]
+  const searchSchema: FormikFieldSchema[] = personSearchSchema;
 
   useEffect(() => {
     setIsLoading(true);
@@ -67,7 +58,7 @@ const Users = (props: Props) => {
   }
 
   const handleAddClick = () => {
-    navigate(routes.personCreate);
+    navigate(ROUTES.personCreate);
   }
 
   const ShowObjects = () => {
@@ -89,7 +80,7 @@ const Users = (props: Props) => {
       <PaginationPageBase
         title={t('personList')}
         canEditRoles={canEditRoles}
-        searchBarFormSchema={schema}
+        searchBarFormSchema={searchSchema}
         totalRecords={totalRecords}
         onAddNewClick={handleAddClick}
         onQueryParameterChange={handleQueryParamsChange}

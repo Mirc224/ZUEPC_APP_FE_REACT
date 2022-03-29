@@ -20,6 +20,12 @@ const apiEndoints = {
     'institutionDetail': '/institution/:id/detail',
     'institutionEdit': '/institution/:id',
     'institutionDelete': '/institution/:id',
+     
+    'publicationCreate': '/publication',
+    'publications': '/publication/preview',
+    'publicationDetail': '/publication/:id/detail',
+    'publicationEdit': '/publication/:id',
+    'publicationDelete': '/publication/:id',
 
 }
 

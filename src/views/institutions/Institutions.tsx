@@ -10,6 +10,7 @@ import routes from '../../endpoints/routes.endpoints';
 import useInstitutionService from '../../hooks/institutions/useInstitutionService';
 import { FormikFieldSchema } from '../../types/common/component.types';
 import { InstitutionPreviewEntity } from '../../types/institutions/entities.types';
+import { institutionSearchSchema } from '../../form-schemas/institution.schema';
 
 type Props = {}
 
@@ -20,23 +21,13 @@ const Institutions = (props: Props) => {
   const { getInstitutionsPreviews } = useInstitutionService();
   const [institutions, setInstitutions] = useState<InstitutionPreviewEntity[]>();
   const [totalRecords, setTotalRecords] = useState(0);
-  const [queryParams, setQueryParams] = useState({})
+  const [queryParams, setQueryParams] = useState({
+    pageNumber: 1,
+    pageSize: 5
+  });
   const navigate = useNavigate();
 
-  const schema: FormikFieldSchema[] = [
-    {
-      name: "name",
-      labelTranslationKey: 'name',
-      type: "text",
-      initValue: ""
-    },
-    {
-      name: "externIdentifierValue",
-      labelTranslationKey: 'externId',
-      type: "text",
-      initValue: ""
-    },
-  ]
+  const schema: FormikFieldSchema[] = institutionSearchSchema;
 
   useEffect(() => {
     let isMounted = true;

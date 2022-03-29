@@ -50,3 +50,18 @@ export const personExternIdentifierSchema: FormikFieldSchema[] = [
         initValue: ""
     }
 ]
+
+export const personSearchSchema: FormikFieldSchema[] = [
+    {
+        name: "name",
+        labelTranslationKey: 'nameAndSurnameSearch',
+        type: "text",
+        initValue: ""
+    },
+    {
+        name: "externIdentifierValue",
+        labelTranslationKey: 'externId',
+        type: "text",
+        initValue: ""
+    },
+]
