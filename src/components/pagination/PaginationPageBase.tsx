@@ -13,7 +13,6 @@ type Props = {
     children: any,
     title: string,
     canEditRoles: string[],
-    rowsPerPageList: number[],
     totalRecords: number,
     searchBarFormSchema: FormikFieldSchema[],
     onAddNewClick?: () => void, 
@@ -22,12 +21,13 @@ type Props = {
     onSearchReset?: (queryParams: any) => void
 }
 
+const rowsPerPageList = [5, 10, 15];
+
 const PaginationPageBase = (props: Props) => {
     const { 
         children, 
         title,
         canEditRoles, 
-        rowsPerPageList, 
         totalRecords,
         searchBarFormSchema,
         onAddNewClick,

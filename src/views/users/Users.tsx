@@ -5,14 +5,10 @@ import UserPreview from '../../components/users/UserPreview';
 import { Grid } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { UserDetailEntity } from '../../types/auth/entities.types';
-import { FormikFieldSchema, PaginationSearchBarField } from '../../types/common/component.types';
-import PaginationPageSearchBar from '../../components/pagination/PaginationPageSearchBar';
-import PaginationPageHeader from '../../components/pagination/PaginationPageHeader';
-import PaginationPageMain from '../../components/pagination/PaginationPageMain';
-import PaginationPageFooter from '../../components/pagination/PaginationPageFooter';
+import { FormikFieldSchema } from '../../types/common/component.types';
 import PaginationPageBase from '../../components/pagination/PaginationPageBase';
+import PaginationPageMain from '../../components/pagination/PaginationPageMain';
 
-const rowsPerPageArray = [5, 10, 15];
 type Props = {}
 
 const Users = (props: Props) => {
@@ -83,7 +79,6 @@ const Users = (props: Props) => {
       <PaginationPageBase
         title={t('userList')}
         canEditRoles={[]}
-        rowsPerPageList={rowsPerPageArray}
         searchBarFormSchema={schema}
         totalRecords={totalRecords}
         onQueryParameterChange={handleQueryParamsChange}

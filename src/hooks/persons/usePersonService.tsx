@@ -5,7 +5,7 @@ import { CreatePersonWithDetailsCommand, UpdatePersonWithDetailsCommand } from "
 const usePersonService = () => {
     const axiosPrivateClient = useAxiosPrivate();
 
-    const getPersons = async (params: any) => {
+    const getPersonsPreviews = async (params: any) => {
         return axiosPrivateClient.get(apiEndpoints.persons, {
             ...params
         });
@@ -33,7 +33,7 @@ const usePersonService = () => {
         });
     }
 
-    return { getPersons, getPersonDetails, createPerson, updatePerson, deletePerson };
+    return { getPersonsPreviews, getPersonDetails, createPerson, updatePerson, deletePerson };
 }
 
 export default usePersonService;

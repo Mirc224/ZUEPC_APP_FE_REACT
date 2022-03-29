@@ -14,6 +14,7 @@ import { CreatePersonWithDetailsCommand } from '../../types/persons/commands.typ
 import { PersonExternDatabaseIdEntity, PersonNameEntity } from '../../types/persons/entities.types';
 import { handleDeleteItem, handleEntityItemUpdate, handleEntityNewItem } from '../../utils/zuepc-item-utils';
 import CRUDItemPageBase from '../../components/itemPage/CRUDItemPageBase';
+import { personBasicInfoSchema, personExternIdentifierSchema, personNameSchema } from '../../validation-schemas/person.schema';
 
 type Props = {}
 
@@ -27,54 +28,11 @@ const PersonCreate = (props: Props) => {
   const navigate = useNavigate();
   const baseFormName = "whole-form";
 
-  const basicInfoSchema: FormikFieldSchema[] = [
-    {
-      name: "birthYear",
-      labelTranslationKey: "birthYear",
-      validationSchema: (yup
-        .number()
-        .typeError('mustBeNumber')
-        .nullable(true)),
-      type: "text",
-      initValue: "",
-    },
-    {
-      name: "deathYear",
-      labelTranslationKey: "deathYear",
-      validationSchema: (yup
-        .number()
-        .typeError('mustBeNumber')
-        .nullable(true)),
-      type: "text",
-      initValue: ""
-    },
-  ]
+  const basicInfoSchema = personBasicInfoSchema;
 
-  const newNameSchema: FormikFieldSchema[] = [
-    {
-      name: "firstName",
-      type: "text",
-      initValue: ""
-    },
-    {
-      name: "lastName",
-      type: "text",
-      initValue: ""
-    },
-    {
-      name: "nameType",
-      type: "text",
-      initValue: "",
-    },
-  ]
+  const newNameSchema = personNameSchema;
 
-  const newExternIdentifierSchema: FormikFieldSchema[] = [
-    {
-      name: 'externIdentifierValue',
-      type: "text",
-      initValue: ""
-    }
-  ]
+  const newExternIdentifierSchema = personExternIdentifierSchema;
 
   const handleSubmitForm = (values: any) => {
     setIsProcessing(true);
@@ -102,7 +60,7 @@ const PersonCreate = (props: Props) => {
 
   const dataSections = [
     {
-      title: t("name"),
+      title: `${t("firstName")}/${t("lastName")}`,
       formName: "new-name",
       newItemFormSchema: newNameSchema,
       existItemFormSchema: newNameSchema,

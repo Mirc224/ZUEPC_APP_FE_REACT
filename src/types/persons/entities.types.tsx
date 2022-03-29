@@ -1,22 +1,19 @@
 import { ZUEPCEntityBase } from "../common/component.types"
 
-export interface PersonPreviewEntity {
-    id: number,
+export interface PersonPreviewEntity extends ZUEPCEntityBase {
     birthYear?: number,
     deathYear?: number,
     names?: PersonNameEntity[],
     externDatabaseIds: PersonExternDatabaseIdEntity[]
 }
 
-export interface PersonDetailsEntity {
-    id: number,
+export interface PersonDetailsEntity extends ZUEPCEntityBase {
     birthYear?: number,
     deathYear?: number,
     names?: PersonNameEntity[],
     externDatabaseIds: PersonExternDatabaseIdEntity[]
 }
 export interface PersonNameEntity extends ZUEPCEntityBase {
-    id?: number,
     personId?: number,
     firstName?: string,
     lastName?: string,

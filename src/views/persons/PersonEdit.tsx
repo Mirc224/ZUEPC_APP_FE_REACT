@@ -1,5 +1,4 @@
 import { Grid } from '@mui/material';
-import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 import NewItemWithExistingUpdateDeletePreview from '../../components/itemPage/NewItemWithExistingUpdateDeletePreview';
@@ -14,6 +13,7 @@ import { PersonDetailsEntity, PersonExternDatabaseIdEntity, PersonNameEntity } f
 import { UpdatePersonWithDetailsCommand } from '../../types/persons/commands.types';
 import routes from '../../endpoints/routes.endpoints';
 import CRUDItemPageBase from '../../components/itemPage/CRUDItemPageBase';
+import { personBasicInfoSchema, personExternIdentifierSchema, personNameSchema } from '../../validation-schemas/person.schema';
 
 type Props = {}
 
@@ -32,31 +32,8 @@ const PersonEdit = (props: Props) => {
 
   const [basicInfoSchema, setBasicInfoSchema] = useState<FormikFieldSchema[]>([])
 
-  const newNameSchema: FormikFieldSchema[] = [
-    {
-      name: "firstName",
-      type: "text",
-      initValue: ""
-    },
-    {
-      name: "lastName",
-      type: "text",
-      initValue: ""
-    },
-    {
-      name: "nameType",
-      type: "text",
-      initValue: "",
-    },
-  ]
-
-  const newExternIdentifierSchema: FormikFieldSchema[] = [
-    {
-      name: 'externIdentifierValue',
-      type: "text",
-      initValue: ""
-    }
-  ]
+  const newNameSchema = personNameSchema;
+  const newExternIdentifierSchema = personExternIdentifierSchema;
 
   useEffect(() => {
     let isMounted = true;
@@ -67,33 +44,20 @@ const PersonEdit = (props: Props) => {
         signal: controller.signal
       })
         .then((response) => {
-          const person: PersonDetailsEntity = response.data;
-          isMounted && setPerson(person);
-          isMounted && setBasicInfoSchema([{
-            name: "birthYear",
-            labelTranslationKey: "birthYear",
-            validationSchema: (yup
-              .number()
-              .typeError('mustBeNumber')
-              .nullable(true)),
-            type: "text",
-            initValue: person.birthYear ? person.birthYear : "",
-          },
-          {
-            name: "deathYear",
-            labelTranslationKey: "deathYear",
-            validationSchema: (yup
-              .number()
-              .typeError('mustBeNumber')
-              .nullable(true)),
-            type: "text",
-            initValue: person.deathYear ? person.deathYear : ""
-          }])
-          isMounted && person.names && setPersonNames([
-            ...person.names.map((x): ChangeableItem<PersonNameEntity> => { return { item: x, changed: false } })
+          const resPerson: PersonDetailsEntity = response.data;
+          const basicInfoSchema = personBasicInfoSchema;
+
+          isMounted && setPerson(resPerson);
+          isMounted && setBasicInfoSchema([
+            ...basicInfoSchema.map(x=> {
+              return {...x, initValue: resPerson[x.name as keyof PersonDetailsEntity]}
+            })
           ])
-          isMounted && person.externDatabaseIds && setPersonExternDbIds([
-            ...person.externDatabaseIds.map((x): ChangeableItem<PersonExternDatabaseIdEntity> => { return { item: x, changed: false } })
+          isMounted && resPerson.names && setPersonNames([
+            ...resPerson.names.map((x): ChangeableItem<PersonNameEntity> => { return { item: x, changed: false } })
+          ])
+          isMounted && resPerson.externDatabaseIds && setPersonExternDbIds([
+            ...resPerson.externDatabaseIds.map((x): ChangeableItem<PersonExternDatabaseIdEntity> => { return { item: x, changed: false } })
           ])
           setIsLoading(false);
         })
@@ -144,7 +108,7 @@ const PersonEdit = (props: Props) => {
 
   const dataSections = [
     {
-      title: t("name"),
+      title: `${t("firstName")}/${t("lastName")}`,
       formName: "new-name",
       newItemFormSchema: newNameSchema,
       existItemFormSchema: newNameSchema,
@@ -175,7 +139,7 @@ const PersonEdit = (props: Props) => {
 
   return (
     <CRUDItemPageBase
-      title={`${t('newShe')} ${t('person').toLowerCase()}`}
+      title={`${t('editPage')}: ${t('person')}(${id})`}
       wholeFormId={baseFormName}
       isLoading={isLoading}
       isProcessing={isProcessing}

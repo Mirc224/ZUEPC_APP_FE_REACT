@@ -1,21 +1,22 @@
+import { makeStyles } from "@material-ui/styles";
 import { Typography, useMediaQuery, useTheme } from '@mui/material';
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
-import ItemDataSection from '../../components/itemPage/ItemDataSection';
-import routes from '../../endpoints/routes.endpoints';
-import usePersonService from '../../hooks/persons/usePersonService';
-import { PersonDetailsEntity, PersonNameEntity } from '../../types/persons/entities.types';
 import ItemDetailPageBase from '../../components/itemPage/ItemDetailPageBase';
+import routes from '../../endpoints/routes.endpoints';
+import useInstitutionService from '../../hooks/institutions/useInstitutionService';
+import { InstitutionDetailsEntity, InstitutionNameEntity } from '../../types/institutions/entities.types';
+import ItemDataSection from "../../components/itemPage/ItemDataSection";
 
 type Props = {}
 
-const PersonDetail = (props: Props) => {
+const InstitutionDetail = (props: Props) => {
     const { id } = useParams();
     const { t } = useTranslation();
-    const { getPersonDetails, deletePerson } = usePersonService();
+    const { getInstitutionDetails, deleteInstitution } = useInstitutionService();
     const [isLoading, setIsLoading] = useState(false);
-    const [person, setPerson] = useState<PersonDetailsEntity>(undefined!);
+    const [institution, setInstitution] = useState<InstitutionDetailsEntity>(undefined!);
     const [open, setOpen] = useState(false);
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
@@ -26,11 +27,11 @@ const PersonDetail = (props: Props) => {
         const controller = new AbortController();
         if (id !== undefined) {
             setIsLoading(true);
-            getPersonDetails(id, {
+            getInstitutionDetails(id, {
                 signal: controller.signal
             })
                 .then((response) => {
-                    isMounted && setPerson(response.data);
+                    isMounted && setInstitution(response.data);
                     setIsLoading(false);
                 })
                 .catch((err) => {
@@ -45,7 +46,7 @@ const PersonDetail = (props: Props) => {
     }, [])
 
     const handleClickEdit = () => {
-        navigate(routes.personEdit.replace(":id", person.id ? person.id.toString() : "-1"));
+        navigate(routes.institutionEdit.replace(":id", institution.id ? institution.id.toString() : "-1"));
     }
 
     const handleClickDelete = () => {
@@ -55,7 +56,7 @@ const PersonDetail = (props: Props) => {
     const handleConfirmDelete = () => {
         setOpen(false);
         if (id !== undefined) {
-            deletePerson(id, {
+            deleteInstitution(id, {
                 headers: { 'Content-type': 'application/json' }
             })
                 .then((response) => {
@@ -71,52 +72,50 @@ const PersonDetail = (props: Props) => {
         setOpen(false);
     };
 
-    const formatPersonName = (name: PersonNameEntity): string => {
-        const formatedName =
-            (name.firstName ? name.firstName : "") +
-            (name.lastName ? " " + name.lastName : "");
-        return formatedName ? formatedName + (name.nameType ? " | " + name.nameType : "") : t('unknown')
+    const formatInstitutionName = (name: InstitutionNameEntity): string => {
+        return name.name ? name.name + (name.nameType ? " | " + name.nameType : "") : t('unknown');
     }
+
     return (
         <ItemDetailPageBase
             isLoading={isLoading}
-            title={`${t('person')} (${id})`}
+            title={`${t('institution')} (${id})`}
             dialogFullScreen={fullScreen}
             dialogIsOpen={open}
-            dialogTitle={`${t('delete')}  ${t('person')} (${id})`}
+            dialogTitle={`${t('delete')}  ${t('institution')} (${id})`}
             onClickEdit={handleClickEdit}
             onClickDelete={handleClickDelete}
             onDialogClose={handleDialogClose}
             onDialogConfirm={handleConfirmDelete}
         >
-            {person &&
+            {institution &&
                 <>
                     <ItemDataSection title={`${t("basic")} ${t('informations').toLowerCase()}`} >
-                        {(person.birthYear || person.birthYear === 0) &&
+                        {(institution.level || institution.level === 0) &&
                             <Typography component="p" variant="body2">
-                                <strong>{t('birthYear')}:</strong> {person.birthYear}
+                                <strong>{t('institutionLevel')}:</strong> {institution.level}
                             </Typography>}
-                        {(person.deathYear || person.deathYear === 0) &&
+                        {institution.institutionType &&
                             <Typography component="p" variant="body2">
-                                <strong>{t('deathYear')}:</strong> {person.deathYear}
+                                <strong>{t('institutionType')}:</strong> {institution.institutionType}
                             </Typography>}
                     </ItemDataSection>
-                    <ItemDataSection title={`${t("firstName")}/${t("lastName")}`}>
-                        {person.names &&
+                    <ItemDataSection title={t("name")}>
+                        {institution.names &&
                             <ul>
-                                {person.names.map((x, i) =>
+                                {institution.names.map((x, i) =>
                                     <li key={i}>
                                         <Typography component="p" variant="body2">
-                                            {formatPersonName(x)}
+                                            {formatInstitutionName(x)}
                                         </Typography>
                                     </li>
                                 )}
                             </ul>}
                     </ItemDataSection>
                     <ItemDataSection title={t("externDatabaseIds")}>
-                        {person.externDatabaseIds &&
+                        {institution.externDatabaseIds &&
                             <ul>
-                                {person.externDatabaseIds.map((x, i) =>
+                                {institution.externDatabaseIds.map((x, i) =>
                                     <li key={i}>
                                         <Typography component="p" variant="body2">
                                             {x.externIdentifierValue}
@@ -130,4 +129,4 @@ const PersonDetail = (props: Props) => {
     )
 }
 
-export default PersonDetail
+export default InstitutionDetail

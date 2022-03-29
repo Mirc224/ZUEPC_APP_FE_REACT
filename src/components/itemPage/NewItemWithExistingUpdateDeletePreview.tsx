@@ -3,6 +3,7 @@ import SubmitResetForm from '../SubmitResetForm'
 import AddIcon from '@mui/icons-material/Add';
 import { FormikFieldSchema } from '../../types/common/component.types';
 import UpdateDeleteItem from './UpdateDeleteItem';
+import { useState } from 'react';
 
 type Props<T> = {
     formName: string,
@@ -23,6 +24,7 @@ const NewItemWithExistingUpdateDeletePreview = <T extends object>(props: Props<T
         onNewItemSubmit,
         onItemDelete,
         onEixstItemUpdate } = props;
+    const [dirty, setDirty] = useState(false);
     const { v4: uuidv4 } = require('uuid');
 
     return (
@@ -34,11 +36,16 @@ const NewItemWithExistingUpdateDeletePreview = <T extends object>(props: Props<T
                             direction="row"
                             formId={formName}
                             onSubmit={onNewItemSubmit}
+                            onValueChange={(v, dirty) => setDirty(dirty)}
                             fields={newItemFormSchema}
                             resetAfterSubmit={true} />
                     </Grid>
                     <Grid item xs={1}>
-                        <IconButton form={formName} color="success" type="submit">
+                        <IconButton 
+                        disabled={!dirty}
+                        form={formName} 
+                        color="success" 
+                        type="submit">
                             <AddIcon />
                         </IconButton>
                     </Grid>

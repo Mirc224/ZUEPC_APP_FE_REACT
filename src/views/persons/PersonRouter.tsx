@@ -9,7 +9,7 @@ import PersonEdit from "./PersonEdit";
 
 type Props = {}
 
-const PersonRoutes = (props: Props) => {
+const PersonRouter = (props: Props) => {
     const getPath = (path: string): string => {
         let index = path.indexOf('/', 1);
         if (index === -1) return '';
@@ -27,4 +27,4 @@ const PersonRoutes = (props: Props) => {
     )
 }
 
-export default PersonRoutes;
+export default PersonRouter;

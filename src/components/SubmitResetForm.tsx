@@ -47,7 +47,6 @@ const SubmitResetForm = (props: Props) => {
     });
 
     useEffect(() => {
-        // let isMounted = true;
         onValueChange && onValueChange(formik.values, formik.dirty);
     }, [formik.values])
 
@@ -61,7 +60,7 @@ const SubmitResetForm = (props: Props) => {
                             fullWidth
                             {...x.fieldProps}
                             name={x.name}
-                            label={t(x.name)}
+                            label={x.labelTranslationKey ? t(x.labelTranslationKey) : t(x.name) }
                             value={formik.values[x.name as keyof {}]}
                             onChange={(e) => { formik.handleChange(e) }}
                             error={

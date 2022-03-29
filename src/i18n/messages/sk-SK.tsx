@@ -72,12 +72,18 @@ const lan = {
             birthYear: "Rok narodenia",
             deathYear: "Rok úmrtia",
             nameType: "Typ mena",
+
+            // Institution
+            institution: "Inštitúcia",
+            institutionList: "Zoznam inštitúcií",
+            institutionLevel: "Úroveň inštitúcie",
+            institutionType: "Typ inštitúcie",
             
             // Common
             externIdentifierValue: "Hodnota ID v externej databáze",
             unknown: "Neznáme",
             alternativeObject: "Alternatívne",
-            name: "Meno",
+            name: "Názov",
             externDatabaseIds: "ID v externej databáze",
             externId: "Externý identifikátor",
             reset: "Reset",

@@ -74,6 +74,12 @@ const lan =  {
             birthYear: "Year of birth",
             deathYear: "Year of death",
             nameType: "Name type",
+
+            // Institution
+            institution: "Institution",
+            institutionList: "Institution list",
+            institutionLevel: "Institution level",
+            institutionType: "Institution type",
             
             // Common
             externIdentifierValue: "Extern database ID value",

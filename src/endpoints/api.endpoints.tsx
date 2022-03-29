@@ -15,6 +15,12 @@ const apiEndoints = {
     'personEdit': '/person/:id',
     'personDelete': '/person/:id',
 
+    'institutionCreate': '/institution',
+    'institutions': '/institution/preview',
+    'institutionDetail': '/institution/:id/detail',
+    'institutionEdit': '/institution/:id',
+    'institutionDelete': '/institution/:id',
+
 }
 
 

@@ -11,11 +11,15 @@ const routes = {
     'personCreate': '/person/create',
     'personDetails': '/person/:id/detail',
     'personEdit': '/person/:id/edit',
-    'personDelete': '/person/:id/delete',
 
+    'institutionRoutes': '/institution/*',
+    'institutions': '/institution',
+    'institutionCreate': '/institution/create',
+    'institutionDetails': '/institution/:id/detail',
+    'institutionEdit': '/institution/:id/edit',
+    
 
     'publications': '/publication',
-    'institutions': '/institution',
     'register': '/register',
     'login': '/login',
     'logout': '/logout',

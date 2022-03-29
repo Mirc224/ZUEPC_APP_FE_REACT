@@ -14,10 +14,10 @@ import ROLES from './constatns/roles.constants';
 import UserRoutes from './views/users/UserRouter';
 import PersistLogin from './components/PersistLogin';
 import Missing from './views/Missing';
-import PersonRoutes from './views/persons/PersonRouter';
+import PersonRouter from './views/persons/PersonRouter';
 import { ThemeProvider } from '@emotion/react';
 import { createTheme } from '@mui/material';
-import { useTranslation } from 'react-i18next';
+import InstitutionRouter from './views/institutions/InstitutionRouter';
 
 function App() {
   
@@ -33,10 +33,10 @@ function App() {
             <Route path={routes.unauthorized} element={<Unauthorized />} />
             <Route element={<RequireAuth allowedRoles={[ROLES.User, ROLES.Admin, ROLES.Editor]} />}>
               <Route path={routes.publications} element={<Publications />} />
-              <Route path={'/person/*'} element={<PersonRoutes />} />
-              <Route path={routes.institutions} element={<Institutions />} />
+              <Route path={routes.personRoutes} element={<PersonRouter />} />
+              <Route path={routes.institutionRoutes} element={<InstitutionRouter />} />
               <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
-                <Route path='/user/*' element={<UserRoutes />} />
+                <Route path={routes.userRoutes} element={<UserRoutes />} />
               </Route>
             </Route>
             <Route path='*' element={<Missing />} />

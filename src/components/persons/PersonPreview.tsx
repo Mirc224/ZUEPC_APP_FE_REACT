@@ -15,11 +15,11 @@ const UserPreview = (props: Props) => {
     const navigate = useNavigate();
 
     const handleCardClick = () => {
-        navigate(routes.personDetails.replace(":id", person.id.toString()));
+        navigate(routes.personDetails.replace(":id", person.id ? person.id.toString() : "-1"));
     }
 
     const PersonTitle = (): string => {
-        let title = person.id.toString() + "|";
+        let title = (person.id ? person.id.toString() : t('unknown')) + "|";
         let namePart = person.names && person.names.length > 0 ?
             (person.names[0].firstName ? person.names[0].firstName : "") +
             (person.names[0].lastName ? " " + person.names[0].lastName : "")
@@ -40,8 +40,11 @@ const UserPreview = (props: Props) => {
         let nameAlternatives = names && names.length > 1
             ? names.slice(1).map(x => (x.firstName ? x.firstName : "") +
                 (x.lastName ? " " + x.lastName : "")).join(', ') : "";
-        return nameAlternatives ? 
-            <p><strong>{t('alternativeObject')} {t('name').toLowerCase() }:</strong> {nameAlternatives}</p> : <></> ;
+        return nameAlternatives ?
+            <p>
+                <strong>{t('alternativeObject')} {t('firstName').toLowerCase() + "/" + t('lastName').toLowerCase()}:</strong> {nameAlternatives}
+            </p>
+            : <></>;
     }
 
     const PersonExternDatabaseIds = (): ReactElement => {
