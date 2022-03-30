@@ -2,11 +2,12 @@ import { ZUEPCEntityBase } from "../common/component.types";
 import { InstitutionPreviewEntity } from "../institutions/entities.types";
 import { PersonPreviewEntity } from "../persons/entities.types";
 
-export interface PublicationPreviewEntity extends ZUEPCEntityBase {
+export interface PublicationDetailsEntity extends ZUEPCEntityBase {
     publishYear?: number,
     documentType?: string,
-    names: PublicationNameEntitiy[],
+    names: PublicationNameEntity[],
     identifiers: PublicationIdentifierEntity[],
+    externDatabaseIds: PublicationExternDatabaseIdEntity[],
     authors: PublicationAuthorDetailsEntity[],
     relatedPublications?: RelatedPublicationDetailsEntity[],
     publicationActivities?: PublicationActivityEntity[]
@@ -15,13 +16,13 @@ export interface PublicationPreviewEntity extends ZUEPCEntityBase {
 export interface PublicationPreviewEntity extends ZUEPCEntityBase {
     publishYear?: number,
     documentType?: string,
-    names: PublicationNameEntitiy[],
-    ExternDatabaseIds: PublicationIdentifierEntity[],
+    names: PublicationNameEntity[],
     identifiers: PublicationIdentifierEntity[],
+    externDatabaseIds: PublicationExternDatabaseIdEntity[],
     authors: PublicationAuthorDetailsEntity[]
 }
 
-export interface PublicationNameEntitiy extends ZUEPCEntityBase {
+export interface PublicationNameEntity extends ZUEPCEntityBase {
     publicationId?: number,
     name?: string,
     nameType?: string

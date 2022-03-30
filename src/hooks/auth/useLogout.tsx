@@ -1,4 +1,4 @@
-import apiEndoints from "../../endpoints/api.endpoints";
+import API_ENDPOINTS from "../../endpoints/api.endpoints";
 import useAxiosPrivate from "../useAxiosPrivate";
 import useAuth from "./useAuth";
 
@@ -10,7 +10,7 @@ const useLogout = () => {
             return;
         }
         try {
-            const response = await axiosPrivateClient.post(apiEndoints.logout, {}, {
+            const response = await axiosPrivateClient.post(API_ENDPOINTS.logout, {}, {
             });
         }
         catch (err) {

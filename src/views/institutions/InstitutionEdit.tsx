@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import ROUTES from '../../endpoints/routes.endpoints';
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 import useInstitutionService from '../../hooks/institutions/useInstitutionService';
@@ -7,7 +8,6 @@ import { InstitutionDetailsEntity, InstitutionExternDatabaseIdEntity, Institutio
 import { clearChangeableItemValues, clearObject } from '../../utils/objects-utils';
 import { handleDeleteItem, handleExistingEntityItemUpdate, handleExistingEntityNewItem, sortItemsToInserTotUpdateToDelete } from '../../utils/zuepc-item-utils';
 import { UpdateInstitutionWithDetailsCommand } from '../../types/institutions/commands.types';
-import ROUTES from '../../endpoints/routes.endpoints';
 import CRUDItemPageBase from '../../components/itemPage/CRUDItemPageBase';
 import ItemDataSection from '../../components/itemPage/ItemDataSection';
 import { Grid } from '@mui/material';
@@ -47,7 +47,8 @@ const InstitutionEdit = (props: Props) => {
                     const basicInfoSchema = institutionBasicInfoSchema;
                     isMounted && setInstitution(resInstitution);
                     isMounted && setBasicInfoSchema([...basicInfoSchema.map(x => {
-                        return { ...x, initValue: resInstitution[x.name as keyof InstitutionDetailsEntity] }
+                        const initValue = resInstitution[x.name as keyof InstitutionDetailsEntity];
+                        return { ...x, initValue: initValue ? initValue : ""}
                     })])
                     isMounted && resInstitution.names && setInstitutionNames([
                         ...resInstitution.names.map((x): ChangeableItem<InstitutionNameEntity> => { return { item: x, changed: false } })

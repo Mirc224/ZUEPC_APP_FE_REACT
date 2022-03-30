@@ -1,13 +1,13 @@
-import { makeStyles } from "@material-ui/styles";
-import { Typography, useMediaQuery, useTheme } from '@mui/material';
+import ROUTES from '../../endpoints/routes.endpoints';
+import { Grid, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 import ItemDetailPageBase from '../../components/itemPage/ItemDetailPageBase';
-import routes from '../../endpoints/routes.endpoints';
 import useInstitutionService from '../../hooks/institutions/useInstitutionService';
 import { InstitutionDetailsEntity, InstitutionNameEntity } from '../../types/institutions/entities.types';
 import ItemDataSection from "../../components/itemPage/ItemDataSection";
+import ItemCardPreviewBase from '../../components/itemPage/ItemCardPreviewBase';
 
 type Props = {}
 
@@ -35,6 +35,10 @@ const InstitutionDetail = (props: Props) => {
                     setIsLoading(false);
                 })
                 .catch((err) => {
+                    if (err.response.status === 404) {
+                        navigate(ROUTES.notFound);
+                        return;
+                    }
                     console.log(err);
                 })
         }
@@ -43,10 +47,10 @@ const InstitutionDetail = (props: Props) => {
             isMounted = false;
             controller.abort();
         }
-    }, [])
+    }, [id])
 
     const handleClickEdit = () => {
-        navigate(routes.institutionEdit.replace(":id", institution.id ? institution.id.toString() : "-1"));
+        navigate(ROUTES.institutionEdit.replace(":id", institution.id ? institution.id.toString() : "-1"));
     }
 
     const handleClickDelete = () => {
@@ -60,7 +64,7 @@ const InstitutionDetail = (props: Props) => {
                 headers: { 'Content-type': 'application/json' }
             })
                 .then((response) => {
-                    navigate(routes.persons);
+                    navigate(ROUTES.persons);
                 })
                 .catch((err) => {
                     console.error(err);
@@ -102,27 +106,30 @@ const InstitutionDetail = (props: Props) => {
                     </ItemDataSection>
                     <ItemDataSection title={t("name")}>
                         {institution.names &&
-                            <ul>
+                            <Grid container spacing={2} direction="column">
                                 {institution.names.map((x, i) =>
-                                    <li key={i}>
-                                        <Typography component="p" variant="body2">
-                                            {formatInstitutionName(x)}
-                                        </Typography>
-                                    </li>
-                                )}
-                            </ul>}
+                                    <Grid item key={i} xs>
+                                        <ItemCardPreviewBase
+                                            title={
+                                                <Typography component="p" variant="body2">
+                                                    {formatInstitutionName(x)}
+                                                </Typography>} />
+                                    </Grid>)}
+                            </Grid>}
                     </ItemDataSection>
                     <ItemDataSection title={t("externDatabaseIds")}>
                         {institution.externDatabaseIds &&
-                            <ul>
+                            <Grid container spacing={2} direction="column">
                                 {institution.externDatabaseIds.map((x, i) =>
-                                    <li key={i}>
-                                        <Typography component="p" variant="body2">
-                                            {x.externIdentifierValue}
-                                        </Typography>
-                                    </li>
+                                    <Grid item key={i} xs>
+                                        <ItemCardPreviewBase
+                                            title={
+                                                <Typography component="p" variant="body2">
+                                                    {x.externIdentifierValue}
+                                                </Typography>} />
+                                    </Grid>
                                 )}
-                            </ul>}
+                            </Grid>}
                     </ItemDataSection>
                 </>}
         </ItemDetailPageBase>

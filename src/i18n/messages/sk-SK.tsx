@@ -89,6 +89,14 @@ const lan = {
             publicationActivity: "Publikačná činnosť",
             publishYear: "Rok publikácie",
             documentType: "Typ dokumentu",
+            author: "Autor",
+            authorName: "Meno autora",
+            relatedPerson: "Súvisiaca osoba",
+            affiliatedInstitution: "Pridružená inštitúcia",
+            contributionRatio: 'Miera prispenia',
+            role: "Rola",
+            relation: "Vzťah",
+            citationCategory: "Kategória citácie",
             
             // Common
             externIdentifierValue: "Hodnota ID v externej databáze",

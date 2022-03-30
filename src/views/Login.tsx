@@ -5,7 +5,7 @@ import { Button, Container, Grid, TextField } from '@mui/material';
 import { LoginUserCommand } from '../types/auth/commands.types';
 import { axiosClient } from '../utils/axios-utils';
 import apiEndpoints from '../endpoints/api.endpoints';
-import routes from '../endpoints/routes.endpoints';
+import ROUTES from '../endpoints/routes.endpoints';
 import useAuth from "../hooks/auth/useAuth";
 import { Navigate, useLocation, useNavigate} from 'react-router-dom';
 import {authHelper} from '../helpers/auth.helper';
@@ -23,7 +23,7 @@ const Login = (props: Props) => {
   const { auth, setAuth } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const from = (location.state as any)?.from.pathname || routes.default;
+  const from = (location.state as any)?.from.pathname || ROUTES.default;
 
 
   const validationSchema = yup.object({

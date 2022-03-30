@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate, useParams } from 'react-router';
-import routes from '../../endpoints/routes.endpoints';
+import ROUTES from '../../endpoints/routes.endpoints';
 import useAuth from '../../hooks/auth/useAuth';
 import useUserService from '../../hooks/users/useUserService';
 import { Container, Typography } from '@mui/material';
@@ -18,12 +18,10 @@ const UserDetail = (props: Props) => {
     const { id } = useParams();
     const { t } = useTranslation();
     const { getUser } = useUserService();
-    const { auth, setAuth } = useAuth();
     const [isLoading, setIsLoading] = useState(false);
     const [user, setUser] = useState<UserDetailEntity>(undefined!);
 
     const navigate = useNavigate();
-    const location = useLocation();
 
     useEffect(() => {
         let isMounted = true;
@@ -38,8 +36,11 @@ const UserDetail = (props: Props) => {
                     setIsLoading(false);
                 })
                 .catch((err) => {
-                    setAuth({});
-                    navigate(routes.login, { state: { from: location }, replace: true });
+                    if (err.response.status === 404) {
+                        navigate(ROUTES.notFound);
+                        return;
+                    }
+                    console.error(err);
                 })
         }
 
@@ -51,7 +52,7 @@ const UserDetail = (props: Props) => {
 
 
     const handleClickEdit = () => {
-        navigate(routes.userEdit.replace(":id", user.id.toString()));
+        navigate(ROUTES.userEdit.replace(":id", user.id.toString()));
     }
 
     return (

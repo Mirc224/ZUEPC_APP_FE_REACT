@@ -7,7 +7,7 @@ import { UserDetailEntity } from '../../types/auth/entities.types';
 import { permissionHelper } from '../../helpers/permission.helper';
 import roles from '../../constatns/roles.constants';
 import useAuth from '../../hooks/auth/useAuth';
-import routes from '../../endpoints/routes.endpoints';
+import ROUTES from '../../endpoints/routes.endpoints';
 import { UserRole } from '../../enums/role.enum';
 import SubmitResetForm from '../../components/SubmitResetForm';
 import { FormikFieldSchema } from '../../types/common/component.types';
@@ -120,7 +120,7 @@ const UserEdit = (props: Props) => {
             finally {
                 setIsLoading(false);
             }
-            navigate(routes.userDetails.replace(":id", id));
+            navigate(ROUTES.userDetails.replace(":id", id));
         }
     }
 

@@ -1,12 +1,11 @@
+import ROUTES from '../../endpoints/routes.endpoints';
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import useInstitutionService from '../../hooks/institutions/useInstitutionService';
 import { InstitutionExternDatabaseIdEntity, InstitutionNameEntity } from '../../types/institutions/entities.types';
-import { FormikFieldSchema } from '../../types/common/component.types';
 import { clearObject, clearValues } from '../../utils/objects-utils';
 import { CreateInstitutionWithDetailsCommand } from '../../types/institutions/commands.types';
-import routes from '../../endpoints/routes.endpoints';
 import { handleDeleteItem, handleEntityItemUpdate, handleEntityNewItem } from '../../utils/zuepc-item-utils';
 import CRUDItemPageBase from '../../components/itemPage/CRUDItemPageBase';
 import ItemDataSection from '../../components/itemPage/ItemDataSection';
@@ -46,7 +45,7 @@ const InstitutionCreate = (props: Props) => {
             .then((response) => {
                 const newId = response.data.id;
                 setIsProcessing(false);
-                navigate(routes.institutionDetails.replace(":id", newId));
+                navigate(ROUTES.institutionDetails.replace(":id", newId));
             })
             .catch((err) => {
                 setIsProcessing(false);

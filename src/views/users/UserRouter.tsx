@@ -1,5 +1,6 @@
 import { Outlet, Route, Routes } from "react-router"
-import routes from "../../endpoints/routes.endpoints"
+import ROUTES from "../../endpoints/routes.endpoints"
+import Missing from "../Missing"
 import UserDetail from "./UserDetail"
 import UserEdit from "./UserEdit"
 import Users from "./Users"
@@ -14,9 +15,10 @@ const UserRoutes = (props: Props) => {
   }
   return (
       <Routes>
-        <Route path={getPath(routes.users)} element={<Users/>} />
-        <Route path={getPath(routes.userDetails)} element={<UserDetail/>} />
-        <Route path={getPath(routes.userEdit)} element={<UserEdit/>} />
+        <Route path={getPath(ROUTES.users)} element={<Users/>} />
+        <Route path={getPath(ROUTES.userDetails)} element={<UserDetail/>} />
+        <Route path={getPath(ROUTES.userEdit)} element={<UserEdit/>} />
+        <Route path='*' element={<Missing />} />
       </Routes>
   )
 }

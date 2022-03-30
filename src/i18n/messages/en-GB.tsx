@@ -91,6 +91,14 @@ const lan =  {
             publicationActivity: "Publication activity",
             publishYear: "Publish year",
             documentType: "Document type",
+            author: "Author",
+            authorName: "Author name",
+            relatedPerson: "Related person",
+            affiliatedInstitution: "Affiliated institution",
+            contributionRatio: 'Contribution ratio',
+            role: "Role",
+            relation: "Relation",
+            citationCategory: "Citation category",
             
             // Common
             externIdentifierValue: "Extern database ID value",

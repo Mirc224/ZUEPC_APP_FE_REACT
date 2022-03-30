@@ -1,12 +1,13 @@
-import { Typography, useMediaQuery, useTheme } from '@mui/material';
+import ROUTES from '../../endpoints/routes.endpoints';
+import { Grid, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 import ItemDataSection from '../../components/itemPage/ItemDataSection';
-import routes from '../../endpoints/routes.endpoints';
 import usePersonService from '../../hooks/persons/usePersonService';
 import { PersonDetailsEntity, PersonNameEntity } from '../../types/persons/entities.types';
 import ItemDetailPageBase from '../../components/itemPage/ItemDetailPageBase';
+import ItemCardPreviewBase from '../../components/itemPage/ItemCardPreviewBase';
 type Props = {}
 
 const PersonDetail = (props: Props) => {
@@ -41,10 +42,10 @@ const PersonDetail = (props: Props) => {
             isMounted = false;
             controller.abort();
         }
-    }, [])
+    }, [id])
 
     const handleClickEdit = () => {
-        navigate(routes.personEdit.replace(":id", person.id ? person.id.toString() : "-1"));
+        navigate(ROUTES.personEdit.replace(":id", person.id ? person.id.toString() : "-1"));
     }
 
     const handleClickDelete = () => {
@@ -58,9 +59,13 @@ const PersonDetail = (props: Props) => {
                 headers: { 'Content-type': 'application/json' }
             })
                 .then((response) => {
-                    navigate(routes.persons);
+                    navigate(ROUTES.persons);
                 })
                 .catch((err) => {
+                    if (err.response.status === 404) {
+                        navigate(ROUTES.notFound);
+                        return;
+                    }
                     console.error(err);
                 });
         }
@@ -102,27 +107,31 @@ const PersonDetail = (props: Props) => {
                     </ItemDataSection>
                     <ItemDataSection title={`${t("firstName")}/${t("lastName")}`}>
                         {person.names &&
-                            <ul>
+                            <Grid container spacing={2} direction="column">
                                 {person.names.map((x, i) =>
-                                    <li key={i}>
-                                        <Typography component="p" variant="body2">
-                                            {formatPersonName(x)}
-                                        </Typography>
-                                    </li>
+                                    <Grid item key={i} xs>
+                                        <ItemCardPreviewBase
+                                            title={
+                                                <Typography component="p" variant="body2">
+                                                    {formatPersonName(x)}
+                                                </Typography>} />
+                                    </Grid>
                                 )}
-                            </ul>}
+                            </Grid>}
                     </ItemDataSection>
                     <ItemDataSection title={t("externDatabaseIds")}>
                         {person.externDatabaseIds &&
-                            <ul>
+                            <Grid container spacing={2} direction="column">
                                 {person.externDatabaseIds.map((x, i) =>
-                                    <li key={i}>
-                                        <Typography component="p" variant="body2">
-                                            {x.externIdentifierValue}
-                                        </Typography>
-                                    </li>
+                                    <Grid item key={i} xs>
+                                        <ItemCardPreviewBase
+                                            title={
+                                                <Typography component="p" variant="body2">
+                                                    {x.externIdentifierValue}
+                                                </Typography>} />
+                                    </Grid>
                                 )}
-                            </ul>}
+                            </Grid>}
                     </ItemDataSection>
                 </>}
         </ItemDetailPageBase>

@@ -6,6 +6,7 @@ import RequireAuth from "../../components/RequireAuth";
 import PersonCreate from "./PersonCreate";
 import PersonDetail from "./PersonDetail";
 import PersonEdit from "./PersonEdit";
+import Missing from "../Missing";
 
 type Props = {}
 
@@ -23,6 +24,7 @@ const PersonRouter = (props: Props) => {
                 <Route path={getPath(ROUTES.personCreate)} element={<PersonCreate />} />
                 <Route path={getPath(ROUTES.personEdit)} element={<PersonEdit />} />
             </Route>
+            <Route path='*' element={<Missing />} />
         </Routes>
     )
 }

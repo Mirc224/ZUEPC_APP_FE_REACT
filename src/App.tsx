@@ -7,7 +7,7 @@ import Logout from './views/Logout';
 import Login from './views/Login';
 import Layout from './components/Layout';
 import RequireAuth from './components/RequireAuth';
-import routes from './endpoints/routes.endpoints';
+import ROUTES from './endpoints/routes.endpoints';
 import { Route, Routes } from 'react-router';
 import Unauthorized from './views/Unauthorized';
 import ROLES from './constatns/roles.constants';
@@ -30,16 +30,16 @@ function App() {
         <Route element={<PersistLogin />}>
           <Route path='/' element={<Layout />}>
             <Route path='' element={<DefaultPageRedirection/>}/>
-            <Route path={routes.login} element={<Login />} />
-            <Route path={routes.register} element={<Register />} />
-            <Route path={routes.logout} element={<Logout />} />
-            <Route path={routes.unauthorized} element={<Unauthorized />} />
+            <Route path={ROUTES.login} element={<Login />} />
+            <Route path={ROUTES.register} element={<Register />} />
+            <Route path={ROUTES.logout} element={<Logout />} />
+            <Route path={ROUTES.unauthorized} element={<Unauthorized />} />
             <Route element={<RequireAuth allowedRoles={[ROLES.User, ROLES.Admin, ROLES.Editor]} />}>
-              <Route path={routes.publicationRoutes} element={<PublicationRouter />} />
-              <Route path={routes.personRoutes} element={<PersonRouter />} />
-              <Route path={routes.institutionRoutes} element={<InstitutionRouter />} />
+              <Route path={ROUTES.publicationRoutes} element={<PublicationRouter />} />
+              <Route path={ROUTES.personRoutes} element={<PersonRouter />} />
+              <Route path={ROUTES.institutionRoutes} element={<InstitutionRouter />} />
               <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
-                <Route path={routes.userRoutes} element={<UserRoutes />} />
+                <Route path={ROUTES.userRoutes} element={<UserRoutes />} />
               </Route>
             </Route>
             <Route path='*' element={<Missing />} />

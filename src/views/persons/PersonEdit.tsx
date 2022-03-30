@@ -1,3 +1,4 @@
+import ROUTES from '../../endpoints/routes.endpoints';
 import { Grid } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
@@ -11,7 +12,6 @@ import ItemDataSection from '../../components/itemPage/ItemDataSection';
 import { handleDeleteItem, handleExistingEntityItemUpdate, handleExistingEntityNewItem, sortItemsToInserTotUpdateToDelete } from '../../utils/zuepc-item-utils';
 import { PersonDetailsEntity, PersonExternDatabaseIdEntity, PersonNameEntity } from '../../types/persons/entities.types';
 import { UpdatePersonWithDetailsCommand } from '../../types/persons/commands.types';
-import routes from '../../endpoints/routes.endpoints';
 import CRUDItemPageBase from '../../components/itemPage/CRUDItemPageBase';
 import { personBasicInfoSchema, personExternIdentifierSchema, personNameSchema } from '../../form-schemas/person.schema';
 
@@ -50,11 +50,13 @@ const PersonEdit = (props: Props) => {
           isMounted && setPerson(resPerson);
           isMounted && setBasicInfoSchema([
             ...basicInfoSchema.map(x=> {
-              return {...x, initValue: resPerson[x.name as keyof PersonDetailsEntity]}
+              const initValue = resPerson[x.name as keyof PersonDetailsEntity]
+              return { ...x, initValue: initValue ? initValue : ""}
             })
           ])
           isMounted && resPerson.names && setPersonNames([
-            ...resPerson.names.map((x): ChangeableItem<PersonNameEntity> => { return { item: x, changed: false } })
+            ...resPerson.names.map((x): ChangeableItem<PersonNameEntity> => { 
+              return { item: x, changed: false } })
           ])
           isMounted && resPerson.externDatabaseIds && setPersonExternDbIds([
             ...resPerson.externDatabaseIds.map((x): ChangeableItem<PersonExternDatabaseIdEntity> => { return { item: x, changed: false } })
@@ -98,7 +100,7 @@ const PersonEdit = (props: Props) => {
     })
       .then((response) => {
         setIsProcessing(false);
-        navigate(routes.personDetails.replace(":id", id ? id : "-1"));
+        navigate(ROUTES.personDetails.replace(":id", id ? id : "-1"));
       })
       .catch((err) => {
         console.error(err);

@@ -1,12 +1,10 @@
+import ROUTES from '../../endpoints/routes.endpoints';
 import { Grid } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import * as yup from 'yup';
 import SubmitResetForm from '../../components/SubmitResetForm';
-import { FormikFieldSchema } from '../../types/common/component.types';
 import NewItemWithExistingUpdateDeletePreview from '../../components/itemPage/NewItemWithExistingUpdateDeletePreview';
 import usePersonService from '../../hooks/persons/usePersonService';
-import routes from '../../endpoints/routes.endpoints';
 import { useNavigate } from 'react-router';
 import { clearObject, clearValues } from '../../utils/objects-utils';
 import ItemDataSection from '../../components/itemPage/ItemDataSection';
@@ -50,7 +48,7 @@ const PersonCreate = (props: Props) => {
       .then((response) => {
         const newId = response.data.id;
         setIsProcessing(false);
-        navigate(routes.personDetails.replace(":id", newId));
+        navigate(ROUTES.personDetails.replace(":id", newId));
       })
       .catch((err) => {
         setIsProcessing(false);

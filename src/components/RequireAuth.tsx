@@ -1,6 +1,6 @@
 import { useLocation, Navigate, Outlet } from "react-router-dom";
 import useAuth from "../hooks/auth/useAuth";
-import routes  from '../endpoints/routes.endpoints';
+import ROUTES  from '../endpoints/routes.endpoints';
 
 type Props = {
     allowedRoles?: string[] | undefined
@@ -14,8 +14,8 @@ const RequireAuth = ({allowedRoles}: Props) => {
         auth?.roles?.find(role => allowedRoles?.includes(role))
             ? <Outlet/> 
             : auth?.id 
-                ? <Navigate to={routes.unauthorized} replace />
-                : <Navigate to={routes.login} replace/>
+                ? <Navigate to={ROUTES.unauthorized} replace />
+                : <Navigate to={ROUTES.login} replace/>
     );
 }
 

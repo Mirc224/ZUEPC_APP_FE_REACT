@@ -1,4 +1,4 @@
-const apiEndoints = {
+const API_ENDPOINTS = {
     'register': '/auth/register',
     'login': '/auth/login',
     'logout': '/auth/logout',
@@ -30,4 +30,4 @@ const apiEndoints = {
 }
 
 
-export default apiEndoints;
+export default API_ENDPOINTS;

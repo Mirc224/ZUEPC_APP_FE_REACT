@@ -29,7 +29,6 @@ const Users = (props: Props) => {
     let isMounted = true;
     const controller = new AbortController();
     setIsLoading(true);
-    console.log(queryParams)
     getUsers({
       params: queryParams,
       signal: controller.signal

@@ -6,7 +6,7 @@ import InstitutionPreview from '../../components/institutions/InstitutionPreview
 import PaginationPageBase from '../../components/pagination/PaginationPageBase';
 import PaginationPageMain from '../../components/pagination/PaginationPageMain';
 import ROLES from '../../constatns/roles.constants';
-import routes from '../../endpoints/routes.endpoints';
+import ROUTES from '../../endpoints/routes.endpoints';
 import useInstitutionService from '../../hooks/institutions/useInstitutionService';
 import { FormikFieldSchema } from '../../types/common/component.types';
 import { InstitutionPreviewEntity } from '../../types/institutions/entities.types';
@@ -57,7 +57,7 @@ const Institutions = (props: Props) => {
   }
 
   const handleAddClick = () => {
-    navigate(routes.institutionCreate);
+    navigate(ROUTES.institutionCreate);
   }
 
   const ShowObjects = () => {

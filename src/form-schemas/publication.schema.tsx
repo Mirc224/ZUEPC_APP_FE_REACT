@@ -6,4 +6,20 @@ export const publicationSearchSchema: FormikFieldSchema[] = [
         initValue: "",
         type: "text",
     },
+    {
+        name: "authorName",
+        initValue: "",
+        type: "text",
+    },
+    {
+        name: "identifierValue",
+        labelTranslationKey: "publicationIdentifier",
+        initValue: "",
+        type: "text",
+    },
+    {
+        name: 'externIdentifierValue',
+        type: "text",
+        initValue: ""
+    }
 ]

@@ -1,4 +1,4 @@
-const routes = {
+const ROUTES = {
     'default': '/publication',
 
     'userRoutes': '/user/*',
@@ -27,7 +27,8 @@ const routes = {
     'register': '/register',
     'login': '/login',
     'logout': '/logout',
-    'unauthorized': '/unauthorized'
+    'unauthorized': '/unauthorized',
+    'notFound': '/notfound'
 }
 
-export default routes;
+export default ROUTES;

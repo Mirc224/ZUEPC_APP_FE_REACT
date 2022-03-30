@@ -1,9 +1,9 @@
-import { PublicationActivityEntity, PublicationAuthorDetailsEntity, PublicationIdentifierEntity, PublicationNameEntitiy, RelatedPublicationEntity } from "./entities.types";
+import { PublicationActivityEntity, PublicationAuthorDetailsEntity, PublicationIdentifierEntity, PublicationNameEntity, RelatedPublicationEntity } from "./entities.types";
 
 export interface CreatePublicationWithDetailsCommand {
     publishYear?: number,
     documentType?: string,
-    names: PublicationNameEntitiy[],
+    names: PublicationNameEntity[],
     ExternDatabaseIds: PublicationIdentifierEntity[],
     identifiers: PublicationIdentifierEntity[],
     authors: PublicationAuthorDetailsEntity[],
@@ -16,7 +16,7 @@ export interface UpdatePublicationWithDetailsCommand {
     id?: number,
     publishYear?: number,
     documentType?: string,
-    names: PublicationNameEntitiy[],
+    names: PublicationNameEntity[],
     ExternDatabaseIds: PublicationIdentifierEntity[],
     identifiers: PublicationIdentifierEntity[],
     authors: PublicationAuthorDetailsEntity[],

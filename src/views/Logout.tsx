@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import { useTranslation } from 'react-i18next';
 import { Navigate } from 'react-router';
 import { AuthContext } from '../contexts/AuthContext';
-import routes from '../endpoints/routes.endpoints';
+import ROUTES from '../endpoints/routes.endpoints';
 import useAuth from '../hooks/auth/useAuth';
 import useLogout from '../hooks/auth/useLogout';
 
@@ -22,7 +22,7 @@ const Logout = (props: Props) => {
   return (
     <>
       <p>{t('logoutMessage')}</p>
-      <Navigate to={routes.login} replace />
+      <Navigate to={ROUTES.login} replace />
     </>
   )
 }

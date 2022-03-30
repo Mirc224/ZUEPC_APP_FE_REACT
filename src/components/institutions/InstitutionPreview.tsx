@@ -1,9 +1,11 @@
 import { Card, CardActionArea, CardContent, CardHeader } from '@mui/material'
-import React, { ReactElement } from 'react'
+import React, { ReactElement, ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
-import routes from '../../endpoints/routes.endpoints'
+import ROUTES from '../../endpoints/routes.endpoints'
+import { itemformatHelper } from '../../helpers/itemformat.helper'
 import { InstitutionPreviewEntity } from '../../types/institutions/entities.types'
+import ItemCardPreviewBase from '../itemPage/ItemCardPreviewBase'
 
 type Props = {
     institution: InstitutionPreviewEntity
@@ -15,13 +17,13 @@ const InstitutionPreview = (props: Props) => {
     const navigate = useNavigate();
 
     const handleCardClick = () => {
-        navigate(routes.institutionDetails.replace(":id", institution.id ? institution.id.toString() : "-1"));
+        navigate(ROUTES.institutionDetails.replace(":id", institution.id ? institution.id.toString() : "-1"));
     }
 
     const InstitutionTitle = (): string => {
         let title = (institution.id ? institution.id.toString() : t('unknown')) + "|";
         let namePart = institution.names && institution.names.length > 0 ?
-            (institution.names[0].name ? institution.names[0].name : "") 
+            (institution.names[0].name ? institution.names[0].name : "")
             : t('unknown');
         title += " " + namePart;
 
@@ -29,9 +31,9 @@ const InstitutionPreview = (props: Props) => {
     }
 
     const InstitutionType = (): ReactElement => {
-        return institution.institutionType ? 
-        <p><strong>{t('institutionType')}:</strong> {institution.institutionType}</p> 
-        : <></>;
+        return institution.institutionType ?
+            <p><strong>{t('institutionType')}:</strong> {institution.institutionType}</p>
+            : <></>;
     }
 
     const InstitutionLevel = (): ReactElement => {
@@ -43,36 +45,28 @@ const InstitutionPreview = (props: Props) => {
     const InstitutionNameAlternatives = (): ReactElement => {
         const names = institution.names;
         let nameAlternatives = names && names.length > 1
-            ? names.slice(1).map(x => (x.name ? x.name + "/" +x.nameType : "")).join(', ') : "";
+            ? names.slice(1).map(x => (x.name ? x.name + "/" + x.nameType : "")).join(', ') : "";
         return nameAlternatives ?
-            <p><strong>{t('alternativeHe')} {t('name').toLowerCase()}:</strong> {nameAlternatives}</p> 
+            <p><strong>{t('alternativeHe')} {t('name').toLowerCase()}:</strong> {nameAlternatives}</p>
             : <></>;
     }
 
     const InstitutionExternDatabaseIds = (): ReactElement => {
-        const externDatabaseIds = institution.externDatabaseIds;
-        let externDbIdsString = externDatabaseIds && externDatabaseIds.length > 0 ? externDatabaseIds.map(x => x.externIdentifierValue).join(', ') : "";
-        return externDbIdsString ?
-            <p><strong>{t('externDatabaseIds')}:</strong> {externDbIdsString}</p> : <></>;
+        return itemformatHelper.formatExternDatabaseIds(institution.externDatabaseIds, t);
     }
 
     return (
-        <Card >
-            <CardActionArea onClick={handleCardClick}>
-                <CardHeader
-                    title={InstitutionTitle()}
-                    subheader={
-                    <div>
-                        {InstitutionLevel()}
-                        {InstitutionType()}
-                    </div>}
-                />
-                <CardContent>
-                    {InstitutionNameAlternatives()}
-                    {InstitutionExternDatabaseIds()}
-                </CardContent>
-            </CardActionArea>
-        </Card>
+        <ItemCardPreviewBase
+            title={InstitutionTitle()}
+            subheader={
+                <div>
+                    {InstitutionLevel()}
+                    {InstitutionType()}
+                </div>}
+            onClick={handleCardClick}>
+            {InstitutionNameAlternatives()}
+            {InstitutionExternDatabaseIds()}
+        </ItemCardPreviewBase>
     )
 }
 

@@ -1,9 +1,11 @@
 import { Card, CardActionArea, CardContent, CardHeader } from '@mui/material'
-import routes from '../../endpoints/routes.endpoints';
-import { ReactElement } from 'react';
+import ROUTES from '../../endpoints/routes.endpoints';
+import { ReactElement, ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { PersonPreviewEntity } from '../../types/persons/entities.types';
+import ItemCardPreviewBase from '../itemPage/ItemCardPreviewBase';
+import { itemformatHelper } from '../../helpers/itemformat.helper';
 
 type Props = {
     person: PersonPreviewEntity
@@ -15,7 +17,7 @@ const PersonPreview = (props: Props) => {
     const navigate = useNavigate();
 
     const handleCardClick = () => {
-        navigate(routes.personDetails.replace(":id", person.id ? person.id.toString() : "-1"));
+        navigate(ROUTES.personDetails.replace(":id", person.id ? person.id.toString() : "-1"));
     }
 
     const PersonTitle = (): string => {
@@ -48,25 +50,19 @@ const PersonPreview = (props: Props) => {
     }
 
     const PersonExternDatabaseIds = (): ReactElement => {
-        const externDatabaseIds = person.externDatabaseIds;
-        let externDbIdsString = externDatabaseIds && externDatabaseIds.length > 0 ? externDatabaseIds.map(x => x.externIdentifierValue).join(', ') : "";
-        return externDbIdsString ?
-            <p><strong>{t('externDatabaseIds')}:</strong> {externDbIdsString}</p> : <></>;
+        return itemformatHelper.formatExternDatabaseIds(person.externDatabaseIds, t);
     }
 
+
     return (
-        <Card >
-            <CardActionArea onClick={handleCardClick}>
-                <CardHeader
-                    title={PersonTitle()}
-                    subheader={PersonYears()}
-                />
-                <CardContent>
-                    {PersonNameAlternatives()}
-                    {PersonExternDatabaseIds()}
-                </CardContent>
-            </CardActionArea>
-        </Card>
+        <ItemCardPreviewBase
+            title={PersonTitle()}
+            subheader={PersonYears()}
+            onClick={handleCardClick}
+        >
+            {PersonNameAlternatives()}
+            {PersonExternDatabaseIds()}
+        </ItemCardPreviewBase>
     )
 }
 

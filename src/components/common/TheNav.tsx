@@ -11,7 +11,7 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import { Link, NavLink } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
-import routes from '../../endpoints/routes.endpoints';
+import ROUTES from '../../endpoints/routes.endpoints';
 import useAuth from '../../hooks/auth/useAuth';
 import ROLES from '../../constatns/roles.constants';
 
@@ -32,20 +32,19 @@ const TheNav = () => {
     };
 
     function getRoute(page: string): string {
-        const result = (Object.keys(routes) as (keyof typeof routes)[]).find((key) =>{
+        const result = (Object.keys(ROUTES) as (keyof typeof ROUTES)[]).find((key) =>{
             return key === page;
         });
         if(result === undefined)
         {
-            return routes.default;
+            return ROUTES.default;
         }
-        return routes[result];
+        return ROUTES[result];
     }
 
     return (
         <AppBar position="sticky">
             <Container maxWidth="xl">
-                <p>{JSON.stringify(auth)}</p>
                 <Toolbar disableGutters>
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                         <IconButton

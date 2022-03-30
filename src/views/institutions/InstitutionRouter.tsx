@@ -1,12 +1,13 @@
 import React from 'react'
 import { Route, Routes } from 'react-router';
 import RequireAuth from '../../components/RequireAuth';
-import routes from '../../endpoints/routes.endpoints';
+import ROUTES from '../../endpoints/routes.endpoints';
 import ROLES from '../../constatns/roles.constants';
 import Institutions from './Institutions';
 import InstitutionDetail from './InstitutionDetail';
 import InstitutionCreate from './InstitutionCreate';
 import InstitutionEdit from './InstitutionEdit';
+import Missing from '../Missing';
 
 type Props = {}
 
@@ -18,12 +19,13 @@ const InstitutionRouter = (props: Props) => {
     }
     return (
         <Routes>
-            <Route path={getPath(routes.institutions)} element={<Institutions />} />
-            <Route path={getPath(routes.institutionDetails)} element={<InstitutionDetail />} />
+            <Route path={getPath(ROUTES.institutions)} element={<Institutions />} />
+            <Route path={getPath(ROUTES.institutionDetails)} element={<InstitutionDetail />} />
             <Route element={<RequireAuth allowedRoles={[ROLES.Admin, ROLES.Editor]} />}>
-                <Route path={getPath(routes.institutionCreate)} element={<InstitutionCreate />} />
-                <Route path={getPath(routes.institutionEdit)} element={<InstitutionEdit />} />
+                <Route path={getPath(ROUTES.institutionCreate)} element={<InstitutionCreate />} />
+                <Route path={getPath(ROUTES.institutionEdit)} element={<InstitutionEdit />} />
             </Route>
+            <Route path='*' element={<Missing />} />
         </Routes>
     )
 }
