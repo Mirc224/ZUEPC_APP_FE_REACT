@@ -57,7 +57,7 @@ const Publications = (props: Props) => {
   }
 
   const handleAddClick = () => {
-    navigate(ROUTES.personCreate);
+    navigate(ROUTES.publicationCreate);
   }
 
   const ShowObjects = () => {

@@ -10,6 +10,7 @@ const usePersonService = () => {
             ...params
         });
     }
+    
     const getPersonDetails = async (id: string, params: any) => {
         return axiosPrivateClient.get(apiEndpoints.personDetail.replace(":id", id.toString()), {
             ...params
@@ -33,7 +34,13 @@ const usePersonService = () => {
         });
     }
 
-    return { getPersonsPreviews, getPersonDetails, createPerson, updatePerson, deletePerson };
+    const getPersonNames = async (params: any) => {
+        return axiosPrivateClient.get(apiEndpoints.personNames, {
+            ...params
+        });
+    }
+    
+    return { getPersonNames, getPersonsPreviews, getPersonDetails, createPerson, updatePerson, deletePerson };
 }
 
 export default usePersonService;

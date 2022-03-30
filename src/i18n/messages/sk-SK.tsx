@@ -97,6 +97,9 @@ const lan = {
             role: "Rola",
             relation: "Vzťah",
             citationCategory: "Kategória citácie",
+            activityYear: "Vykazovací rok",
+            category: "Kategória",
+            governmentGrant: "Štátna dotácia",
             
             // Common
             externIdentifierValue: "Hodnota ID v externej databáze",

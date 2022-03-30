@@ -5,7 +5,7 @@ import React, { ReactElement, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 import usePublicationService from '../../hooks/publications/usePublicationService';
-import { PublicationDetailsEntity, PublicationIdentifierEntity, PublicationNameEntity } from '../../types/publications/entities.types';
+import { PublicationActivityEntity, PublicationDetailsEntity, PublicationIdentifierEntity, PublicationNameEntity } from '../../types/publications/entities.types';
 import ItemDetailPageBase from '../../components/itemPage/ItemDetailPageBase';
 import ItemDataSection from '../../components/itemPage/ItemDataSection';
 import PersonPreview from '../../components/persons/PersonPreview';
@@ -108,6 +108,25 @@ const PublicationDetail = (props: Props) => {
       : <></>;
   }
 
+  const PublicationActivity = (value: PublicationActivityEntity): ReactElement => {
+    return (
+      <>
+        {value.activityYear &&
+          <Typography component="p" variant="body1">
+            <strong>{t('activityYear')}: </strong>{value.activityYear}
+          </Typography >}
+        {value.category &&
+          <Typography component="p" variant="body1">
+            <strong>{t('category')}: </strong>{value.category}
+          </Typography >}
+        {value.governmentGrant &&
+          <Typography component="p" variant="body1">
+            <strong>{t('governmentGrant')}: </strong>{value.governmentGrant}
+          </Typography >}
+      </>
+    )
+  }
+
   return (<ItemDetailPageBase
     isLoading={isLoading}
     title={`${t('publication')} (${id})`}
@@ -127,14 +146,14 @@ const PublicationDetail = (props: Props) => {
         </ItemDataSection>
         <ItemDataSection title={t("name")}>
           {publication.names &&
-          <Grid container spacing={2} direction="column">
+            <Grid container spacing={2} direction="column">
               {publication.names.map((x, i) =>
-              <Grid item key={i} xs>
+                <Grid item key={i} xs>
                   <ItemCardPreviewBase
                     title={
                       <Typography component="p" variant="body1">
                         {formatPublicationName(x)}
-                      </Typography>}/>
+                      </Typography>} />
                 </Grid>
               )}
             </Grid>}
@@ -155,9 +174,9 @@ const PublicationDetail = (props: Props) => {
         </ItemDataSection>
         <ItemDataSection title={t("externDatabaseIds")}>
           {publication.externDatabaseIds &&
-          <Grid container spacing={2} direction="column">
+            <Grid container spacing={2} direction="column">
               {publication.externDatabaseIds.map((x, i) =>
-              <Grid item key={i} xs>
+                <Grid item key={i} xs>
                   <ItemCardPreviewBase
                     title={
                       <Typography component="p" variant="body1">
@@ -230,6 +249,19 @@ const PublicationDetail = (props: Props) => {
                       <PublicationPreview publication={x.relatedPublication} />
                     }
                   </ItemCardPreviewBase>
+                </Grid>
+              )}
+            </Grid>}
+        </ItemDataSection>
+        <ItemDataSection title={t("publicationActivity")}>
+          {publication.publicationActivities &&
+            <Grid container spacing={2} direction="column">
+              {publication.publicationActivities.map((x, i) =>
+                <Grid item key={i} xs>
+                  <ItemCardPreviewBase
+                    title={
+                      PublicationActivity(x)
+                    }/>
                 </Grid>
               )}
             </Grid>}

@@ -99,6 +99,9 @@ const lan =  {
             role: "Role",
             relation: "Relation",
             citationCategory: "Citation category",
+            activityYear: "Activity year",
+            category: "Category",
+            governmentGrant: "Government grant",
             
             // Common
             externIdentifierValue: "Extern database ID value",
