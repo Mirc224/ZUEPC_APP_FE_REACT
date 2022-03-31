@@ -9,11 +9,12 @@ import roles from '../../constatns/roles.constants';
 import useAuth from '../../hooks/auth/useAuth';
 import ROUTES from '../../endpoints/routes.endpoints';
 import { UserRole } from '../../enums/role.enum';
-import SubmitResetForm from '../../components/SubmitResetForm';
+import FormikTextFields from '../../components/common/FormikTextFields';
 import { FormikFieldSchema } from '../../types/common/component.types';
 import { userBasicInfoSchema } from '../../form-schemas/user.schema';
 import ItemDataSection from '../../components/itemPage/ItemDataSection';
 import CRUDItemPageBase from '../../components/itemPage/CRUDItemPageBase';
+import SubmitResetForm from '../../components/common/SubmitResetForm';
 
 type Props = {}
 type RoleObject = {

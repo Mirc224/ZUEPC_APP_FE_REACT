@@ -1,9 +1,9 @@
-import { Box, Card, Grid, IconButton } from '@mui/material'
-import SubmitResetForm from '../SubmitResetForm'
+import { Box, Card, Grid, IconButton, useMediaQuery, useTheme } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add';
 import { FormikFieldSchema } from '../../types/common/component.types';
 import UpdateDeleteItem from './UpdateDeleteItem';
 import { useState } from 'react';
+import SubmitResetForm from '../common/SubmitResetForm';
 
 type Props<T> = {
     formName: string,
@@ -25,6 +25,8 @@ const NewItemWithExistingUpdateDeletePreview = <T extends object>(props: Props<T
         onItemDelete,
         onEixstItemUpdate } = props;
     const [dirty, setDirty] = useState(false);
+    const theme = useTheme();
+    const fullScreen = useMediaQuery(theme.breakpoints.up('md'));
     const { v4: uuidv4 } = require('uuid');
 
     return (
@@ -33,7 +35,7 @@ const NewItemWithExistingUpdateDeletePreview = <T extends object>(props: Props<T
                 <Grid container spacing={2} alignItems="center">
                     <Grid item xs>
                         <SubmitResetForm
-                            direction="row"
+                            direction={fullScreen ? "row" : "column"}
                             formId={formName}
                             onSubmit={onNewItemSubmit}
                             onValueChange={(v, dirty) => setDirty(dirty)}
@@ -61,6 +63,7 @@ const NewItemWithExistingUpdateDeletePreview = <T extends object>(props: Props<T
                                     <Box sx={{ p: 2 }}>
                                         <UpdateDeleteItem
                                             formKey={i}
+                                            direction={fullScreen ? "row" : "column"}
                                             formName={uid}
                                             defaultFieldSchema={existItemFormSchema}
                                             onDelete={onItemDelete}

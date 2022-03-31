@@ -11,9 +11,9 @@ import { UpdateInstitutionWithDetailsCommand } from '../../types/institutions/co
 import CRUDItemPageBase from '../../components/itemPage/CRUDItemPageBase';
 import ItemDataSection from '../../components/itemPage/ItemDataSection';
 import { Grid } from '@mui/material';
-import SubmitResetForm from '../../components/SubmitResetForm';
 import NewItemWithExistingUpdateDeletePreview from '../../components/itemPage/NewItemWithExistingUpdateDeletePreview';
 import { institutionBasicInfoSchema, institutionExternIdentifierSchema, institutionNameSchema } from '../../form-schemas/institution.schema';
+import SubmitResetForm from '../../components/common/SubmitResetForm';
 
 type Props = {}
 
@@ -144,7 +144,11 @@ const InstitutionEdit = (props: Props) => {
             <ItemDataSection title={`${t("basic")} ${t('informations').toLowerCase()}`}>
                 <Grid container justifyContent="center" spacing={2}>
                     <Grid item xs={12}>
-                        <SubmitResetForm direction="row" onSubmit={handleSubmitForm} fields={basicInfoSchema} formId="whole-form" />
+                        <SubmitResetForm 
+                        direction="row"
+                        onSubmit={handleSubmitForm} 
+                        fields={basicInfoSchema} 
+                        formId="whole-form" />
                     </Grid>
                 </Grid>
             </ItemDataSection>

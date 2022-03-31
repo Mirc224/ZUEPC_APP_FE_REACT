@@ -1,9 +1,11 @@
+import * as yup from 'yup';
 import { Button, IconButton, useMediaQuery, useTheme } from '@mui/material'
 import Grid from '@mui/material/Grid'
 import { useTranslation } from 'react-i18next'
 import SearchIcon from '@mui/icons-material/Search';
-import SubmitResetForm from '../SubmitResetForm';
+import FormikTextFields from '../common/FormikTextFields';
 import { FormikFieldSchema } from '../../types/common/component.types';
+import { useFormik } from 'formik';
 
 type Props = {
     searchFields: FormikFieldSchema[],
@@ -17,8 +19,13 @@ const PaginationPageSearchBar = (props: Props) => {
     const theme = useTheme();
     const largeScreen = useMediaQuery(theme.breakpoints.up('md'));
 
-    const handleSearchSubmit = (searchValues: any, dirty: boolean) => {
-        if (dirty) {
+    const validationSchema = yup.object(
+        searchFields.reduce(((r, c) => Object.assign(r, { [c.name]: c.validationSchema })), {})
+    )
+    const initValues = searchFields.reduce(((r, c) => Object.assign(r, { [c.name]: c.initValue })), {})
+
+    const handleSearchSubmit = (searchValues: any) => {
+        if (formik.dirty) {
             const values = Object
                 .keys(searchValues)
                 .reduce(((r, key) => Object.assign(r, (searchValues[key] && { [key]: searchValues[key] }))), {})
@@ -30,18 +37,27 @@ const PaginationPageSearchBar = (props: Props) => {
         onSearchReset();
     }
 
+    const formik = useFormik({
+        initialValues: initValues,
+        validationSchema: validationSchema,
+        onSubmit: handleSearchSubmit,
+        onReset: handleSearchReset
+    });
+
     return (
-        <Grid container direction={largeScreen ? "row" : "column"} spacing={2} alignItems="center">
-            <Grid item xs>
-                <SubmitResetForm onSubmit={handleSearchSubmit} onReset={handleSearchReset} fields={searchFields} formId="search-form" direction="row" />
+        <form id="search-form" onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
+            <Grid container direction={largeScreen ? "row" : "column"} spacing={2}>
+                <FormikTextFields formik={formik} fields={searchFields} />
+                <Grid item xs={1}>
+                    <Grid container direction="column" justifyContent="center">
+                        <IconButton color="primary" form="search-form" type="submit">
+                            <SearchIcon />
+                        </IconButton>
+                        <Button form="search-form" type="reset" variant="text">{t('reset')}</Button>
+                    </Grid>
+                </Grid>
             </Grid>
-            <Grid item xs={1} alignItems="center" >
-                <IconButton color="primary" form="search-form" type="submit">
-                    <SearchIcon />
-                </IconButton>
-                <Button form="search-form" type="reset" variant="text">{t('reset')}</Button>
-            </Grid>
-        </Grid>
+        </form>
     )
 }
 

@@ -17,6 +17,12 @@ const usePersonService = () => {
         });
     }
 
+    const getPersonPreview = async (id: string, params: any) => {
+        return axiosPrivateClient.get(apiEndpoints.personPreview.replace(":id", id.toString()), {
+            ...params
+        });
+    }
+
     const createPerson = async (createPersonCommand: CreatePersonWithDetailsCommand, params: any) => {
         return axiosPrivateClient.post(apiEndpoints.personCreate, { ...createPersonCommand }, { ...params });
     }
@@ -40,7 +46,7 @@ const usePersonService = () => {
         });
     }
     
-    return { getPersonNames, getPersonsPreviews, getPersonDetails, createPerson, updatePerson, deletePerson };
+    return { getPersonPreview, getPersonNames, getPersonsPreviews, getPersonDetails, createPerson, updatePerson, deletePerson };
 }
 
 export default usePersonService;

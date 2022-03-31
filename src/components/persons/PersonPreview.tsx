@@ -9,11 +9,12 @@ import { itemformatHelper } from '../../helpers/itemformat.helper';
 
 type Props = {
     person: PersonPreviewEntity
+    withoutNavigation?: boolean
 }
 
 const PersonPreview = (props: Props) => {
     const { t } = useTranslation();
-    const { person } = props;
+    const { person, withoutNavigation } = props;
     const navigate = useNavigate();
 
     const handleCardClick = () => {
@@ -58,7 +59,7 @@ const PersonPreview = (props: Props) => {
         <ItemCardPreviewBase
             title={PersonTitle()}
             subheader={PersonYears()}
-            onClick={handleCardClick}
+            onClick={!withoutNavigation ? handleCardClick : undefined}
         >
             {PersonNameAlternatives()}
             {PersonExternDatabaseIds()}

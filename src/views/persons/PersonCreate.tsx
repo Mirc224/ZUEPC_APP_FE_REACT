@@ -1,8 +1,6 @@
 import ROUTES from '../../endpoints/routes.endpoints';
-import { Grid } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import SubmitResetForm from '../../components/SubmitResetForm';
 import NewItemWithExistingUpdateDeletePreview from '../../components/itemPage/NewItemWithExistingUpdateDeletePreview';
 import usePersonService from '../../hooks/persons/usePersonService';
 import { useNavigate } from 'react-router';
@@ -13,6 +11,7 @@ import { PersonExternDatabaseIdEntity, PersonNameEntity } from '../../types/pers
 import { handleDeleteItem, handleEntityItemUpdate, handleEntityNewItem } from '../../utils/zuepc-item-utils';
 import CRUDItemPageBase from '../../components/itemPage/CRUDItemPageBase';
 import { personBasicInfoSchema, personExternIdentifierSchema, personNameSchema } from '../../form-schemas/person.schema';
+import SubmitResetForm from '../../components/common/SubmitResetForm';
 
 type Props = {}
 
@@ -94,15 +93,10 @@ const PersonCreate = (props: Props) => {
       isProcessing={isProcessing}
     >
       <ItemDataSection title={`${t("basic")} ${t('informations').toLowerCase()}`}>
-        <Grid container justifyContent="center" spacing={2}>
-          <Grid item xs={12}>
-            <SubmitResetForm
-              direction="row"
-              onSubmit={handleSubmitForm}
-              fields={basicInfoSchema}
-              formId={baseFormName} />
-          </Grid>
-        </Grid>
+        <SubmitResetForm
+          onSubmit={handleSubmitForm}
+          fields={basicInfoSchema}
+          formId={baseFormName} />
       </ItemDataSection>
       {dataSections.map((x, i) =>
         <ItemDataSection key={i} title={x.title}>

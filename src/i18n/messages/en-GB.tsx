@@ -15,6 +15,7 @@ const lan =  {
             
             // Validation
             isRequiredIt: "{{what}} is required",
+            isRequiredShe: "{{what}} is required",
             isRequiredHe: "{{what}} is required",
             minLength: "{{what}} should be of minimum {{len}} characters length",
             enterValid: "Enter valid {{what}}",

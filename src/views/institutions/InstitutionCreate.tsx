@@ -10,9 +10,10 @@ import { handleDeleteItem, handleEntityItemUpdate, handleEntityNewItem } from '.
 import CRUDItemPageBase from '../../components/itemPage/CRUDItemPageBase';
 import ItemDataSection from '../../components/itemPage/ItemDataSection';
 import { Grid } from '@mui/material';
-import SubmitResetForm from '../../components/SubmitResetForm';
+import FormikTextFields from '../../components/common/FormikTextFields';
 import NewItemWithExistingUpdateDeletePreview from '../../components/itemPage/NewItemWithExistingUpdateDeletePreview';
 import { institutionBasicInfoSchema, institutionExternIdentifierSchema, institutionNameSchema } from '../../form-schemas/institution.schema';
+import SubmitResetForm from '../../components/common/SubmitResetForm';
 
 type Props = {}
 

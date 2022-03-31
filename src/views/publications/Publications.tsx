@@ -18,7 +18,7 @@ const Publications = (props: Props) => {
   const canEditRoles = [ROLES.Admin, ROLES.Editor]
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
-  const { getPublicationPreviews } = usePublicationService();
+  const { getPublicationsPreviews } = usePublicationService();
   const [publications, setPublications] = useState<PublicationPreviewEntity[]>();
   const [totalRecords, setTotalRecords] = useState(0);
   const [queryParams, setQueryParams] = useState({
@@ -33,7 +33,7 @@ const Publications = (props: Props) => {
     setIsLoading(true);
     let isMounted = true;
     const controller = new AbortController();
-    getPublicationPreviews({
+    getPublicationsPreviews({
       params: queryParams,
       signal: controller.signal
     })

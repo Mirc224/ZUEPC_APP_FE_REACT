@@ -18,6 +18,7 @@ const lan = {
             // Validation
             isRequiredIt: "{{what}} je povinné",
             isRequiredHe: "{{what}} je povinný",
+            isRequiredShe: "{{what}} je povinná",
             minLength: "{{what}} musí mať dĺžku aspoň {{len}} znakov",
             enterValid: "Zadajte valídny {{what}}",
             passwordMatch: "Heslá sa musia zhodovať",

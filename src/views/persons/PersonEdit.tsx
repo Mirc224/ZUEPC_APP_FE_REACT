@@ -3,7 +3,6 @@ import { Grid } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 import NewItemWithExistingUpdateDeletePreview from '../../components/itemPage/NewItemWithExistingUpdateDeletePreview';
-import SubmitResetForm from '../../components/SubmitResetForm';
 import usePersonService from '../../hooks/persons/usePersonService';
 import { ChangeableItem, FormikFieldSchema } from '../../types/common/component.types';
 import { useEffect, useState } from 'react';
@@ -14,6 +13,7 @@ import { PersonDetailsEntity, PersonExternDatabaseIdEntity, PersonNameEntity } f
 import { UpdatePersonWithDetailsCommand } from '../../types/persons/commands.types';
 import CRUDItemPageBase from '../../components/itemPage/CRUDItemPageBase';
 import { personBasicInfoSchema, personExternIdentifierSchema, personNameSchema } from '../../form-schemas/person.schema';
+import SubmitResetForm from '../../components/common/SubmitResetForm';
 
 type Props = {}
 
@@ -149,7 +149,11 @@ const PersonEdit = (props: Props) => {
       <ItemDataSection title={`${t("basic")} ${t('informations').toLowerCase()}`}>
         <Grid container justifyContent="center" spacing={2}>
           <Grid item xs={12}>
-            <SubmitResetForm direction="row" onSubmit={handleSubmitForm} fields={basicInfoSchema} formId="whole-form" />
+            <SubmitResetForm 
+            direction="row" 
+            onSubmit={handleSubmitForm} 
+            fields={basicInfoSchema} 
+            formId="whole-form" />
           </Grid>
         </Grid>
       </ItemDataSection>

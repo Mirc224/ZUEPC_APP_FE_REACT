@@ -16,6 +16,12 @@ const useInstitutionService = () => {
         });
     }
 
+    const getInstitutionPreview = async (id: string, params: any) => {
+        return axiosPrivateClient.get(apiEndpoints.institutionPreview.replace(":id", id.toString()), {
+            ...params
+        });
+    }
+
     const createInstitution = 
     async (createInstitutionCommand: CreateInstitutionWithDetailsCommand, params: any) => {
         return axiosPrivateClient.post(apiEndpoints.institutionCreate, { ...createInstitutionCommand }, { ...params });
@@ -35,7 +41,13 @@ const useInstitutionService = () => {
         });
     }
 
-    return { getInstitutionsPreviews, getInstitutionDetails, createInstitution,  updateInstitution, deleteInstitution };
+    const getInstitutionNames = async (params: any) => {
+        return axiosPrivateClient.get(apiEndpoints.institutionNames, {
+            ...params
+        });
+    }
+
+    return { getInstitutionPreview, getInstitutionNames, getInstitutionsPreviews, getInstitutionDetails, createInstitution,  updateInstitution, deleteInstitution };
 }
 
 export default useInstitutionService

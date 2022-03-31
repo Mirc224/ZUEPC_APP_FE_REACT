@@ -6,13 +6,19 @@ import useAxiosPrivate from '../useAxiosPrivate';
 const usePublicationService = () => {
     const axiosPrivateClient = useAxiosPrivate();
 
-    const getPublicationPreviews = async (params: any) => {
+    const getPublicationsPreviews = async (params: any) => {
         return axiosPrivateClient.get(apiEndpoints.publications, {
             ...params
         });
     }
     const getPublicationDetails = async (id: string, params: any) => {
         return axiosPrivateClient.get(apiEndpoints.publicationDetail.replace(":id", id.toString()), {
+            ...params
+        });
+    }
+
+    const getPublicationPreview = async (id: string, params: any) => {
+        return axiosPrivateClient.get(apiEndpoints.publicationPreview.replace(":id", id.toString()), {
             ...params
         });
     }
@@ -34,7 +40,7 @@ const usePublicationService = () => {
         });
     }
 
-    return { getPublicationPreviews, getPublicationDetails, createPublication, updatePublication, deletePublication };
+    return { getPublicationPreview, getPublicationsPreviews, getPublicationDetails, createPublication, updatePublication, deletePublication };
 }
 
 export default usePublicationService
