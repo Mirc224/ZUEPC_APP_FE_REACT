@@ -7,13 +7,7 @@ import { InstitutionExternDatabaseIdEntity, InstitutionNameEntity } from '../../
 import { clearObject, clearValues } from '../../utils/objects-utils';
 import { CreateInstitutionWithDetailsCommand } from '../../types/institutions/commands.types';
 import { handleDeleteItem, handleEntityItemUpdate, handleEntityNewItem } from '../../utils/zuepc-item-utils';
-import CRUDItemPageBase from '../../components/itemPage/CRUDItemPageBase';
-import ItemDataSection from '../../components/itemPage/ItemDataSection';
-import { Grid } from '@mui/material';
-import FormikTextFields from '../../components/common/FormikTextFields';
-import NewItemWithExistingUpdateDeletePreview from '../../components/itemPage/NewItemWithExistingUpdateDeletePreview';
-import { institutionBasicInfoSchema, institutionExternIdentifierSchema, institutionNameSchema } from '../../form-schemas/institution.schema';
-import SubmitResetForm from '../../components/common/SubmitResetForm';
+import InstitutionCreateEditBase from '../../components/institutions/InstitutionCreateEditBase';
 
 type Props = {}
 
@@ -24,11 +18,6 @@ const InstitutionCreate = (props: Props) => {
     const [institutionNames, setInstitutionNames] = useState<InstitutionNameEntity[]>([]);
     const [institutionExternDbIds, setInstitutionExternDbIds] = useState<InstitutionExternDatabaseIdEntity[]>([]);
     const navigate = useNavigate();
-    const baseFormName = "whole-form";
-
-    const basicInfoSchema = institutionBasicInfoSchema;
-    const newNameSchema = institutionNameSchema;
-    const newExternIdentifierSchema = institutionExternIdentifierSchema;
 
     const handleSubmitForm = (values: any) => {
         setIsProcessing(true);
@@ -54,68 +43,19 @@ const InstitutionCreate = (props: Props) => {
             });
     }
 
-    const dataSections = [
-        {
-            title: t("name"),
-            formName: "new-name",
-            newItemFormSchema: newNameSchema,
-            existItemFormSchema: newNameSchema,
-            items: institutionNames,
-            onNewItemSubmit: (values: InstitutionNameEntity, dirty: boolean) => {
-                handleEntityNewItem(values, dirty, setInstitutionNames)
-            },
-            onItemDelete: (key: number) => handleDeleteItem(key, setInstitutionNames),
-            onExistItemUpdate: (key: number, values: InstitutionNameEntity) => {
-                handleEntityItemUpdate(key, values, setInstitutionNames)
-            }
-        },
-        {
-            title: t("externDatabaseIds"),
-            formName: "new-extern-id",
-            newItemFormSchema: newExternIdentifierSchema,
-            existItemFormSchema: newExternIdentifierSchema,
-            items: institutionExternDbIds,
-            onNewItemSubmit: (values: InstitutionExternDatabaseIdEntity, dirty: boolean) => {
-                handleEntityNewItem(values, dirty, setInstitutionExternDbIds)
-            },
-            onItemDelete: (key: number) => { handleDeleteItem(key, setInstitutionExternDbIds) },
-            onExistItemUpdate: (key: number, values: InstitutionExternDatabaseIdEntity) => {
-                handleEntityItemUpdate(key, values, setInstitutionExternDbIds)
-            }
-        },
-    ]
-
     return (
-        <CRUDItemPageBase
-            title={`${t('newShe')} ${t('institution').toLowerCase()}`}
-            wholeFormId={baseFormName}
-            isProcessing={isProcessing}
-        >
-            <ItemDataSection title={`${t("basic")} ${t('informations').toLowerCase()}`}>
-                <Grid container justifyContent="center" spacing={2}>
-                    <Grid item xs={12}>
-                        <SubmitResetForm
-                            direction="row"
-                            onSubmit={handleSubmitForm}
-                            fields={basicInfoSchema}
-                            formId={baseFormName} />
-                    </Grid>
-                </Grid>
-            </ItemDataSection>
-            {dataSections.map((x, i) =>
-                <ItemDataSection key={i} title={x.title}>
-                    <NewItemWithExistingUpdateDeletePreview
-                        formName={x.formName}
-                        newItemFormSchema={x.newItemFormSchema}
-                        existItemFormSchema={x.existItemFormSchema}
-                        items={x.items}
-                        onNewItemSubmit={x.onNewItemSubmit}
-                        onItemDelete={x.onItemDelete}
-                        onEixstItemUpdate={x.onExistItemUpdate}
-                    />
-                </ItemDataSection>
-            )}
-        </CRUDItemPageBase>)
+        <InstitutionCreateEditBase 
+                title={`${t('newShe')} ${t('institution').toLowerCase()}`} 
+                handleDeleteItem={handleDeleteItem}
+                handleNewItem={handleEntityNewItem}
+                handleUpdateItem={handleEntityItemUpdate}
+                onSubmit={handleSubmitForm}
+                isProcessing={isProcessing}
+                names={institutionNames}
+                setNames={setInstitutionNames}
+                externDatabaseIds={institutionExternDbIds}
+                setExternDatabaseIds={setInstitutionExternDbIds} />)
+
 }
 
 export default InstitutionCreate
