@@ -130,7 +130,11 @@ export const publicationActivitySchema: FormikFieldSchema[] = [
         name: "activityYear",
         labelTranslationKey: "activityYear",
         type: "text",
-        initValue: ""
+        initValue: "",
+        validationSchema: (yup
+            .number()
+            .typeError('mustBeNumber')
+            .nullable(true)),
     },
     {
         name: "category",

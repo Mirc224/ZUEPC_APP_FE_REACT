@@ -43,6 +43,7 @@ export interface AutocompleteSearchSettings<T> {
 }
 
 export interface AuthorFormValues {
+    id?: number,
     personName: PersonNameEntity | null,
     institutionName: InstitutionNameEntity | null
     contributionRatio?: number,
@@ -50,6 +51,7 @@ export interface AuthorFormValues {
 }
 
 export interface RelatedPublicationFormValues {
+    id?: number,
 	relatedPublicationName: PublicationNameEntity | null,
 	relationType?: string,
 	citationCategory?: string

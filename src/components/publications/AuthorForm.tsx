@@ -1,6 +1,6 @@
 import { Grid, useMediaQuery, useTheme } from '@mui/material';
 import { useFormik } from 'formik';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 import useInstitutionService from '../../hooks/institutions/useInstitutionService';
@@ -34,12 +34,19 @@ const AuthorForm = (props: Props) => {
         onChange,
         onReset,
         resetAfterSubmit } = props;
+    const _isMounted = useRef(true);
     const { getPersonNames } = usePersonService();
     const { getInstitutionNames } = useInstitutionService();
-    const [personName, setPersonName] = useState<PersonNameEntity | null>(initPersonName);
-    const [institutionName, setInstitutionName] = useState<PersonNameEntity | null>(initInstitutionName);
+    const [personName, setPersonName] = useState<PersonNameEntity | null>(_isMounted.current ? initPersonName : null);
+    const [institutionName, setInstitutionName] = useState<PersonNameEntity | null>(_isMounted.current ? initInstitutionName : null);
     const theme = useTheme();
     const largeScreen = useMediaQuery(theme.breakpoints.up('md'));
+
+    useEffect(() => {
+        return () => {
+            _isMounted.current = false;
+        }
+    }, [])
 
     const validationSchema = yup.object(
         schema.reduce(((r, c) => Object.assign(r, { [c.name]: c.validationSchema })), {})
@@ -58,7 +65,12 @@ const AuthorForm = (props: Props) => {
             if (resetAfterSubmit) {
                 setPersonName(initPersonName);
                 setInstitutionName(initInstitutionName);
-                formik.handleReset(null)
+                _isMounted.current && formik.handleReset(null)
+                onChange && onChange({
+                    ...formik.initialValues,
+                    institutionName: initInstitutionName,
+                    personName: initPersonName
+                }, false);
             }
         }
     }
@@ -93,7 +105,7 @@ const AuthorForm = (props: Props) => {
 
 
     const handlePersonNameSelect = (item: PersonNameEntity | null) => {
-        setPersonName(item);
+        _isMounted.current && setPersonName(item);
         if (onChange) {
             const dirty = institutionName !== initInstitutionName || initPersonName !== item || formik.dirty;
             onChange(
@@ -108,7 +120,7 @@ const AuthorForm = (props: Props) => {
     }
 
     const handleInstitutionNameSelect = (item: InstitutionNameEntity | null) => {
-        setInstitutionName(item)
+        _isMounted.current && setInstitutionName(item)
         if (onChange) {
             const dirty = initInstitutionName !== item || personName !== initPersonName || formik.dirty;
             onChange(
@@ -154,6 +166,7 @@ const AuthorForm = (props: Props) => {
                         errorMessage={!personName ? t('isRequiredShe', { what: t('person') }) : null}
                         getItems={getPersonNames} />
                 </Grid>
+                {_isMounted.current &&
                 <Grid item xs>
                     <AutocompleteSearchWithPreview
                         item={institutionName}
@@ -161,7 +174,7 @@ const AuthorForm = (props: Props) => {
                         settings={institutionSchema}
                         errorMessage={!institutionName ? t('isRequiredShe', { what: t('institution') }) : null}
                         getItems={getInstitutionNames} />
-                </Grid>
+                </Grid>}
                 <FormikTextFields
                     formik={formik}
                     fields={schema}

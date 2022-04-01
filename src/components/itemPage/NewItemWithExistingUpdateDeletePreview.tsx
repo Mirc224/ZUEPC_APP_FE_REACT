@@ -2,7 +2,7 @@ import { Box, Card, Grid, IconButton, useMediaQuery, useTheme } from '@mui/mater
 import AddIcon from '@mui/icons-material/Add';
 import { FormikFieldSchema } from '../../types/common/component.types';
 import UpdateDeleteItem from './UpdateDeleteItem';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import SubmitResetForm from '../common/SubmitResetForm';
 
 type Props<T> = {
@@ -24,10 +24,19 @@ const NewItemWithExistingUpdateDeletePreview = <T extends object>(props: Props<T
         onNewItemSubmit,
         onItemDelete,
         onEixstItemUpdate } = props;
+    const _isMounted = useRef(true);
     const [dirty, setDirty] = useState(false);
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.up('md'));
     const { v4: uuidv4 } = require('uuid');
+
+    useEffect(() => {
+      
+      return () => {
+          _isMounted.current = false;
+      }
+    }, [])
+    
 
     return (
         <Grid container spacing={2} justifyContent="center">
@@ -38,7 +47,7 @@ const NewItemWithExistingUpdateDeletePreview = <T extends object>(props: Props<T
                             direction={fullScreen ? "row" : "column"}
                             formId={formName}
                             onSubmit={onNewItemSubmit}
-                            onValueChange={(v, dirty) => setDirty(dirty)}
+                            onValueChange={(v, dirty) =>  _isMounted.current && setDirty(dirty)}
                             fields={newItemFormSchema}
                             resetAfterSubmit={true} />
                     </Grid>

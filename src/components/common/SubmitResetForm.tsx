@@ -3,6 +3,7 @@ import { Grid } from '@mui/material'
 import { FormikFieldSchema } from '../../types/common/component.types'
 import { useFormik } from 'formik';
 import FormikTextFields from './FormikTextFields';
+import { useEffect, useRef } from 'react';
 
 type Props = {
     formId: string,
@@ -20,19 +21,27 @@ const SubmitResetForm = (props: Props) => {
         fields.reduce(((r, c) => Object.assign(r, { [c.name]: c.validationSchema })), {})
     )
     const initValues = fields.reduce(((r, c) => Object.assign(r, { [c.name]: c.initValue })), {})
+    const _isMounted = useRef(true);
+
+    useEffect(() => {
+      return () => {
+          _isMounted.current = false;
+      }
+    }, [])
+    
 
     const handleSubmit = (values: any) => {
         const clearedValues = Object
             .keys(values)
             .reduce(((r, key) => Object.assign(r, (values[key] && { [key]: values[key] }))), {})
-        onSubmit(clearedValues, formik.dirty);
+        _isMounted.current && onSubmit(clearedValues, formik.dirty);
         if (resetAfterSubmit) {
-            formik.handleReset(null)
+            _isMounted.current && formik.handleReset(null)
         }
     }
 
     const handleReset = () => {
-        onReset && onReset();
+        _isMounted.current && onReset && onReset();
     }
 
     const formik = useFormik({

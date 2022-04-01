@@ -46,7 +46,7 @@ const UpdateDeleteAuthor = (props: Props) => {
     }
 
     const handleOnChange = (values: AuthorFormValues, dirty: boolean) => {
-        setEdited(dirty);
+        _isMounted.current && setEdited(dirty);
     }
 
     return (

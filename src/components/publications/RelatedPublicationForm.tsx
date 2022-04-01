@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import usePublicationService from '../../hooks/publications/usePublicationService'
 import { FormikFieldSchema, RelatedPublicationFormValues, SearchFieldSchema } from '../../types/common/component.types'
@@ -34,12 +34,19 @@ const RelatedPublicationForm = (props: Props) => {
     const [publicationName, setPublicationName] = useState<PublicationNameEntity | null>(initPublicationName);
     const theme = useTheme();
     const largeScreen = useMediaQuery(theme.breakpoints.up('md'));
+    const _isMounted = useRef(true);
 
     const validationSchema = yup.object(
         schema.reduce(((r, c) => Object.assign(r, { [c.name]: c.validationSchema })), {})
     )
     const initValues = schema.reduce(((r, c) => Object.assign(r, { [c.name]: c.initValue })), {})
 
+    useEffect(() => {
+
+        return () => {
+            _isMounted.current = false;
+        }
+    }, [])
     const handleSubmit = (values: any) => {
         if (publicationName !== null) {
             const dirty = publicationName !== initPublicationName || formik.dirty;
@@ -48,9 +55,13 @@ const RelatedPublicationForm = (props: Props) => {
                 ...clearedValues,
                 relatedPublicationName: publicationName,
             }, dirty)
-            if (resetAfterSubmit) {
+            if (resetAfterSubmit && _isMounted.current) {
                 setPublicationName(initPublicationName);
                 formik.handleReset(null)
+                onChange && onChange({
+                    ...formik.initialValues,
+                    relatedPublicationName: initPublicationName
+                }, false);
             }
         }
     }
@@ -71,7 +82,7 @@ const RelatedPublicationForm = (props: Props) => {
     }
 
     const handlePublicationNameSelect = (item: PublicationNameEntity | null) => {
-        setPublicationName(item);
+        _isMounted.current && setPublicationName(item);
         if (onChange) {
             const dirty = initPublicationName !== item || formik.dirty;
             onChange(

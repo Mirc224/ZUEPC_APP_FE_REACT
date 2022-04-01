@@ -2,7 +2,7 @@ import { Autocomplete, Box, Grid, TextField } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { SearchFieldSchema } from '../../types/common/component.types'
 import { AxiosResponse } from 'axios';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { clearObject } from '../../utils/objects-utils';
 import { debounce } from 'lodash';
 
@@ -18,6 +18,16 @@ const AutocompleteSearchWithPreview = <T extends object>(props: Props<T>) => {
     const { t } = useTranslation();
     const { settings, item, errorMessage, getItems, onItemSelect} = props;
     const [options, setOptions] = useState<T[]>(item ? [item] : []);
+    const _isMounted = useRef(true);
+
+    useEffect(() => {
+      
+    
+      return () => {
+        _isMounted.current = false;
+      }
+    }, [])
+    
 
     const getItemOptions = (params: any) => {
         getItems({

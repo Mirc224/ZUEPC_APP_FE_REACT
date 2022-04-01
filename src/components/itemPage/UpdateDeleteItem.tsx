@@ -43,7 +43,7 @@ const UpdateDeleteItem = <T extends object>(props: Props<T>) => {
     const formId = formName + formKey;
 
     const handleFormChange = (values: any, dirty: boolean) => {
-        setEdited(dirty);
+        _isMounted.current && setEdited(dirty);
     }
 
     return (
@@ -53,11 +53,11 @@ const UpdateDeleteItem = <T extends object>(props: Props<T>) => {
                 <Grid item xs>
                     <SubmitResetForm
                         formId={formId}
-                        fields={[...newSchema]}
+                        fields={newSchema}
                         onValueChange={handleFormChange}
                         direction={direction ? direction : "row"}
                         onSubmit={(val) => {
-                            onUpdate && onUpdate(formKey, val);
+                            _isMounted.current && onUpdate && onUpdate(formKey, val);
                         }}
                         resetAfterSubmit={true} />
                 </Grid>

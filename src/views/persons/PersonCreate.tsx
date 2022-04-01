@@ -12,6 +12,7 @@ import { handleDeleteItem, handleEntityItemUpdate, handleEntityNewItem } from '.
 import CRUDItemPageBase from '../../components/itemPage/CRUDItemPageBase';
 import { personBasicInfoSchema, personExternIdentifierSchema, personNameSchema } from '../../form-schemas/person.schema';
 import SubmitResetForm from '../../components/common/SubmitResetForm';
+import PersonCreateEditBase from '../../components/persons/PersonCreateEditBase';
 
 type Props = {}
 
@@ -23,13 +24,6 @@ const PersonCreate = (props: Props) => {
   const [personNames, setPersonNames] = useState<PersonNameEntity[]>([]);
   const [personExternDbIds, setPersonExternDbIds] = useState<PersonExternDatabaseIdEntity[]>([]);
   const navigate = useNavigate();
-  const baseFormName = "whole-form";
-
-  const basicInfoSchema = personBasicInfoSchema;
-
-  const newNameSchema = personNameSchema;
-
-  const newExternIdentifierSchema = personExternIdentifierSchema;
 
   const handleSubmitForm = (values: any) => {
     setIsProcessing(true);
@@ -55,63 +49,20 @@ const PersonCreate = (props: Props) => {
       });
   }
 
-  const dataSections = [
-    {
-      title: `${t("firstName")}/${t("lastName")}`,
-      formName: "new-name",
-      newItemFormSchema: newNameSchema,
-      existItemFormSchema: newNameSchema,
-      items: personNames,
-      onNewItemSubmit: (values: PersonNameEntity, dirty: boolean) => {
-        handleEntityNewItem(values, dirty, setPersonNames)
-      },
-      onItemDelete: (key: number) => handleDeleteItem(key, setPersonNames),
-      onExistItemUpdate: (key: number, values: PersonNameEntity) => {
-        handleEntityItemUpdate(key, values, setPersonNames)
-      }
-    },
-    {
-      title: t("externDatabaseIds"),
-      formName: "new-extern-id",
-      newItemFormSchema: newExternIdentifierSchema,
-      existItemFormSchema: newExternIdentifierSchema,
-      items: personExternDbIds,
-      onNewItemSubmit: (values: PersonExternDatabaseIdEntity, dirty: boolean) => {
-        handleEntityNewItem(values, dirty, setPersonExternDbIds)
-      },
-      onItemDelete: (key: number) => { handleDeleteItem(key, setPersonExternDbIds) },
-      onExistItemUpdate: (key: number, values: PersonExternDatabaseIdEntity) => {
-        handleEntityItemUpdate(key, values, setPersonExternDbIds)
-      }
-    },
-  ]
 
   return (
-    <CRUDItemPageBase
+    <PersonCreateEditBase
       title={`${t('newShe')} ${t('person').toLowerCase()}`}
-      wholeFormId={baseFormName}
+      handleDeleteItem={handleDeleteItem}
+      handleNewItem={handleEntityNewItem}
+      handleUpdateItem={handleEntityItemUpdate}
+      onSubmit={handleSubmitForm}
       isProcessing={isProcessing}
-    >
-      <ItemDataSection title={`${t("basic")} ${t('informations').toLowerCase()}`}>
-        <SubmitResetForm
-          onSubmit={handleSubmitForm}
-          fields={basicInfoSchema}
-          formId={baseFormName} />
-      </ItemDataSection>
-      {dataSections.map((x, i) =>
-        <ItemDataSection key={i} title={x.title}>
-          <NewItemWithExistingUpdateDeletePreview
-            formName={x.formName}
-            newItemFormSchema={x.newItemFormSchema}
-            existItemFormSchema={x.existItemFormSchema}
-            items={x.items}
-            onNewItemSubmit={x.onNewItemSubmit}
-            onItemDelete={x.onItemDelete}
-            onEixstItemUpdate={x.onExistItemUpdate}
-          />
-        </ItemDataSection>
-      )}
-    </CRUDItemPageBase>)
+      names={personNames}
+      setNames={setPersonNames}
+      externDatabaseIds={personExternDbIds}
+      setExternDatabaseIds={setPersonExternDbIds}
+    />)
 }
 
 export default PersonCreate

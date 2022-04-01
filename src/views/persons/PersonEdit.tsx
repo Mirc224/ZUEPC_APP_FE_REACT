@@ -1,19 +1,15 @@
 import ROUTES from '../../endpoints/routes.endpoints';
-import { Grid } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
-import NewItemWithExistingUpdateDeletePreview from '../../components/itemPage/NewItemWithExistingUpdateDeletePreview';
 import usePersonService from '../../hooks/persons/usePersonService';
 import { ChangeableItem, FormikFieldSchema } from '../../types/common/component.types';
 import { useEffect, useState } from 'react';
 import { clearChangeableItemValues, clearObject } from '../../utils/objects-utils';
-import ItemDataSection from '../../components/itemPage/ItemDataSection';
-import { handleDeleteItem, handleExistingEntityItemUpdate, handleExistingEntityNewItem, sortItemsToInserTotUpdateToDelete } from '../../utils/zuepc-item-utils';
+import { handleDeleteItem, handleExistingEntityItemUpdate, handleExistingEntityNewItem, sortItemsToInserToUpdateToDelete } from '../../utils/zuepc-item-utils';
 import { PersonDetailsEntity, PersonExternDatabaseIdEntity, PersonNameEntity } from '../../types/persons/entities.types';
 import { UpdatePersonWithDetailsCommand } from '../../types/persons/commands.types';
-import CRUDItemPageBase from '../../components/itemPage/CRUDItemPageBase';
-import { personBasicInfoSchema, personExternIdentifierSchema, personNameSchema } from '../../form-schemas/person.schema';
-import SubmitResetForm from '../../components/common/SubmitResetForm';
+import { personBasicInfoSchema } from '../../form-schemas/person.schema';
+import PersonCreateEditBase from '../../components/persons/PersonCreateEditBase';
 
 type Props = {}
 
@@ -28,12 +24,7 @@ const PersonEdit = (props: Props) => {
   const [personNames, setPersonNames] = useState<ChangeableItem<PersonNameEntity>[]>([]);
   const [personExternDbIds, setPersonExternDbIds] = useState<ChangeableItem<PersonExternDatabaseIdEntity>[]>([]);
   const navigate = useNavigate();
-  const baseFormName = "whole-form";
-
   const [basicInfoSchema, setBasicInfoSchema] = useState<FormikFieldSchema[]>([])
-
-  const newNameSchema = personNameSchema;
-  const newExternIdentifierSchema = personExternIdentifierSchema;
 
   useEffect(() => {
     let isMounted = true;
@@ -47,20 +38,24 @@ const PersonEdit = (props: Props) => {
           const resPerson: PersonDetailsEntity = response.data;
           const basicInfoSchema = personBasicInfoSchema;
 
-          isMounted && setPerson(resPerson);
-          isMounted && setBasicInfoSchema([
-            ...basicInfoSchema.map(x=> {
-              const initValue = resPerson[x.name as keyof PersonDetailsEntity]
-              return { ...x, initValue: initValue ? initValue : ""}
-            })
-          ])
-          isMounted && resPerson.names && setPersonNames([
-            ...resPerson.names.map((x): ChangeableItem<PersonNameEntity> => { 
-              return { item: x, changed: false } })
-          ])
-          isMounted && resPerson.externDatabaseIds && setPersonExternDbIds([
-            ...resPerson.externDatabaseIds.map((x): ChangeableItem<PersonExternDatabaseIdEntity> => { return { item: x, changed: false } })
-          ])
+          if(isMounted)
+          {
+            setPerson(resPerson);
+            setBasicInfoSchema([
+              ...basicInfoSchema.map(x => {
+                const initValue = resPerson[x.name as keyof PersonDetailsEntity]
+                return { ...x, initValue: initValue ? initValue : "" }
+              })
+            ])
+            resPerson.names && setPersonNames([
+              ...resPerson.names.map((x): ChangeableItem<PersonNameEntity> => {
+                return { item: x, changed: false }
+              })
+            ])
+            resPerson.externDatabaseIds && setPersonExternDbIds([
+              ...resPerson.externDatabaseIds.map((x): ChangeableItem<PersonExternDatabaseIdEntity> => { return { item: x, changed: false } })
+            ])
+          }
           setIsLoading(false);
         })
         .catch((err) => {
@@ -80,9 +75,9 @@ const PersonEdit = (props: Props) => {
     const clearedNames = clearChangeableItemValues(personNames);
     const clearedExtIds = clearChangeableItemValues(personExternDbIds);
     const [namesToInsert, namesToUpdate, namesToDelete] =
-      sortItemsToInserTotUpdateToDelete(person.names ? person.names : [], clearedNames);
+      sortItemsToInserToUpdateToDelete(person.names ? person.names : [], clearedNames);
     const [externDatabaseIdsToInsert, externDatabaseIdsToUpdate, externDatabaseIdsToDelete] =
-      sortItemsToInserTotUpdateToDelete(person.externDatabaseIds ? person.externDatabaseIds : [], clearedExtIds);
+      sortItemsToInserToUpdateToDelete(person.externDatabaseIds ? person.externDatabaseIds : [], clearedExtIds);
 
     let objectToUpdate: UpdatePersonWithDetailsCommand = {
       id: person.id,
@@ -108,70 +103,21 @@ const PersonEdit = (props: Props) => {
       });
   }
 
-  const dataSections = [
-    {
-      title: `${t("firstName")}/${t("lastName")}`,
-      formName: "new-name",
-      newItemFormSchema: newNameSchema,
-      existItemFormSchema: newNameSchema,
-      items: personNames.map(x => x.item),
-      onNewItemSubmit: (values: PersonNameEntity, dirty: boolean) => {
-        handleExistingEntityNewItem(values, dirty, setPersonNames)
-      },
-      onItemDelete: (key: number) => handleDeleteItem(key, setPersonNames),
-      onExistItemUpdate: (key: number, values: PersonNameEntity) => {
-        handleExistingEntityItemUpdate(key, values, setPersonNames)
-      }
-    },
-    {
-      title: t("externDatabaseIds"),
-      formName: "new-extern-id",
-      newItemFormSchema: newExternIdentifierSchema,
-      existItemFormSchema: newExternIdentifierSchema,
-      items: personExternDbIds.map(x => x.item),
-      onNewItemSubmit: (values: PersonExternDatabaseIdEntity, dirty: boolean) => {
-        handleExistingEntityNewItem(values, dirty, setPersonExternDbIds)
-      },
-      onItemDelete: (key: number) => { handleDeleteItem(key, setPersonExternDbIds) },
-      onExistItemUpdate: (key: number, values: PersonExternDatabaseIdEntity) => {
-        handleExistingEntityItemUpdate(key, values, setPersonExternDbIds)
-      }
-    },
-  ]
-
   return (
-    <CRUDItemPageBase
+    <PersonCreateEditBase
       title={`${t('editPage')}: ${t('person')}(${id})`}
-      wholeFormId={baseFormName}
-      isLoading={isLoading}
+      basicInfoSchema={basicInfoSchema}
+      handleDeleteItem={handleDeleteItem}
+      handleNewItem={handleExistingEntityNewItem}
+      handleUpdateItem={handleExistingEntityItemUpdate}
+      onSubmit={handleSubmitForm}
       isProcessing={isProcessing}
-    >
-      <ItemDataSection title={`${t("basic")} ${t('informations').toLowerCase()}`}>
-        <Grid container justifyContent="center" spacing={2}>
-          <Grid item xs={12}>
-            <SubmitResetForm 
-            direction="row" 
-            onSubmit={handleSubmitForm} 
-            fields={basicInfoSchema} 
-            formId="whole-form" />
-          </Grid>
-        </Grid>
-      </ItemDataSection>
-      {dataSections.map((x, i) =>
-        <ItemDataSection key={i} title={x.title}>
-          <NewItemWithExistingUpdateDeletePreview
-            formName={x.formName}
-            newItemFormSchema={x.newItemFormSchema}
-            existItemFormSchema={x.existItemFormSchema}
-            items={x.items}
-            onNewItemSubmit={x.onNewItemSubmit}
-            onItemDelete={x.onItemDelete}
-            onEixstItemUpdate={x.onExistItemUpdate}
-          />
-        </ItemDataSection>
-      )}
-    </CRUDItemPageBase>
-  )
+      isLoading={isLoading}
+      names={personNames.map(x=> x.item)}
+      setNames={setPersonNames}
+      externDatabaseIds={personExternDbIds.map(x=> x.item)}
+      setExternDatabaseIds={setPersonExternDbIds}
+    />)
 }
 
 export default PersonEdit

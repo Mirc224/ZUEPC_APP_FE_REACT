@@ -42,6 +42,13 @@ export interface PublicationAuthorDetailsEntity extends ZUEPCEntityBase {
     role?: string
 }
 
+export interface PublicationAuthorEntity extends ZUEPCEntityBase {
+    personId?: number,
+    institutionId?: number,
+    contributionRatio?: number,
+    role?: string
+}
+
 export interface PublicationExternDatabaseIdEntity extends ZUEPCEntityBase {
     publicationId?: number,
     externIdentifierValue?: string
@@ -49,6 +56,12 @@ export interface PublicationExternDatabaseIdEntity extends ZUEPCEntityBase {
 
 export interface RelatedPublicationDetailsEntity extends ZUEPCEntityBase {
     relatedPublication?: PublicationPreviewEntity,
+    relationType?: string,
+    citationCategory?: string
+}
+
+export interface RelatedPublicationEntity extends ZUEPCEntityBase {
+    relatedPublicationId?: number,
     relationType?: string,
     citationCategory?: string
 }

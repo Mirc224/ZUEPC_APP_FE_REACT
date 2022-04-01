@@ -7,6 +7,7 @@ import Missing from '../Missing';
 import PublicationDetail from './PublicationDetail';
 import RequireAuth from '../../components/RequireAuth';
 import PublicationCreate from './PublicationCreate';
+import PublicationEdit from './PublicationEdit';
 
 type Props = {}
 
@@ -22,7 +23,7 @@ const PublicationRouter = (props: Props) => {
             <Route path={getPath(ROUTES.publicationDetails)} element={<PublicationDetail />} />
             <Route element={<RequireAuth allowedRoles={[ROLES.Admin, ROLES.Editor]} />}>
                 <Route path={getPath(ROUTES.publicationCreate)} element={<PublicationCreate />} />
-                {/* <Route path={getPath(ROUTES.publicationEdit)} element={<PublicationEdit />} /> */}
+                <Route path={getPath(ROUTES.publicationEdit)} element={<PublicationEdit />} />
             </Route>
             <Route path='*' element={<Missing />} />
         </Routes>

@@ -1,9 +1,8 @@
-import * as yup from 'yup';
 import { Box, Card, Grid, IconButton } from '@mui/material'
 import { AuthorFormValues, FormikFieldSchema } from '../../types/common/component.types';
 import AddIcon from '@mui/icons-material/Add';
 import AuthorForm from './AuthorForm';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import UpdateDeleteAuthor from './UpdateDeleteAuthor';
 
 type Props = {
@@ -24,8 +23,16 @@ const NewAuthorWithExistingPublicationAuthorsForm = (props: Props) => {
     const [canAdd, setCanAdd] = useState(false);
     const { v4: uuidv4 } = require('uuid');
 
+    const _isMounted = useRef(true);
+
+    useEffect(() => {
+        return () => {
+            _isMounted.current = false;
+        }
+    }, [])
+
     const handleNewItemFormChange = (values: AuthorFormValues, dirty: boolean) => {
-        setCanAdd(dirty);
+        _isMounted.current && setCanAdd(dirty);
     }
 
     return (
