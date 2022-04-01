@@ -62,6 +62,7 @@ const AutocompleteSearchWithPreview = <T extends object>(props: Props<T>) => {
                     )}
                     renderInput={(params) =>
                         <TextField {...params}
+                            disabled={item ? true: false}
                             name={settings.name}
                             helperText={errorMessage ? errorMessage : null}
                             onChange={handleChangeInput}

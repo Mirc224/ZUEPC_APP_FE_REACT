@@ -1,5 +1,6 @@
 import { InstitutionNameEntity } from "../institutions/entities.types"
 import { PersonNameEntity } from "../persons/entities.types"
+import { PublicationNameEntity } from "../publications/entities.types"
 
 export interface PaginationSearchBarField {
     value: string,
@@ -19,7 +20,6 @@ export interface FormikFieldSchema{
 
 export interface SearchFieldSchema<T> {
     name: string,
-    onRemove: () => void
     onChangeSelected?: (e: any, val: T | null) => void,
     onChangeInput?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void,
     labelTranslationKey?: string,
@@ -43,8 +43,14 @@ export interface AutocompleteSearchSettings<T> {
 }
 
 export interface AuthorFormValues {
-    contributionRatio?: number,
-    role?: string,
     personName: PersonNameEntity | null,
     institutionName: InstitutionNameEntity | null
+    contributionRatio?: number,
+    role?: string,
+}
+
+export interface RelatedPublicationFormValues {
+	relatedPublicationName: PublicationNameEntity | null,
+	relationType?: string,
+	citationCategory?: string
 }

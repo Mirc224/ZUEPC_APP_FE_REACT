@@ -85,7 +85,7 @@ const lan = {
             publicationList: "Zoznam publikácii",
             publicationType: "Typ inštitúcie",
             publicationIdentifier: "Identifikátor publikácie",
-            publicationAuthor: "Autor publikáce",
+            publicationAuthor: "Autor publikácie",
             relatedPublication: "Súvisiaca publikácia",
             publicationActivity: "Publikačná činnosť",
             publishYear: "Rok publikácie",
@@ -101,6 +101,9 @@ const lan = {
             activityYear: "Vykazovací rok",
             category: "Kategória",
             governmentGrant: "Štátna dotácia",
+            identifierValue: "Hodnota identifikátora",
+            identifierName: "Názov identifikátora",
+            identifierISForm: "IS tvar",
             
             // Common
             externIdentifierValue: "Hodnota ID v externej databáze",

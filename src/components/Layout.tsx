@@ -14,7 +14,7 @@ const Layout = (props: Props) => {
         <TheNav />
         <Container maxWidth="xl" >
         <Paper>
-          <Box sx={{ p: 2, m: 2 }}>
+          <Box sx={{ p: 2, m: 1 }}>
             <Outlet/>
           </Box>
         </Paper>

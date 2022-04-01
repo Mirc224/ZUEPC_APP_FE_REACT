@@ -40,7 +40,13 @@ const usePublicationService = () => {
         });
     }
 
-    return { getPublicationPreview, getPublicationsPreviews, getPublicationDetails, createPublication, updatePublication, deletePublication };
+    const getPublicationNames = async (params: any) => {
+        return axiosPrivateClient.get(apiEndpoints.publicationNames, {
+            ...params
+        });
+    }
+
+    return { getPublicationNames, getPublicationPreview, getPublicationsPreviews, getPublicationDetails, createPublication, updatePublication, deletePublication };
 }
 
 export default usePublicationService

@@ -18,25 +18,25 @@ type Props = {
     onSubmit: (values: AuthorFormValues, dirty: boolean) => void,
     onReset?: () => void,
     resetAfterSubmit?: boolean
-    onChange: (values: AuthorFormValues, dirty: boolean) => void,
+    onChange?: (values: AuthorFormValues, dirty: boolean) => void,
     initPersonName: PersonNameEntity | null,
     initInstitutionName: InstitutionNameEntity | null
 }
 
 const AuthorForm = (props: Props) => {
     const { t } = useTranslation();
-    const { 
+    const {
         schema,
-         formId, 
-         initPersonName, 
-         initInstitutionName, 
-         onSubmit, 
-         onChange,
-        onReset, 
+        formId,
+        initPersonName,
+        initInstitutionName,
+        onSubmit,
+        onChange,
+        onReset,
         resetAfterSubmit } = props;
     const { getPersonNames } = usePersonService();
     const { getInstitutionNames } = useInstitutionService();
-    const [ personName, setPersonName] = useState<PersonNameEntity | null>(initPersonName);
+    const [personName, setPersonName] = useState<PersonNameEntity | null>(initPersonName);
     const [institutionName, setInstitutionName] = useState<PersonNameEntity | null>(initInstitutionName);
     const theme = useTheme();
     const largeScreen = useMediaQuery(theme.breakpoints.up('md'));
@@ -47,8 +47,7 @@ const AuthorForm = (props: Props) => {
     const initValues = schema.reduce(((r, c) => Object.assign(r, { [c.name]: c.initValue })), {})
 
     const handleSubmit = (values: any) => {
-        if(personName !== null && institutionName !== null)
-        {
+        if (personName !== null && institutionName !== null) {
             const dirty = institutionName !== initInstitutionName || personName !== initPersonName || formik.dirty;
             const clearedValues = clearObject(values);
             onSubmit({
@@ -57,9 +56,9 @@ const AuthorForm = (props: Props) => {
                 institutionName
             }, dirty)
             if (resetAfterSubmit) {
-                formik.handleReset(null)
                 setPersonName(initPersonName);
                 setInstitutionName(initInstitutionName);
+                formik.handleReset(null)
             }
         }
     }
@@ -71,9 +70,8 @@ const AuthorForm = (props: Props) => {
     const authorSchema: SearchFieldSchema<PersonNameEntity> =
     {
         name: "name",
-        labelTranslationKey: "nameAndSurnameSearch",
+        labelTranslationKey: "author",
         initValue: null,
-        onRemove: () => console.log("mazanie"),
         initOptions: [],
         searchSettings: {
             equalComparison: (option: PersonNameEntity, value: PersonNameEntity) => option.id === value.id,
@@ -84,9 +82,8 @@ const AuthorForm = (props: Props) => {
     const institutionSchema: SearchFieldSchema<InstitutionNameEntity> =
     {
         name: "name",
-        labelTranslationKey: "name",
+        labelTranslationKey: "institution",
         initValue: null,
-        onRemove: () => console.log("mazanie"),
         initOptions: [],
         searchSettings: {
             equalComparison: (option: InstitutionNameEntity, value: InstitutionNameEntity) => option.id === value.id,
@@ -95,40 +92,48 @@ const AuthorForm = (props: Props) => {
     }
 
 
-    const handlePersonNameSelect = (item: PersonNameEntity| null) => {
-        const dirty = institutionName !== initInstitutionName || initPersonName !== item || formik.dirty;
+    const handlePersonNameSelect = (item: PersonNameEntity | null) => {
         setPersonName(item);
-        onChange(
-            {
-                ...formik.values,
-                personName: item,
-                institutionName: institutionName
-            },
-            dirty
-        )
+        if (onChange) {
+            const dirty = institutionName !== initInstitutionName || initPersonName !== item || formik.dirty;
+            onChange(
+                {
+                    ...formik.values,
+                    personName: item,
+                    institutionName: institutionName
+                },
+                dirty
+            )
+        }
     }
 
     const handleInstitutionNameSelect = (item: InstitutionNameEntity | null) => {
-        const dirty = initInstitutionName !== item || personName !== initPersonName || formik.dirty;
         setInstitutionName(item)
-        onChange(
-            {
-                ...formik.values,
-                personName: personName,
-                institutionName: item
-            },
-            dirty
-        )
+        if (onChange) {
+            const dirty = initInstitutionName !== item || personName !== initPersonName || formik.dirty;
+            onChange(
+                {
+                    ...formik.values,
+                    personName: personName,
+                    institutionName: item
+                },
+                dirty
+            )
+        }
     }
 
     const handleFormChange = (value: any, newDirty: boolean) => {
-        const dirty = institutionName !== initInstitutionName || personName !== initPersonName || newDirty;
-        onChange(
-            {...value,
-            personName: personName,
-            institutionName: institutionName},
-            dirty
-        )
+        if (onChange) {
+            const dirty = institutionName !== initInstitutionName || personName !== initPersonName || newDirty;
+            onChange(
+                {
+                    ...value,
+                    personName: personName,
+                    institutionName: institutionName
+                },
+                dirty
+            )
+        }
     }
 
     const formik = useFormik({
@@ -146,7 +151,7 @@ const AuthorForm = (props: Props) => {
                         onItemSelect={handlePersonNameSelect}
                         item={personName}
                         settings={authorSchema}
-                        errorMessage={!personName ? t('isRequiredShe', {what: t('person')}) : null}
+                        errorMessage={!personName ? t('isRequiredShe', { what: t('person') }) : null}
                         getItems={getPersonNames} />
                 </Grid>
                 <Grid item xs>

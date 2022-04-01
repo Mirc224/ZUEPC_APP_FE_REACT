@@ -5,53 +5,28 @@ import AddIcon from '@mui/icons-material/Add';
 import AuthorForm from './AuthorForm';
 import { useState } from 'react';
 import UpdateDeleteAuthor from './UpdateDeleteAuthor';
-import { handleDeleteItem, handleEntityItemUpdate, handleEntityNewItem } from '../../utils/zuepc-item-utils';
 
-type Props = {}
+type Props = {
+    authors: AuthorFormValues[],
+    newItemFormSchema: FormikFieldSchema[],
+    onNewItemSubmit: (values: AuthorFormValues, dirty: boolean) => void,
+    onItemDelete: (key: number) => void,
+    onExistItemUpdate: (key: number, values: AuthorFormValues) => void
+}
 
 const NewAuthorWithExistingPublicationAuthorsForm = (props: Props) => {
+    const { 
+        authors, 
+        newItemFormSchema, 
+        onNewItemSubmit, 
+        onItemDelete, 
+        onExistItemUpdate } = props;
     const [canAdd, setCanAdd] = useState(false);
-    const [authors, setAuthors] = useState<AuthorFormValues[]>([])
     const { v4: uuidv4 } = require('uuid');
 
-    const newPublicationAuthorSchema: FormikFieldSchema[] = [
-        {
-            name: "contributionRatio",
-            type: "text",
-            initValue: "",
-            validationSchema: (yup
-                .number()
-                .typeError('mustBeNumber')
-                .nullable(true)),
-        },
-        {
-            name: "role",
-            type: "text",
-            initValue: ""
-        },
-    ]
-
-    const validationSchema = yup.object(
-        newPublicationAuthorSchema.reduce(((r, c) => Object.assign(r, { [c.name]: c.validationSchema })), {})
-    )
-    const initValues = newPublicationAuthorSchema.reduce(((r, c) => Object.assign(r, { [c.name]: c.initValue })), {})
-
-    const handleNewAuthorSubmit = (values: AuthorFormValues, dirty: boolean) => {
-            handleEntityNewItem(values, dirty, setAuthors)
-    }
-
-    const handleNewItemForm = (values: AuthorFormValues, dirty: boolean) => {
+    const handleNewItemFormChange = (values: AuthorFormValues, dirty: boolean) => {
         setCanAdd(dirty);
     }
-
-    const handleAuthorUpdate = (key: number, values: AuthorFormValues) => {
-        handleEntityItemUpdate(key, values, setAuthors)
-    }
-
-    const handleAuthorDelete = (key: number) => {
-        handleDeleteItem(key, setAuthors) 
-    }
-
 
     return (
         <Grid container direction="column" spacing={2}>
@@ -60,9 +35,9 @@ const NewAuthorWithExistingPublicationAuthorsForm = (props: Props) => {
                     <Grid item xs>
                         <AuthorForm
                             formId='new-author'
-                            schema={newPublicationAuthorSchema}
-                            onSubmit={handleNewAuthorSubmit}
-                            onChange={handleNewItemForm}
+                            schema={newItemFormSchema}
+                            onSubmit={onNewItemSubmit}
+                            onChange={handleNewItemFormChange}
                             resetAfterSubmit={true}
                             initPersonName={null}
                             initInstitutionName={null}
@@ -91,9 +66,9 @@ const NewAuthorWithExistingPublicationAuthorsForm = (props: Props) => {
                                             <UpdateDeleteAuthor
                                                 formKey={i}
                                                 formId={uid}
-                                                defaultFieldSchema={newPublicationAuthorSchema}
-                                                onUpdate={handleAuthorUpdate}
-                                                onDelete={handleAuthorDelete}
+                                                defaultFieldSchema={newItemFormSchema}
+                                                onUpdate={onExistItemUpdate}
+                                                onDelete={onItemDelete}
                                                 values={x}
                                             />
                                         </Box>

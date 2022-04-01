@@ -103,6 +103,9 @@ const lan =  {
             activityYear: "Activity year",
             category: "Category",
             governmentGrant: "Government grant",
+            identifierValue: "Identifier value",
+            identifierName: "Identifier name",
+            identifierISForm: "IS form",
             
             // Common
             externIdentifierValue: "Extern database ID value",

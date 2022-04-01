@@ -1,4 +1,4 @@
-import { Backdrop, Button, CircularProgress, Container, Grid } from '@mui/material';
+import { Backdrop, Box, Button, CircularProgress, Container, Grid } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import LoadingScreen from '../common/LoadingScreen';
 import ItemPageHeader from './ItemPageHeader';
@@ -26,7 +26,7 @@ const CRUDItemPageBase = (props: Props) => {
                 ?
                 <LoadingScreen isLoading={isLoading} />
                 :
-                <Container>
+                <Box>
                     <Grid container spacing={2} justifyContent="center">
                         <Grid item xs={12}>
                             <ItemPageHeader title={title} />
@@ -52,7 +52,7 @@ const CRUDItemPageBase = (props: Props) => {
                     >
                         <CircularProgress color="inherit" />
                     </Backdrop>}
-                </Container >}
+                </Box >}
         </>
     )
 }
