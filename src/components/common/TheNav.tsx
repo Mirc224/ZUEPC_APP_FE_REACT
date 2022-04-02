@@ -17,14 +17,15 @@ import ROLES from '../../constatns/roles.constants';
 import LanguageIcon from '@mui/icons-material/Language';
 import { Grid } from '@mui/material';
 import { LOCALES } from '../../i18n/locales';
+import { permissionHelper } from '../../helpers/permission.helper';
 
 const ifSignedPages = ['publications', 'persons', 'institutions', 'logout'];
 const ifNotSignedPages = ['login', 'register'];
+const ifSignedEditorOrAdminPages = ['import']
 const ifSignedAdminPages = ['users'];
 
 const TheNav = () => {
     const { t, i18n } = useTranslation();
-    console.log(i18n.language)
     const { auth } = useAuth();
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElLan, setAnchorElLan] = React.useState<null | HTMLElement>(null);
@@ -97,6 +98,17 @@ const TheNav = () => {
                                     </Typography>
                                 </MenuItem>
                             ))}
+                            {permissionHelper.hasRole(auth.roles, [ROLES.Editor, ROLES.Admin]) &&
+                                ifSignedEditorOrAdminPages.map((page) => (
+                                    <MenuItem key={page} onClick={handleCloseNavMenu}>
+                                        <Typography textAlign="center">
+                                            <Link style={{ textDecoration: "none", color: "black" }}
+                                                to={getRoute(page)}>
+                                                {t(page)}
+                                            </Link>
+                                        </Typography>
+                                    </MenuItem>
+                                ))}
                             {auth.id && ifSignedPages.map((page) => (
                                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                                     <Typography textAlign="center">
@@ -124,11 +136,27 @@ const TheNav = () => {
                                 onClick={handleCloseNavMenu}
                                 sx={{ my: 2, color: 'white', display: 'block' }}
                             >
-                                <Link style={{ textDecoration: "none", color: "white" }} to={getRoute(page)}>
+                                <Link
+                                    style={{ textDecoration: "none", color: "white" }}
+                                    to={getRoute(page)}>
                                     {t(page)}
                                 </Link>
                             </Button>
                         ))}
+                        {permissionHelper.hasRole(auth.roles, [ROLES.Editor, ROLES.Admin]) &&
+                            ifSignedEditorOrAdminPages.map((page) => (
+                                <Button
+                                    key={page}
+                                    onClick={handleCloseNavMenu}
+                                    sx={{ my: 2, color: 'white', display: 'block' }}
+                                >
+                                    <Link
+                                        style={{ textDecoration: "none", color: "white" }}
+                                        to={getRoute(page)}>
+                                        {t(page)}
+                                    </Link>
+                                </Button>
+                            ))}
                         {auth.id && ifSignedPages.map((page) => (
                             <Button
                                 key={page}

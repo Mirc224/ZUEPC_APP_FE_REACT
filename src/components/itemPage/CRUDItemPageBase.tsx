@@ -1,4 +1,4 @@
-import { Backdrop, Box, Button, CircularProgress, Container, Grid } from '@mui/material';
+import { Backdrop, Box, Button, CircularProgress, Grid } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import LoadingScreen from '../common/LoadingScreen';
 import ItemPageHeader from './ItemPageHeader';

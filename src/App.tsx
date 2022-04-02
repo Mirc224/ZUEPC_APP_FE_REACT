@@ -18,6 +18,7 @@ import { createTheme } from '@mui/material';
 import InstitutionRouter from './views/institutions/InstitutionRouter';
 import PublicationRouter from './views/publications/PublicationRouter';
 import DefaultPageRedirection from './components/DefaultPageRedirection';
+import Import from './views/import/Import';
 
 function App() {
   const theme = createTheme();
@@ -36,6 +37,9 @@ function App() {
               <Route path={ROUTES.publicationRoutes} element={<PublicationRouter />} />
               <Route path={ROUTES.personRoutes} element={<PersonRouter />} />
               <Route path={ROUTES.institutionRoutes} element={<InstitutionRouter />} />
+              <Route element={<RequireAuth allowedRoles={[ROLES.Editor, ROLES.Admin]} />}>
+                <Route path={ROUTES.import} element={<Import />} />
+              </Route>
               <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
                 <Route path={ROUTES.userRoutes} element={<UserRoutes />} />
               </Route>

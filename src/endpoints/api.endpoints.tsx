@@ -33,6 +33,7 @@ const API_ENDPOINTS = {
     'publicationDelete': '/publication/:id',
     'publicationNames': '/publication/name',
 
+    'import': '/import/upload/:importSystem'
 }
 
 

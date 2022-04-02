@@ -1,4 +1,5 @@
 const ROUTES = {
+    'import': '/import',
     'default': '/publication',
 
     'userRoutes': '/user/*',

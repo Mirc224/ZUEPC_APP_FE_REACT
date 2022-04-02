@@ -9,7 +9,11 @@ const Layout = (props: Props) => {
   return (
     <main className="App">
         <TheNav />
-        <Container maxWidth="xl" >
+      <Container 
+      maxWidth="xl" 
+      style={{
+        minWidth: '25%'
+      }}>
         <Paper>
           <Box sx={{ p: 2, m: 1 }}>
             <Outlet/>

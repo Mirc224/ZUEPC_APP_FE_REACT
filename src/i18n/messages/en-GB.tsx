@@ -36,6 +36,7 @@ const lan =  {
             publications: "Publications",
             persons: "Persons",
             institutions: "Institutions",
+            import: "Import",
             login: "Log In",
             register: "Register",
             logout: "Log Out",
@@ -51,6 +52,7 @@ const lan =  {
             unauthorized: "Unauthorized",
             noObjectsToDisplay: "No {{what}} to display",
             permanentAction: "This action is permanent",
+            importSuccessful: "Import successful",
 
             // Controls
             rowsPerPage: "Rows per page",
@@ -66,6 +68,7 @@ const lan =  {
             new: "New",
             newShe: "New",
             close: "Close",
+            upload: "Upload",
             
             // Users
             userPage: "User",
@@ -119,6 +122,9 @@ const lan =  {
             externDatabaseIds: "Extern database ID",
             externId: "Extern identifier",
             reset: "Reset",
+            file: "File",
+            source: "Source",
+            notValidXmlDocument: "XML document is not valid",
 
             basic: "Basic",
             informations: "Informations",

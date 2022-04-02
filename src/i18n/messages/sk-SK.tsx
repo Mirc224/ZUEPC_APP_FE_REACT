@@ -35,6 +35,7 @@ const lan = {
             publications: "Publikácie",
             persons: "Osoby",
             institutions: "Inštitúcie",
+            import: "Import",
             login: "Prihlásiť sa",
             register: "Registrovať",
             logout: "Odhlásiť sa",
@@ -50,6 +51,8 @@ const lan = {
             unauthorized: "Neoprávnený",
             noObjectsToDisplay: "Nenašli sa {{what}} na zobrazenie",
             permanentAction: "Táto akcia je permanentná",
+            notValidXmlDocument: "XML dokument nie je valídny",
+            importSuccessful: "Import prebehol úspešne",
 
             // Controls
             rowsPerPage: "Záznamov na stránku",
@@ -65,6 +68,7 @@ const lan = {
             new: "Nový",
             newShe: "Nová",
             close: "Zatvoriť",
+            upload: "Nahrať",
             
             // Users
             roles: "Role",
@@ -86,7 +90,7 @@ const lan = {
 
             // Publications
             publication: "Publikácia",
-            publicationList: "Zoznam publikácii",
+            publicationList: "Zoznam publikácií",
             publicationType: "Typ inštitúcie",
             publicationIdentifier: "Identifikátor publikácie",
             publicationAuthor: "Autor publikácie",
@@ -118,6 +122,8 @@ const lan = {
             externDatabaseIds: "ID v externej databáze",
             externId: "Externý identifikátor",
             reset: "Reset",
+            file: "Súbor",
+            source: "Zdroj",
 
             basic: "Základné",
             informations: "Informácie",
