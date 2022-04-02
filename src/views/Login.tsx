@@ -9,6 +9,7 @@ import ROUTES from '../endpoints/routes.endpoints';
 import useAuth from "../hooks/auth/useAuth";
 import { Navigate, useLocation, useNavigate} from 'react-router-dom';
 import {authHelper} from '../helpers/auth.helper';
+import { useEffect } from 'react';
 
 
 type Props = {}
@@ -25,6 +26,13 @@ const Login = (props: Props) => {
   const location = useLocation();
   const from = (location.state as any)?.from.pathname || ROUTES.default;
 
+  useEffect(() => {
+    document.title = t('login')
+  
+    return () => {
+    }
+  }, [t])
+  
 
   const validationSchema = yup.object({
     email: yup

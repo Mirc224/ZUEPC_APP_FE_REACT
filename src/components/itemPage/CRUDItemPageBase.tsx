@@ -1,4 +1,5 @@
 import { Backdrop, Box, Button, CircularProgress, Grid } from '@mui/material';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import LoadingScreen from '../common/LoadingScreen';
 import ItemPageHeader from './ItemPageHeader';
@@ -20,6 +21,13 @@ const CRUDItemPageBase = (props: Props) => {
         isLoading,
         children
     } = props;
+
+    useEffect(() => {
+        document.title = title;
+        return () => {
+        }
+    }, [t])
+
     return (
         <>
             {isLoading

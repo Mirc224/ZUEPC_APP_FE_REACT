@@ -90,94 +90,97 @@ const TheNav = () => {
                             }}
                         >
                             {auth.roles?.includes(ROLES.Admin) && ifSignedAdminPages.map((page) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center">
-                                        <Link style={{ textDecoration: "none", color: "black" }} to={getRoute(page)}>
+                                <NavLink key={page} style={{ textDecoration: "none", color: "black" }} to={getRoute(page)}>
+                                    <MenuItem onClick={handleCloseNavMenu}>
+                                        <Typography textAlign="center">
                                             {t(page)}
-                                        </Link>
-                                    </Typography>
-                                </MenuItem>
+                                        </Typography>
+                                    </MenuItem>
+                                </NavLink>
                             ))}
                             {permissionHelper.hasRole(auth.roles, [ROLES.Editor, ROLES.Admin]) &&
                                 ifSignedEditorOrAdminPages.map((page) => (
-                                    <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                        <Typography textAlign="center">
-                                            <Link style={{ textDecoration: "none", color: "black" }}
-                                                to={getRoute(page)}>
+                                    <NavLink key={page} style={{ textDecoration: "none", color: "black" }} to={getRoute(page)}>
+                                        <MenuItem onClick={handleCloseNavMenu}>
+                                            <Typography textAlign="center">
                                                 {t(page)}
-                                            </Link>
-                                        </Typography>
-                                    </MenuItem>
+                                            </Typography>
+                                        </MenuItem>
+                                    </NavLink>
                                 ))}
                             {auth.id && ifSignedPages.map((page) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center">
-                                        <NavLink style={{ textDecoration: "none", color: "black" }} to={getRoute(page)}>
+                                <NavLink key={page} style={{ textDecoration: "none", color: "black" }} to={getRoute(page)}>
+                                    <MenuItem onClick={handleCloseNavMenu}>
+                                        <Typography textAlign="center">
                                             {t(page)}
-                                        </NavLink>
-                                    </Typography>
-                                </MenuItem>
+                                        </Typography>
+                                    </MenuItem>
+                                </NavLink>
                             ))}
                             {!auth.id && ifNotSignedPages.map((page) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center">
-                                        <NavLink style={{ textDecoration: "none", color: "black" }} to={getRoute(page)}>
+                                <NavLink key={ page }style={{ textDecoration: "none", color: "black" }} to={getRoute(page)}>
+                                    <MenuItem onClick={handleCloseNavMenu}>
+                                        <Typography textAlign="center">
                                             {t(page)}
-                                        </NavLink>
-                                    </Typography>
-                                </MenuItem>
+                                        </Typography>
+                                    </MenuItem>
+                                </NavLink>
                             ))}
                         </Menu>
                     </Box>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         {auth.roles?.includes(ROLES.Admin) && ifSignedAdminPages.map((page) => (
-                            <Button
+                            <NavLink
                                 key={page}
-                                onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: 'white', display: 'block' }}
+                                style={{ textDecoration: "none", color: "white" }}
+                                to={getRoute(page)}
                             >
-                                <Link
-                                    style={{ textDecoration: "none", color: "white" }}
-                                    to={getRoute(page)}>
+                                <Button
+                                    onClick={handleCloseNavMenu}
+                                    sx={{ my: 2, color: 'white', display: 'block' }}>
                                     {t(page)}
-                                </Link>
-                            </Button>
+                                </Button>
+                            </NavLink>
                         ))}
                         {permissionHelper.hasRole(auth.roles, [ROLES.Editor, ROLES.Admin]) &&
                             ifSignedEditorOrAdminPages.map((page) => (
-                                <Button
+                                <NavLink
                                     key={page}
-                                    onClick={handleCloseNavMenu}
-                                    sx={{ my: 2, color: 'white', display: 'block' }}
+                                    style={{ textDecoration: "none", color: "white" }}
+                                    to={getRoute(page)}
                                 >
-                                    <Link
-                                        style={{ textDecoration: "none", color: "white" }}
-                                        to={getRoute(page)}>
+                                    <Button
+                                        onClick={handleCloseNavMenu}
+                                        sx={{ my: 2, color: 'white', display: 'block' }}>
                                         {t(page)}
-                                    </Link>
-                                </Button>
+                                    </Button>
+                                </NavLink>
                             ))}
                         {auth.id && ifSignedPages.map((page) => (
-                            <Button
+                            <NavLink
                                 key={page}
-                                onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: 'white', display: 'block' }}
+                                style={{ textDecoration: "none", color: "white" }}
+                                to={getRoute(page)}
                             >
-                                <Link style={{ textDecoration: "none", color: "white" }} to={getRoute(page)}>
+                                <Button
+                                    onClick={handleCloseNavMenu}
+                                    sx={{ my: 2, color: 'white', display: 'block' }}>
                                     {t(page)}
-                                </Link>
-                            </Button>
+                                </Button>
+                            </NavLink>
                         ))}
                         {!auth.id && ifNotSignedPages.map((page) => (
-                            <Button
+                            <NavLink
                                 key={page}
-                                onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: 'white', display: 'block' }}
+                                style={{ textDecoration: "none", color: "white" }}
+                                to={getRoute(page)}
                             >
-                                <Link style={{ textDecoration: "none", color: "white" }} to={getRoute(page)}>
+                                <Button
+                                    onClick={handleCloseNavMenu}
+                                    sx={{ my: 2, color: 'white', display: 'block' }}>
                                     {t(page)}
-                                </Link>
-                            </Button>
+                                </Button>
+                            </NavLink>
                         ))}
                     </Box>
                     <Box sx={{ flexGrow: 0 }}>
@@ -233,7 +236,7 @@ const TheNav = () => {
                     </Box>
                 </Toolbar>
             </Container>
-        </AppBar>
+        </AppBar >
     );
 };
 export default TheNav;

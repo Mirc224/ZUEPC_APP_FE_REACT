@@ -5,9 +5,11 @@ import { useTranslation } from "react-i18next";
 import { RegisterUserCommand } from '../types/auth/commands.types';
 import { axiosClient } from '../utils/axios-utils';
 import apiEndpoints from '../endpoints/api.endpoints';
+import { useEffect } from 'react';
 
 
 type Props = {}
+
 const Register = (props: Props) => {
     const pwLen = 6; 
     const { t } = useTranslation();
@@ -42,6 +44,12 @@ const Register = (props: Props) => {
         onSubmit: onSubmitRegister
     });
 
+    useEffect(() => {
+        document.title = t('register')
+
+        return () => {
+        }
+    }, [t])
 
 async function onSubmitRegister(values: RegisterUserCommand) {
     try {

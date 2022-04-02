@@ -1,4 +1,6 @@
 import { Container } from '@mui/material';
+import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import LoadingScreen from '../common/LoadingScreen';
 import DeleteDialog from '../dialog/DeleteDialog';
 import ItemPageHeader from './ItemPageHeader';
@@ -30,6 +32,13 @@ const ItemDetailPageBase = (props: Props) => {
         onDialogClose,
         onDialogConfirm
     } = props;
+    const {t} = useTranslation();
+    
+    useEffect(() => {
+        document.title = title;
+        return () => {
+        }
+    }, [t])
   return (
       <article>
           {isLoading 

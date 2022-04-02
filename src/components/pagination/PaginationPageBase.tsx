@@ -43,6 +43,12 @@ const PaginationPageBase = (props: Props) => {
     const [searchQuery, setSearchQuery] = useState({});
 
     useEffect(() => {
+        document.title = title;
+        return () => {
+        }
+    }, [t])
+
+    useEffect(() => {
         setCanEdit(permissionHelper.hasRole(auth.roles, canEditRoles));
     }, [auth])
 

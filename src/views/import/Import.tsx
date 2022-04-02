@@ -22,13 +22,17 @@ const Import = (props: Props) => {
         setMyFiles([...myFiles, ...acceptedFiles])
     }, [myFiles])
 
-
-
     const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
         onDrop,
         multiple: false,
         accept: '.ISO,.xml'
     });
+
+    useEffect(() => {
+        document.title = t('import')
+        return () => {
+        }
+    }, [t])
 
     const handleChange = (event: any) => {
         setSource(event.target.value);
