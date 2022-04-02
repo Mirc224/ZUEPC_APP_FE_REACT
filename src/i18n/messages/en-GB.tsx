@@ -3,6 +3,9 @@ import { LOCALES } from "../locales"
 const lan =  {
     [LOCALES.ENGLISH]: {
         translation: {
+            // Languages
+            slovak: "Slovak",
+            english: "English",
             // Registration fields
             registration: "Registration",
             firstName: "Firstname",

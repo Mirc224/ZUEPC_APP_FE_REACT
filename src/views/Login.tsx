@@ -14,8 +14,8 @@ import {authHelper} from '../helpers/auth.helper';
 type Props = {}
 
 const initialValues = {
-  email: 'mircus224@gmail.com',
-  password: 'heslo123'
+  email: '',
+  password: ''
 }
 
 const Login = (props: Props) => {

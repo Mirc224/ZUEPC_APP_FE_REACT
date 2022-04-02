@@ -1,8 +1,6 @@
 import './App.css';
 import "./i18n/i18next";
-import Publications from './views/publications/Publications';
 import Register from './views/Register';
-import Institutions from './views/institutions/Institutions';
 import Logout from './views/Logout';
 import Login from './views/Login';
 import Layout from './components/Layout';

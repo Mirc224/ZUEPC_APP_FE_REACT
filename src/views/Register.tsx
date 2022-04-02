@@ -32,11 +32,11 @@ const Register = (props: Props) => {
     });
     const formik = useFormik({
         initialValues: {
-            firstName: 'Test1',
-            lastName: 'Test1',
-            email: 'Test1@test.com',
-            password: 'heslo123',
-            passwordConfirmation: 'heslo123'
+            firstName: '',
+            lastName: '',
+            email: '',
+            password: '',
+            passwordConfirmation: ''
         },
         validationSchema: validationSchema,
         onSubmit: onSubmitRegister

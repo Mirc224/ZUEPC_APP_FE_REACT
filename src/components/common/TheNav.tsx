@@ -14,15 +14,21 @@ import { useTranslation } from 'react-i18next';
 import ROUTES from '../../endpoints/routes.endpoints';
 import useAuth from '../../hooks/auth/useAuth';
 import ROLES from '../../constatns/roles.constants';
+import LanguageIcon from '@mui/icons-material/Language';
+import { Grid } from '@mui/material';
+import { LOCALES } from '../../i18n/locales';
 
 const ifSignedPages = ['publications', 'persons', 'institutions', 'logout'];
 const ifNotSignedPages = ['login', 'register'];
 const ifSignedAdminPages = ['users'];
 
 const TheNav = () => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
+    console.log(i18n.language)
     const { auth } = useAuth();
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+    const [anchorElLan, setAnchorElLan] = React.useState<null | HTMLElement>(null);
+
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
     };
@@ -31,12 +37,19 @@ const TheNav = () => {
         setAnchorElNav(null);
     };
 
+    const handleOpenLanMenu = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorElLan(event.currentTarget);
+    };
+
+    const handleCloseLanMenu = () => {
+        setAnchorElLan(null);
+    };
+
     function getRoute(page: string): string {
-        const result = (Object.keys(ROUTES) as (keyof typeof ROUTES)[]).find((key) =>{
+        const result = (Object.keys(ROUTES) as (keyof typeof ROUTES)[]).find((key) => {
             return key === page;
         });
-        if(result === undefined)
-        {
+        if (result === undefined) {
             return ROUTES.default;
         }
         return ROUTES[result];
@@ -50,7 +63,7 @@ const TheNav = () => {
                         <IconButton
                             size="large"
                             aria-label="account of current user"
-                            aria-controls="menu-appbar"
+                            aria-controls={anchorElNav ? "menu-appbar" : undefined}
                             aria-haspopup="true"
                             onClick={handleOpenNavMenu}
                             color="inherit"
@@ -139,12 +152,57 @@ const TheNav = () => {
                             </Button>
                         ))}
                     </Box>
-                    {auth?.email ?  
                     <Box sx={{ flexGrow: 0 }}>
-                        <span style={ {display: 'block'}}>{auth.email}</span>
-                        <span style={{ display: 'block' }}>[{auth.roles?.map(x => t(x.toLowerCase())).join(",")}]</span>
+                        <Grid container direction="row" spacing={2} alignItems="center">
+                            {auth?.email &&
+                                <Grid item xs>
+                                    <span style={{ display: 'block' }}>{auth.email}</span>
+                                    <span style={{ display: 'block' }}>[{auth.roles?.map(x => t(x.toLowerCase())).join(",")}]</span>
+                                </Grid>}
+                            <Grid item xs>
+                                <IconButton
+                                    size="large"
+                                    aria-controls="menu-language"
+                                    aria-haspopup="true"
+                                    onClick={handleOpenLanMenu}
+                                    color="inherit"
+                                >
+                                    <LanguageIcon />
+                                </IconButton>
+                                <Menu
+                                    id="menu-language"
+                                    anchorEl={anchorElLan}
+                                    anchorOrigin={{
+                                        vertical: 'bottom',
+                                        horizontal: 'left',
+                                    }}
+                                    keepMounted
+                                    transformOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'left',
+                                    }}
+                                    open={Boolean(anchorElLan)}
+                                    onClose={handleCloseLanMenu}
+                                >
+                                    {
+                                        Object.keys(LOCALES).map((key, i) => {
+                                            const loc = LOCALES[key as keyof typeof LOCALES];
+                                            return (<MenuItem
+                                                disabled={i18n.language === loc}
+                                                key={i}
+                                                onClick={() => {
+                                                    i18n.changeLanguage(loc)
+                                                    handleCloseLanMenu()
+                                                }}>
+                                                <Typography textAlign="center">
+                                                    {t(key.toLowerCase())}
+                                                </Typography>
+                                            </MenuItem>)
+                                        })}
+                                </Menu>
+                            </Grid>
+                        </Grid>
                     </Box>
-                    : <></>}
                 </Toolbar>
             </Container>
         </AppBar>
