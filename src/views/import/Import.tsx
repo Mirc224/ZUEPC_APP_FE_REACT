@@ -81,6 +81,7 @@ const Import = (props: Props) => {
 
     const files = myFiles.map((file: FileWithPath, i) => (
         <Typography key={i} component="h6" variant="h6" textAlign="center">
+            {file.name}
             <IconButton color="error" onClick={() => handleDeleteFile(i)}>
                 <ClearIcon />
             </IconButton>

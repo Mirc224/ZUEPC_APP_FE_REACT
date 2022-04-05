@@ -25,6 +25,38 @@ export const publicationSearchSchema: FormikFieldSchema[] = [
         labelTranslationKey: 'externIdentifierValue',
         type: "text",
         initValue: ""
+    },
+    {
+        name: 'documentType',
+        labelTranslationKey: 'documentType',
+        type: "text",
+        initValue: ""
+    },
+    {
+        name: 'institutionName',
+        labelTranslationKey: 'affiliatedInstitution',
+        type: "text",
+        initValue: ""
+    },
+    {
+        name: 'publishYearFrom',
+        labelTranslationKey: 'publishYearFrom',
+        type: "text",
+        initValue: "",
+        validationSchema: (yup
+            .number()
+            .typeError('mustBeNumber')
+            .nullable(true)),
+    },
+    {
+        name: 'publishYearTo',
+        labelTranslationKey: 'publishYearTo',
+        type: "text",
+        initValue: "",
+        validationSchema: (yup
+            .number()
+            .typeError('mustBeNumber')
+            .nullable(true)),
     }
 ]
 
@@ -35,6 +67,10 @@ export const publicationBasicInfoSchema: FormikFieldSchema[] = [
         labelTranslationKey: "documentType",
         type: "text",
         initValue: "",
+        validationSchema: (yup
+            .number()
+            .typeError('mustBeNumber')
+            .nullable(true)),
     },
     {
         name: "publishYear",

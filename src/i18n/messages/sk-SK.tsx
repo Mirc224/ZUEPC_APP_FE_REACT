@@ -112,6 +112,8 @@ const lan = {
             identifierValue: "Hodnota identifikátora",
             identifierName: "Názov identifikátora",
             identifierISForm: "IS tvar",
+            publishYearFrom: "Rok publikovania od",
+            publishYearTo: "Rok publikovania do",
             
             // Common
             externIdentifierValue: "Hodnota ID v externej databáze",

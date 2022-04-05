@@ -33,12 +33,13 @@ const ItemDetailPageBase = (props: Props) => {
         onDialogConfirm
     } = props;
     const {t} = useTranslation();
-    
+
     useEffect(() => {
         document.title = title;
         return () => {
         }
     }, [t])
+    
   return (
       <article>
           {isLoading 

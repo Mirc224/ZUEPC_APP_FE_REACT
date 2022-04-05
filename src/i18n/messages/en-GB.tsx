@@ -112,6 +112,8 @@ const lan =  {
             identifierValue: "Identifier value",
             identifierName: "Identifier name",
             identifierISForm: "IS form",
+            publishYearFrom: "Publish year from",
+            publishYearTo: "Publish year to",
             
             // Common
             externIdentifierValue: "Extern database ID value",

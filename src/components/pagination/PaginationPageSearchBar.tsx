@@ -44,12 +44,23 @@ const PaginationPageSearchBar = (props: Props) => {
         onReset: handleSearchReset
     });
 
+    const getTextFieldSize = () => {
+        if (searchFields.length > 4) {
+            return { xs: 3 }
+        }
+        return {xs: 6}
+    }
+
     return (
         <form id="search-form" onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
             <Grid container direction={largeScreen ? "row" : "column"} spacing={2}>
-                <FormikTextFields formik={formik} fields={searchFields} />
+                <Grid item xs>
+                    <Grid container direction={largeScreen ? "row" : "column"} spacing={2}>
+                        <FormikTextFields formik={formik} fields={searchFields} itemProps={getTextFieldSize()} />
+                    </Grid>
+                </Grid>
                 <Grid item xs={1}>
-                    <Grid container direction="column" justifyContent="center">
+                    <Grid container direction="column" justifyContent="center" alignContent="center" alignItems="center" justifyItems="center">
                         <IconButton color="primary" form="search-form" type="submit">
                             <SearchIcon />
                         </IconButton>

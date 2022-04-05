@@ -60,7 +60,7 @@ const PublicationPreview = (props: Props) => {
             : <></>;
     }
 
-    const PublicationAuthor = (): ReactElement => {
+    const PublicationAuthorPersons = (): ReactElement => {
         let counter = 0;
         const authors = publication.authors
             .map<ReactNode>(x => {
@@ -81,6 +81,30 @@ const PublicationPreview = (props: Props) => {
             <p>
                 <strong>{t('author')}: </strong>
                 {finalAuthors}
+            </p>
+            : <></>;
+    }
+
+    const PublicationAuthorInstitutions = (): ReactElement => {
+        let counter = 0;
+        const authors = publication.authors
+            .map<ReactNode>(x => {
+                const institution = x.institutionPreview;
+                const names = institution ? institution.names : undefined;
+                let institutionName = names && names.length > 0 ? names[0].name ? names[0].name : "" : "";
+                institutionName = institutionName.trim();
+                return <span key={counter++}>{institutionName}({x.institutionPreview?.id})</span>
+            });
+        const finalInstitutions = authors.length > 0
+            ? authors
+                .reduce((prev, curr) => {
+                    const delimeter = <strong key={counter++}> / </strong>
+                    return [prev, delimeter, curr];
+                }) : authors;
+        return authors.length > 0 ?
+            <p>
+                <strong>{t('affiliatedInstitution')}: </strong>
+                {finalInstitutions}
             </p>
             : <></>;
     }
@@ -123,7 +147,8 @@ const PublicationPreview = (props: Props) => {
             onClick={handleCardClick}
         >
             {PublicationNameAlternative()}
-            {PublicationAuthor()}
+            {PublicationAuthorPersons()}
+            {PublicationAuthorInstitutions()}
             {PublicationIdentifier()}
             {PublicationExternDbIds()}
         </ItemCardPreviewBase>
