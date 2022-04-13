@@ -63,6 +63,7 @@ const AutocompleteSearchWithPreview = <T extends object>(props: Props<T>) => {
                     onChange={handleChangeSelected}
                     getOptionLabel={settings.searchSettings.optionLabel}
                     isOptionEqualToValue={settings.searchSettings.equalComparison}
+                    noOptionsText={t('noOptions')}
                     options={options}
                     value={item}
                     renderOption={(props, opt: any) => (

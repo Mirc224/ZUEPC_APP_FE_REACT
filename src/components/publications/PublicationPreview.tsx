@@ -136,6 +136,39 @@ const PublicationPreview = (props: Props) => {
         return itemformatHelper.formatExternDatabaseIds(publication.externDatabaseIds, t);
     }
 
+    const PublicationActivites = (): ReactElement => {
+        let counter = 0;
+        if(!publication.publicationActivities) {
+            return <></>;
+        }
+        const activities = publication.publicationActivities
+            .map<ReactNode>(x => {
+                let resultActivity = []
+                if(x.category){
+                    resultActivity.push(x.category);
+                }
+                if (x.activityYear) {
+                    resultActivity.push(x.activityYear);
+                }
+                if (x.governmentGrant) {
+                    resultActivity.push(x.governmentGrant);
+                }
+                return <span key={counter++}>[{resultActivity.length > 0 ? resultActivity.join("/") : ""}]</span>
+            });
+        const finalActivities = activities.length > 0
+            ? activities
+                .reduce((prev, curr) => {
+                    const delimeter = <strong key={counter++}> / </strong>
+                    return [prev, delimeter, curr];
+                }) : activities;
+        return activities.length > 0 ?
+            <p>
+                <strong>{t('publicationActivity')}: </strong>
+                {finalActivities}
+            </p>
+            : <></>;
+    }
+
     return (
         <ItemCardPreviewBase
             title={PublicationTitle()}
@@ -151,6 +184,7 @@ const PublicationPreview = (props: Props) => {
             {PublicationAuthorInstitutions()}
             {PublicationIdentifier()}
             {PublicationExternDbIds()}
+            {PublicationActivites()}
         </ItemCardPreviewBase>
     )
 }

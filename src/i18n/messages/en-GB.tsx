@@ -21,6 +21,8 @@ const lan =  {
             isRequiredShe: "{{what}} is required",
             isRequiredHe: "{{what}} is required",
             minLength: "{{what}} should be of minimum {{len}} characters length",
+            maxLength: "{{what}} is too long",
+            mustBeWholeNumber: "{{what}} must be whole number",
             enterValid: "Enter valid {{what}}",
             passwordMatch: "Passwords must match",
             invalidEmailOrPassword: "The email or password is incorrect",
@@ -80,6 +82,7 @@ const lan =  {
             personList: "Person list",
             birthYear: "Year of birth",
             deathYear: "Year of death",
+            personNameType: "Name type",
             nameType: "Name type",
 
             // Institutions
@@ -114,6 +117,9 @@ const lan =  {
             identifierISForm: "IS form",
             publishYearFrom: "Publish year from",
             publishYearTo: "Publish year to",
+            noOptions: "No options",
+            activityYearFrom: "Activity year from",
+            activityYearTo: "Activity year to",
             
             // Common
             externIdentifierValue: "Extern database ID value",

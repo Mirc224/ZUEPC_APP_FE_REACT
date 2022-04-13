@@ -118,7 +118,7 @@ const PublicationCreateEditBase = (props: Props) => {
             onNewItemSubmit: (values: PublicationActivityEntity, dirty: boolean) => {
                 handleNewItem(values, dirty, setPublicationActivites)
             },
-            onItemDelete: (key: number) => handleDeleteItem(key, setIdentifiers),
+            onItemDelete: (key: number) => handleDeleteItem(key, setPublicationActivites),
             onExistItemUpdate: (key: number, values: PublicationActivityEntity) => {
                 handleUpdateItem(key, values, setPublicationActivites)
             }

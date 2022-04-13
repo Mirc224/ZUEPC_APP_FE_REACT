@@ -19,7 +19,8 @@ export interface PublicationPreviewEntity extends ZUEPCEntityBase {
     names: PublicationNameEntity[],
     identifiers: PublicationIdentifierEntity[],
     externDatabaseIds: PublicationExternDatabaseIdEntity[],
-    authors: PublicationAuthorDetailsEntity[]
+    authors: PublicationAuthorDetailsEntity[],
+    publicationActivities?: PublicationActivityEntity[]
 }
 
 export interface PublicationNameEntity extends ZUEPCEntityBase {

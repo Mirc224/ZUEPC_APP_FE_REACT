@@ -7,7 +7,8 @@ export const personBasicInfoSchema: FormikFieldSchema[] = [
         labelTranslationKey: "birthYear",
         validationSchema: (yup
             .number()
-            .typeError('mustBeNumber')
+            .integer('mustBeWholeNumber')
+            .typeError('mustBeWholeNumber')
             .nullable(true)),
         type: "text",
         initValue: "",
@@ -17,7 +18,8 @@ export const personBasicInfoSchema: FormikFieldSchema[] = [
         labelTranslationKey: "deathYear",
         validationSchema: (yup
             .number()
-            .typeError('mustBeNumber')
+            .integer('mustBeWholeNumber')
+            .typeError('mustBeWholeNumber')
             .nullable(true)),
         type: "text",
         initValue: ""
@@ -28,17 +30,30 @@ export const personNameSchema: FormikFieldSchema[] = [
     {
         name: "firstName",
         type: "text",
-        initValue: ""
+        initValue: "",
+        validationSchema: (yup
+            .string()
+            .max(100, 'maxLength')
+            .nullable(true))
     },
     {
         name: "lastName",
         type: "text",
-        initValue: ""
+        initValue: "",
+        validationSchema: (yup
+            .string()
+            .max(100, 'maxLength')
+            .nullable(true))
     },
     {
         name: "nameType",
+        labelTranslationKey: "personNameType",
         type: "text",
         initValue: "",
+        validationSchema: (yup
+            .string()
+            .max(100, 'maxLength')
+            .nullable(true))
     },
 ]
 
@@ -47,7 +62,11 @@ export const personExternIdentifierSchema: FormikFieldSchema[] = [
     {
         name: 'externIdentifierValue',
         type: "text",
-        initValue: ""
+        initValue: "",
+        validationSchema: (yup
+            .string()
+            .max(250, 'maxLength')
+            .nullable(true))
     }
 ]
 

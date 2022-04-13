@@ -6,7 +6,7 @@ export const publicationSearchSchema: FormikFieldSchema[] = [
         name: "name",
         labelTranslationKey: "name",
         initValue: "",
-        type: "text",
+        type: "text"
     },
     {
         name: "authorName",
@@ -55,7 +55,42 @@ export const publicationSearchSchema: FormikFieldSchema[] = [
         initValue: "",
         validationSchema: (yup
             .number()
-            .typeError('mustBeNumber')
+            .integer('mustBeWholeNumber')
+            .typeError('mustBeWholeNumber')
+            .nullable(true)),
+    },
+    {
+        name: 'activityCategory',
+        labelTranslationKey: 'category',
+        type: "text",
+        initValue: ""
+    },
+    {
+        name: 'governmentGrant',
+        labelTranslationKey: 'governmentGrant',
+        type: "text",
+        initValue: ""
+    },
+    {
+        name: 'activityYearFrom',
+        labelTranslationKey: 'activityYearFrom',
+        type: "text",
+        initValue: "",
+        validationSchema: (yup
+            .number()
+            .integer('mustBeWholeNumber')
+            .typeError('mustBeWholeNumber')
+            .nullable(true)),
+    },
+    {
+        name: 'activityYearTo',
+        labelTranslationKey: 'activityYearTo',
+        type: "text",
+        initValue: "",
+        validationSchema: (yup
+            .number()
+            .integer('mustBeWholeNumber')
+            .typeError('mustBeWholeNumber')
             .nullable(true)),
     }
 ]
@@ -68,9 +103,9 @@ export const publicationBasicInfoSchema: FormikFieldSchema[] = [
         type: "text",
         initValue: "",
         validationSchema: (yup
-            .number()
-            .typeError('mustBeNumber')
-            .nullable(true)),
+            .string()
+            .max(100, 'maxLength')
+            .nullable(true))
     },
     {
         name: "publishYear",
@@ -79,7 +114,8 @@ export const publicationBasicInfoSchema: FormikFieldSchema[] = [
         initValue: "",
         validationSchema: (yup
             .number()
-            .typeError('mustBeNumber')
+            .integer('mustBeWholeNumber')
+            .typeError('mustBeWholeNumber')
             .nullable(true)),
     }
 ]
@@ -98,7 +134,11 @@ export const publicationAuthorSchema: FormikFieldSchema[] = [
     {
         name: "role",
         type: "text",
-        initValue: ""
+        initValue: "",
+        validationSchema: (yup
+            .string()
+            .max(100, 'maxLength')
+            .nullable(true))
     },
 ]
 
@@ -107,12 +147,20 @@ export const relatedPublicationSchema: FormikFieldSchema[] = [
         name: "relationType",
         labelTranslationKey: "relation",
         type: "text",
-        initValue: ""
+        initValue: "",
+        validationSchema: (yup
+            .string()
+            .max(100, 'maxLength')
+            .nullable(true))
     },
     {
         name: "citationCategory",
         type: "text",
-        initValue: ""
+        initValue: "",
+        validationSchema: (yup
+            .string()
+            .max(100, 'maxLength')
+            .nullable(true))
     },
 ]
 
@@ -121,34 +169,54 @@ export const publicationNameSchema: FormikFieldSchema[] = [
         name: "name",
         labelTranslationKey: "name",
         type: "text",
-        initValue: ""
+        initValue: "",
+        validationSchema: (yup
+            .string()
+            .max(100, 'maxLength')
+            .nullable(true))
     },
     {
         name: "nameType",
         labelTranslationKey: "nameType",
         type: "text",
-        initValue: ""
+        initValue: "",
+        validationSchema: (yup
+            .string()
+            .max(100, 'maxLength')
+            .nullable(true))
     },
 ]
 
 export const publicationIdentifierSchema: FormikFieldSchema[] = [
     {
-        name: "identifierValue",
-        labelTranslationKey: "identifierValue",
-        type: "text",
-        initValue: ""
-    },
-    {
         name: "identifierName",
         labelTranslationKey: "identifierName",
         type: "text",
-        initValue: ""
+        initValue: "",
+        validationSchema: (yup
+            .string()
+            .max(100, 'maxLength')
+            .nullable(true))
+    },
+    {
+        name: "identifierValue",
+        labelTranslationKey: "identifierValue",
+        type: "text",
+        initValue: "",
+        validationSchema: (yup
+            .string()
+            .max(100, 'maxLength')
+            .nullable(true))
     },
     {
         name: "iSForm",
         labelTranslationKey: "identifierISForm",
         type: "text",
-        initValue: ""
+        initValue: "",
+        validationSchema: (yup
+            .string()
+            .max(50, 'maxLength')
+            .nullable(true))
     },
 ]
 
@@ -157,7 +225,11 @@ export const publicationExternDatabaseIdSchema: FormikFieldSchema[] = [
         name: "externIdentifierValue",
         labelTranslationKey: "externIdentifierValue",
         type: "text",
-        initValue: ""
+        initValue: "",
+        validationSchema: (yup
+            .string()
+            .max(250, 'maxLength')
+            .nullable(true))
     }
 ]
 
@@ -169,19 +241,28 @@ export const publicationActivitySchema: FormikFieldSchema[] = [
         initValue: "",
         validationSchema: (yup
             .number()
-            .typeError('mustBeNumber')
+            .integer('mustBeWholeNumber')
+            .typeError('mustBeWholeNumber')
             .nullable(true)),
     },
     {
         name: "category",
         labelTranslationKey: "category",
         type: "text",
-        initValue: ""
+        initValue: "",
+        validationSchema: (yup
+            .string()
+            .max(100, 'maxLength')
+            .nullable(true))
     },
     {
         name: "governmentGrant",
         labelTranslationKey: "governmentGrant",
         type: "text",
-        initValue: ""
+        initValue: "",
+        validationSchema: (yup
+            .string()
+            .max(100, 'maxLength')
+            .nullable(true))
     }
 ]

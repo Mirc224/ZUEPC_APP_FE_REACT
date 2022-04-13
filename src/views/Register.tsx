@@ -1,18 +1,22 @@
-import { Button, Container, Grid, TextField } from '@mui/material';
+import { Backdrop, Button, CircularProgress, Container, Grid, TextField } from '@mui/material';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useTranslation } from "react-i18next";
 import { RegisterUserCommand } from '../types/auth/commands.types';
 import { axiosClient } from '../utils/axios-utils';
 import apiEndpoints from '../endpoints/api.endpoints';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
+import ROUTES from '../endpoints/routes.endpoints';
 
 
 type Props = {}
 
 const Register = (props: Props) => {
-    const pwLen = 6; 
+    const pwLen = 6;
     const { t } = useTranslation();
+    const [isProcessing, setIsProcessing] = useState(false);
+    const navigate = useNavigate();
     const validationSchema = yup.object({
         firstName: yup
             .string()
@@ -32,6 +36,30 @@ const Register = (props: Props) => {
             .string()
             .oneOf([yup.ref('password'), null], 'passwordMatch')
     });
+    useEffect(() => {
+        document.title = t('register')
+
+        return () => {
+        }
+    }, [t])
+
+    const onSubmitRegister = (values: RegisterUserCommand) => {
+        setIsProcessing(true);
+        axiosClient.post(apiEndpoints.register, values, {
+            headers: { 'Content-type': 'application/json' }
+        })
+            .then((res) => {
+                setIsProcessing(false);
+                navigate(ROUTES.login);
+            })
+            .catch((err: any) => {
+                setIsProcessing(false);
+                if (err.response?.status === 400 && err.response?.data.errors.Email) {
+                    formik.setFieldError('email', 'emailAlreadyUsed');
+                }
+            })
+    }
+
     const formik = useFormik({
         initialValues: {
             firstName: '',
@@ -44,25 +72,6 @@ const Register = (props: Props) => {
         onSubmit: onSubmitRegister
     });
 
-    useEffect(() => {
-        document.title = t('register')
-
-        return () => {
-        }
-    }, [t])
-
-async function onSubmitRegister(values: RegisterUserCommand) {
-    try {
-        await axiosClient.post(apiEndpoints.register, values, {
-            headers: { 'Content-type': 'application/json' }
-        });
-    }
-    catch (err: any) {
-        if (err.response?.status === 400 && err.response?.data.errors.Email) {
-            formik.setFieldError('email', 'emailAlreadyUsed');
-        }
-    }
-}
     return (
         <Container maxWidth="sm">
             <h1>{t('registration')}</h1>
@@ -78,9 +87,9 @@ async function onSubmitRegister(values: RegisterUserCommand) {
                             onChange={formik.handleChange}
                             error={formik.touched.firstName && Boolean(formik.errors.firstName)}
                             helperText={
-                                formik.touched.firstName && 
-                                formik.errors.firstName ?
-                                t(formik.errors.firstName, { what: t('firstName') }) : null}
+                                formik.touched.firstName &&
+                                    formik.errors.firstName ?
+                                    t(formik.errors.firstName, { what: t('firstName') }) : null}
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -94,8 +103,8 @@ async function onSubmitRegister(values: RegisterUserCommand) {
                             error={formik.touched.lastName && Boolean(formik.errors.lastName)}
                             helperText={
                                 formik.touched.lastName &&
-                                formik.errors.lastName ?
-                                t(formik.errors.lastName, { what: t('lastName') }) : null}
+                                    formik.errors.lastName ?
+                                    t(formik.errors.lastName, { what: t('lastName') }) : null}
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -109,8 +118,8 @@ async function onSubmitRegister(values: RegisterUserCommand) {
                             error={formik.touched.email && Boolean(formik.errors.email)}
                             helperText={
                                 formik.touched.email &&
-                                formik.errors.email ?
-                                t(formik.errors.email, { what: t('email')}) : null}
+                                    formik.errors.email ?
+                                    t(formik.errors.email, { what: t('email') }) : null}
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -124,11 +133,11 @@ async function onSubmitRegister(values: RegisterUserCommand) {
                             onChange={formik.handleChange}
                             error={formik.touched.password && Boolean(formik.errors.password)}
                             helperText={
-                                formik.touched.password && 
-                                formik.errors.password ?
-                                t(formik.errors.password, { what: t('password') , len: pwLen}) : null
+                                formik.touched.password &&
+                                    formik.errors.password ?
+                                    t(formik.errors.password, { what: t('password'), len: pwLen }) : null
                             }
-                            />
+                        />
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
@@ -154,6 +163,13 @@ async function onSubmitRegister(values: RegisterUserCommand) {
                     </Grid>
                 </Grid>
             </form>
+            {isProcessing &&
+                <Backdrop
+                    sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                    open={isProcessing}
+                >
+                    <CircularProgress color="inherit" />
+                </Backdrop>}
         </Container>);
 }
 

@@ -7,7 +7,8 @@ export const institutionBasicInfoSchema: FormikFieldSchema[] = [
         labelTranslationKey: "institutionLevel",
         validationSchema: (yup
             .number()
-            .typeError('mustBeNumber')
+            .integer('mustBeWholeNumber')
+            .typeError('mustBeWholeNumber')
             .nullable(true)),
         type: "text",
         initValue: "",
@@ -15,7 +16,11 @@ export const institutionBasicInfoSchema: FormikFieldSchema[] = [
     {
         name: "institutionType",
         type: "text",
-        initValue: ""
+        initValue: "",
+        validationSchema: (yup
+            .string()
+            .max(100, 'maxLength')
+            .nullable(true))
     },
 ]
 
@@ -23,12 +28,21 @@ export const institutionNameSchema: FormikFieldSchema[] = [
     {
         name: "name",
         type: "text",
-        initValue: ""
+        initValue: "",
+        validationSchema: (yup
+            .string()
+            .max(250, 'maxLength')
+            .nullable(true))
     },
     {
         name: "nameType",
+        labelTranslationKey: "nameType",
         type: "text",
         initValue: "",
+        validationSchema: (yup
+            .string()
+            .max(100, 'maxLength')
+            .nullable(true))
     },
 ]
 
@@ -36,7 +50,11 @@ export const institutionExternIdentifierSchema: FormikFieldSchema[] = [
     {
         name: 'externIdentifierValue',
         type: "text",
-        initValue: ""
+        initValue: "",
+        validationSchema: (yup
+            .string()
+            .max(250, 'maxLength')
+            .nullable(true))
     }
 ]
 

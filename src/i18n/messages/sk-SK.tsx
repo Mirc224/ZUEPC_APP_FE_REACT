@@ -24,10 +24,12 @@ const lan = {
             isRequiredHe: "{{what}} je povinný",
             isRequiredShe: "{{what}} je povinná",
             minLength: "{{what}} musí mať dĺžku aspoň {{len}} znakov",
+            maxLength: "{{what}} má priveľa znakov",
             enterValid: "Zadajte valídny {{what}}",
             passwordMatch: "Heslá sa musia zhodovať",
             invalidEmailOrPassword: "Nesprávny email alebo heslo",
             emailAlreadyUsed: "Email sa už používa",
+            mustBeWholeNumber: "{{what}} musí byť celé číslo",
             mustBeNumber: "{{what}} musí byť číslo",
 
             // Endpoints
@@ -80,7 +82,8 @@ const lan = {
             personList: "Zoznam osôb",
             birthYear: "Rok narodenia",
             deathYear: "Rok úmrtia",
-            nameType: "Typ mena",
+            personNameType: "Typ mena",
+            nameType: "Typ názvu",
 
             // Institutions
             institution: "Inštitúcia",
@@ -114,6 +117,9 @@ const lan = {
             identifierISForm: "IS tvar",
             publishYearFrom: "Rok publikovania od",
             publishYearTo: "Rok publikovania do",
+            noOptions: "Žiadne možnosti",
+            activityYearFrom: "Vykazovací rok od",
+            activityYearTo: "Vykazovací rok do",
             
             // Common
             externIdentifierValue: "Hodnota ID v externej databáze",
