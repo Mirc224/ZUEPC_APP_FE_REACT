@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router";
 import ROUTES from "../../endpoints/routes.endpoints";
 import ROLES from '../../constatns/roles.constants';
 import Persons from "./Persons";
-import RequireAuth from "../../components/RequireAuth";
+import RequireAuth from "../../components/common/RequireAuth";
 import PersonCreate from "./PersonCreate";
 import PersonDetail from "./PersonDetail";
 import PersonEdit from "./PersonEdit";

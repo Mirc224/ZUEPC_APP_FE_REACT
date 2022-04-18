@@ -1,7 +1,7 @@
 import React from 'react'
-import useAuth from '../hooks/auth/useAuth'
+import useAuth from '../../hooks/auth/useAuth'
 import { Navigate } from 'react-router-dom'
-import ROUTES from '../endpoints/routes.endpoints'
+import ROUTES from '../../endpoints/routes.endpoints'
 
 type Props = {}
 

@@ -5,7 +5,7 @@ import ROLES from '../../constatns/roles.constants';
 import Publications from './Publications';
 import Missing from '../Missing';
 import PublicationDetail from './PublicationDetail';
-import RequireAuth from '../../components/RequireAuth';
+import RequireAuth from '../../components/common/RequireAuth';
 import PublicationCreate from './PublicationCreate';
 import PublicationEdit from './PublicationEdit';
 

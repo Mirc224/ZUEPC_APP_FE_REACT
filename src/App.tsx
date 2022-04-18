@@ -3,22 +3,22 @@ import "./i18n/i18next";
 import Register from './views/Register';
 import Logout from './views/Logout';
 import Login from './views/Login';
-import Layout from './components/Layout';
-import RequireAuth from './components/RequireAuth';
+import Layout from './components/common/Layout';
 import ROUTES from './endpoints/routes.endpoints';
 import { Route, Routes } from 'react-router';
 import Unauthorized from './views/Unauthorized';
 import ROLES from './constatns/roles.constants';
 import UserRoutes from './views/users/UserRouter';
-import PersistLogin from './components/PersistLogin';
+import PersistLogin from './components/common/PersistLogin';
 import Missing from './views/Missing';
 import PersonRouter from './views/persons/PersonRouter';
 import { ThemeProvider } from '@emotion/react';
 import { createTheme } from '@mui/material';
 import InstitutionRouter from './views/institutions/InstitutionRouter';
 import PublicationRouter from './views/publications/PublicationRouter';
-import DefaultPageRedirection from './components/DefaultPageRedirection';
+import DefaultPageRedirection from './components/common/DefaultPageRedirection';
 import Import from './views/import/Import';
+import RequireAuth from './components/common/RequireAuth';
 
 function App() {
   const theme = createTheme();

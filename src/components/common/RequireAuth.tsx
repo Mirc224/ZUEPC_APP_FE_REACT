@@ -1,6 +1,6 @@
 import { useLocation, Navigate, Outlet } from "react-router-dom";
-import useAuth from "../hooks/auth/useAuth";
-import ROUTES  from '../endpoints/routes.endpoints';
+import useAuth from "../../hooks/auth/useAuth";
+import ROUTES  from '../../endpoints/routes.endpoints';
 
 type Props = {
     allowedRoles?: string[] | undefined

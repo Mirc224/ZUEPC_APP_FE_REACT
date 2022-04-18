@@ -1,7 +1,7 @@
 import { Container, Paper, TablePagination } from '@mui/material';
 import Box from '@mui/material/Box';
 import { Outlet } from 'react-router'
-import TheNav from './common/TheNav'
+import TheNav from './TheNav'
 
 type Props = {}
 
