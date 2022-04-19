@@ -6,7 +6,7 @@ import useInstitutionService from '../../hooks/institutions/useInstitutionServic
 import { ChangeableItem, FormikFieldSchema } from '../../types/common/component.types';
 import { InstitutionDetailsEntity, InstitutionExternDatabaseIdEntity, InstitutionNameEntity } from '../../types/institutions/entities.types';
 import { clearChangeableItemValues, clearObject } from '../../utils/objects-utils';
-import { handleDeleteItem, handleExistingEntityItemUpdate, handleExistingEntityNewItem, sortItemsToInserToUpdateToDelete } from '../../utils/zuepc-item-utils';
+import { handleDeleteItem, handleExistingEntityItemUpdate, handleExistingEntityNewItem, sortItemsToInsertToUpdateToDelete } from '../../utils/zuepc-item-utils';
 import { UpdateInstitutionWithDetailsCommand } from '../../types/institutions/commands.types';
 import { institutionBasicInfoSchema} from '../../form-schemas/institution.schema';
 import InstitutionCreateEditBase from '../../components/institutions/InstitutionCreateEditBase';
@@ -66,9 +66,9 @@ const InstitutionEdit = (props: Props) => {
         const clearedNames = clearChangeableItemValues(institutionNames);
         const clearedExtIds = clearChangeableItemValues(institutionExternDbIds);
         const [namesToInsert, namesToUpdate, namesToDelete] =
-            sortItemsToInserToUpdateToDelete(institution.names ? institution.names : [], clearedNames);
+            sortItemsToInsertToUpdateToDelete(institution.names ? institution.names : [], clearedNames);
         const [externDatabaseIdsToInsert, externDatabaseIdsToUpdate, externDatabaseIdsToDelete] =
-            sortItemsToInserToUpdateToDelete(institution.externDatabaseIds ? institution.externDatabaseIds : [], clearedExtIds);
+            sortItemsToInsertToUpdateToDelete(institution.externDatabaseIds ? institution.externDatabaseIds : [], clearedExtIds);
 
         let objectToUpdate: UpdateInstitutionWithDetailsCommand = {
             id: institution.id,

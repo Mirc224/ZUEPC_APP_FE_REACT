@@ -2,7 +2,7 @@ import { SetStateAction } from "react";
 import { ChangeableItem, ZUEPCEntityBase } from "../types/common/component.types";
 import { clearObject } from "./objects-utils";
 
-export const sortItemsToInserToUpdateToDelete = <T extends ZUEPCEntityBase>(
+export const sortItemsToInsertToUpdateToDelete = <T extends ZUEPCEntityBase>(
     origItems: T[],
     currentItems: ChangeableItem<T>[]): [T[], T[], number[]] => {
     const itemsToInsert = currentItems.filter(x => x.item.id === undefined).map(x => x.item)

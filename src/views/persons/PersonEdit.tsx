@@ -5,7 +5,7 @@ import usePersonService from '../../hooks/persons/usePersonService';
 import { ChangeableItem, FormikFieldSchema } from '../../types/common/component.types';
 import { useEffect, useState } from 'react';
 import { clearChangeableItemValues, clearObject } from '../../utils/objects-utils';
-import { handleDeleteItem, handleExistingEntityItemUpdate, handleExistingEntityNewItem, sortItemsToInserToUpdateToDelete } from '../../utils/zuepc-item-utils';
+import { handleDeleteItem, handleExistingEntityItemUpdate, handleExistingEntityNewItem, sortItemsToInsertToUpdateToDelete } from '../../utils/zuepc-item-utils';
 import { PersonDetailsEntity, PersonExternDatabaseIdEntity, PersonNameEntity } from '../../types/persons/entities.types';
 import { UpdatePersonWithDetailsCommand } from '../../types/persons/commands.types';
 import { personBasicInfoSchema } from '../../form-schemas/person.schema';
@@ -75,9 +75,9 @@ const PersonEdit = (props: Props) => {
     const clearedNames = clearChangeableItemValues(personNames);
     const clearedExtIds = clearChangeableItemValues(personExternDbIds);
     const [namesToInsert, namesToUpdate, namesToDelete] =
-      sortItemsToInserToUpdateToDelete(person.names ? person.names : [], clearedNames);
+      sortItemsToInsertToUpdateToDelete(person.names ? person.names : [], clearedNames);
     const [externDatabaseIdsToInsert, externDatabaseIdsToUpdate, externDatabaseIdsToDelete] =
-      sortItemsToInserToUpdateToDelete(person.externDatabaseIds ? person.externDatabaseIds : [], clearedExtIds);
+      sortItemsToInsertToUpdateToDelete(person.externDatabaseIds ? person.externDatabaseIds : [], clearedExtIds);
 
     let objectToUpdate: UpdatePersonWithDetailsCommand = {
       id: person.id,

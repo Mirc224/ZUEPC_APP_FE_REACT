@@ -14,7 +14,7 @@ import { PersonNameEntity } from '../../types/persons/entities.types';
 import { UpdatePublicationWithDetailsCommand } from '../../types/publications/commands.types';
 import { PublicationActivityEntity, PublicationAuthorEntity, PublicationDetailsEntity, PublicationExternDatabaseIdEntity, PublicationIdentifierEntity, PublicationNameEntity, RelatedPublicationEntity } from '../../types/publications/entities.types';
 import { clearChangeableItemValues, clearObject } from '../../utils/objects-utils';
-import { handleDeleteItem, handleExistingEntityItemUpdate, handleExistingEntityNewItem, sortItemsToInserToUpdateToDelete } from '../../utils/zuepc-item-utils';
+import { handleDeleteItem, handleExistingEntityItemUpdate, handleExistingEntityNewItem, sortItemsToInsertToUpdateToDelete } from '../../utils/zuepc-item-utils';
 
 type Props = {}
 
@@ -144,17 +144,17 @@ const PublicationEdit = (props: Props) => {
 
 
         const [namesToInsert, namesToUpdate, namesToDelete] =
-            sortItemsToInserToUpdateToDelete(publication.names ? publication.names : [], clearedNames);
+            sortItemsToInsertToUpdateToDelete(publication.names ? publication.names : [], clearedNames);
         const [identifiersToInsert, identifiersToUpdate, identifiersToDelete] =
-            sortItemsToInserToUpdateToDelete(publication.identifiers ? publication.identifiers : [], clearedIdentifiers);
+            sortItemsToInsertToUpdateToDelete(publication.identifiers ? publication.identifiers : [], clearedIdentifiers);
         const [externDatabaseIdsToInsert, externDatabaseIdsToUpdate, externDatabaseIdsToDelete] =
-            sortItemsToInserToUpdateToDelete(publication.externDatabaseIds ? publication.externDatabaseIds : [], clearedExtIds);
+            sortItemsToInsertToUpdateToDelete(publication.externDatabaseIds ? publication.externDatabaseIds : [], clearedExtIds);
         const [publicationActivitiesToInsert, publicationActivitiesToUpdate, publicationActivitiesToDelete] =
-            sortItemsToInserToUpdateToDelete(publication.publicationActivities ? publication.publicationActivities : [], clearedPublicationActivities);
+            sortItemsToInsertToUpdateToDelete(publication.publicationActivities ? publication.publicationActivities : [], clearedPublicationActivities);
         const [authorsToInsert, authorsToUpdate, authorsToDelete] =
-            sortItemsToInserToUpdateToDelete(origPublicationAuthorsEnt ? origPublicationAuthorsEnt : [], clearedAuthors);
+            sortItemsToInsertToUpdateToDelete(origPublicationAuthorsEnt ? origPublicationAuthorsEnt : [], clearedAuthors);
         const [relatedPubToInsert, relatedPubToUpdate, relatedPubToDelete] =
-            sortItemsToInserToUpdateToDelete(origRelPubEnt ? origRelPubEnt : [], clearedRelPub);
+            sortItemsToInsertToUpdateToDelete(origRelPubEnt ? origRelPubEnt : [], clearedRelPub);
 
 
         let objectToUpdate: UpdatePublicationWithDetailsCommand = {
